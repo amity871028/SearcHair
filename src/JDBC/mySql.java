@@ -31,8 +31,8 @@ public class mySql {
 	public mySql() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			this.con = DriverManager.getConnection("jdbc:mysql://localhost:3306/searchair?characterEncoding=utf-8", "peggy",
-					"searchair");
+			this.con = DriverManager.getConnection("jdbc:mysql://localhost:3306/searchair?characterEncoding=utf-8", "root",
+					"29118310");
 
 		} catch (ClassNotFoundException e) {
 			System.out.println("DriverClassNotFound :" + e.toString());
@@ -123,8 +123,26 @@ public class mySql {
 		return rsInt;
 	}
 
+	public int register(String jsonObject) {
 
-	
+		JsonObject jsonobj = new Gson().fromJson(jsonObject, JsonObject.class);
+
+		String account = jsonobj.get("account").toString();
+		String name = jsonobj.get("name").toString();
+		String password = jsonobj.get("password").toString();
+		// System.out.println(account + "," + name + "," + password);
+
+		return insertUser(account, password, name);
+	}
+
+	public int login(String jsonObject) {
+
+		JsonObject jobj = new Gson().fromJson(jsonObject, JsonObject.class);
+
+		String account = jobj.get("account").toString();
+		String password = jobj.get("password").toString();
+		return checkUser(account, password);
+	}
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -133,8 +151,8 @@ public class mySql {
 
 		// sign up
 		
-		// int result = test.register(myJSONString); 
-		// System.out.println(result);
+		//int result = test.signUp(myJSONString); 
+		//System.out.println(result);
 		
 		// sign in
 		/*

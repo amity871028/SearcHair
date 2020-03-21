@@ -1,0 +1,29 @@
+
+.calendar > a,a:link,a:visited{
+    color: black;
+    text-decoration: none !important;
+}
+.calendar > a:hover{
+    color: black !important;
+    text-decoration: none;
+}
+
+.Splitter{
+    min-height: 80px;
+}
+
+#back {
+    position: relative;
+    left: 10px;
+}
+
+a > img{
+    width: 20;
+    vertical-align:middle;
+}
+
+#cost-list {
+    position: relative;
+    top: 40px;
+    left: 180px;
+}

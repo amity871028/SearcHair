@@ -1,0 +1,54 @@
+a,a:link,a:visited{
+    color: black !important;
+    text-decoration: none !important;
+}
+a:hover{
+    color: black !important;
+    text-decoration: none;
+}
+
+.Splitter{
+    min-height: 56px;
+}
+/*
+.all-link {
+    display: flex;
+}
+
+.all-link a {
+    width:200px;
+    height:200px;
+    background-color:#beebe9 !important;
+    border-radius:50%;
+    text-align: center;
+    line-height: 200px;
+}
+*/
+
+.all-link {
+    text-align: center;
+    margin: 30px 50px 0px ;
+}
+
+i {
+    font-size: 50px;
+}
+
+img {
+    width: 50px;
+}
+
+span {
+    font-size: large;
+}
+
+.btn {
+    width: 150px;
+    height: 120px;
+    margin: 10px;
+    border-radius: 25% !important;
+}
+
+.all-link a {
+    padding: 24px;
+}

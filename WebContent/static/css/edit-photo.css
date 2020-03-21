@@ -1,0 +1,181 @@
+content > a,a:link,a:visited{
+    color: black !important;
+    text-decoration: none !important;
+}
+content > a:hover{
+    color: black !important;
+    text-decoration: none;
+}
+
+.Splitter{
+    min-height: 50px;
+}
+
+/* ---------------------------------------------------
+    SIDEBAR STYLE
+----------------------------------------------------- */
+
+.wrapper {
+    display: flex;
+    width: 100%;
+}
+
+#sidebar {
+    position: absolute;
+    right: 0;
+    width: 310px;
+    height: 97%;
+    background: #beebe9;
+    color: black;
+    padding: 10px;
+    box-shadow: 3px 3px 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+#sidebarCollapse {
+    display: none;
+    margin-bottom: 5px;
+}
+
+#hairstyle, #hair-color, #face-match {
+    /* height: 480px; */
+    height: 76vh;
+    overflow-y: auto;
+}
+
+#hairstyle img, #face-match img {
+    width: 120px;
+    margin: 3px;
+}
+
+#type {
+    margin: 15px;
+}
+
+.img-div {
+    position: relative;
+    width: fit-content;
+    display: inline-block;
+}
+
+.favorite {
+    position: absolute;
+    right: 2px;
+    top: 2px;
+    width: 18px !important;
+}
+/* ---------------------------------------------------
+    CONTENT STYLE
+----------------------------------------------------- */
+
+#dismiss {
+    visibility:hidden;
+}
+
+#another-pohoto {
+    margin-left: 5px;
+}
+
+#store-photo {
+    vertical-align: top;
+}
+
+#user-photo {
+    height: 490px;
+    position: absolute;
+    right: 470px;
+    left: 200px;
+    margin: 0 auto;
+}
+
+.icon {
+    position: absolute;
+    right: 330px;
+    top: 70px;
+    padding: 0;
+    border: 1px black solid;
+}
+
+.icon li {
+    list-style-type:none;
+    float:left;
+    margin:0 5px;    
+}
+
+.icon i {
+    margin: 5px;
+    font-size: 20px;
+}
+
+.modal-body {
+    text-align: center;
+}
+
+#stored-img {
+    width: 200px;
+}
+
+h4 {
+    margin-top: 8px !important;
+}
+
+#fb-icon, #ig-icon {
+    width: 40px;
+    margin: 5px;
+}
+
+@media only screen and (min-width: 0px) and (max-width: 575px){ 
+    #sidebar {
+        width: 285px;
+        position: fixed;
+        left: -305px;
+        height: 100vh;
+        z-index: 999;
+        transition: all 0.3s;
+        overflow-y: scroll;
+        box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
+    }
+    
+    #sidebar.active {
+        left: 0;
+    }
+    
+    #sidebarCollapse {
+        display: block;
+    }
+    #dismiss {
+        visibility: visible;
+        width: 35px;
+        height: 35px;
+        position: absolute;
+        top: 24px;
+        right: -5px;
+        cursor: pointer;
+        -webkit-transition: all 0.3s;
+        -o-transition: all 0.3s;
+        transition: all 0.3s;
+    }
+    
+    #dismiss:hover {
+        background: #fff;
+        color: #7386D5;
+    }
+        
+    #user-photo {
+        right: 0;
+        left: 0;
+        height: auto;
+        width: 90%;
+    }
+
+    .icon {
+        right: 10px;
+        top: 110px;
+    }
+}
+
+@media only screen and (min-width: 574px) and (max-width: 873px){ 
+    #user-photo {
+        left: 0px;
+        right: 320px;
+    }
+}

@@ -1,0 +1,314 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        
+        <title>月曆</title>
+        <script src="./static/js/navbar.js"></script>
+        <link rel="stylesheet" href="./static/css/all-setting.css">
+        <link rel="stylesheet" href="./static/css/calendar.css">
+        <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+        <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+        <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pickadate.js/3.5.6/compressed/picker.js"></script>
+        <link href="../fontawesome-free-5.12.1-web/css/all.css" rel="stylesheet">
+        <script src="./static/js/calendar-init.js"></script>
+        <script src="./static/js/calendar.js"></script>
+    </head>
+
+    <body>
+        <div class="Splitter"> </div>
+        <div class="wrapper">
+            <!-- Sidebar  -->
+            <nav id="sidebar">
+                <br>
+                <div id="dismiss">
+                    <i class="fas fa-arrow-left"></i>
+                </div>
+
+                <a href="#add-modal" data-toggle="modal"><i class="fas fa-plus-circle add" title="新增"></i></a>
+                <div class="sidebar-header">
+                    <h3>2020/2/7</h3>
+                    <hr>
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item">
+                          <a class="nav-link active" id="activity-tab" data-toggle="tab" href="#activity" role="tab">活動</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" id="cost-tab" data-toggle="tab" href="#cost" role="tab">花費</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" id="hair-condition-tab" data-toggle="tab" href="#hair-condition" role="tab">頭髮狀況</a>
+                        </li>
+                      </ul>
+                      <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="activity" role="tabpanel">
+                            <table class="table table-borderless">
+                                <thead>
+                                  <tr>
+                                    <th class="color-display"></th>
+                                    <th scope="col">時間</th>
+                                    <th scope="col">活動</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="red"></td>
+                                        <td>早上 08:30<br>下午 13:00</td>
+                                        <td>去亂剪剪頭髮</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="blue"></td>
+                                        <td>下午 13:00<br>下午 14:00</td>
+                                        <td>去小屈買洗髮精</td>
+                                    </tr>
+                                </tbody>
+                              </table>
+                        </div>
+
+                        <div class="tab-pane fade" id="cost" role="tabpanel">
+                            <h5>總花費：1439</h5>
+                            <table class="table table-borderless">
+                                <thead>
+                                  <tr>
+                                    <th class="color-display"></th>
+                                    <th scope="col">金額</th>
+                                    <th scope="col">分類</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr>
+                                    <td class="red"></td>
+                                    <td>1200</td>
+                                    <td>美髮-染髮</td>
+                                  </tr>
+                                  <tr>
+                                    <td class="blue"></td>
+                                    <td>239</td>
+                                    <td>商品-洗髮精</td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                        </div>
+
+                        <div class="tab-pane fade" id="hair-condition" role="tabpanel">
+                            <img src="./static/img/test_photo3.png">
+                            <p>染頭髮day1</p>
+                        </div>
+                    </div>
+                </div>
+            
+            </nav>
+    
+            <!-- Page Content  -->
+            <div id="content">
+                <br>
+                <div class="container-fluid">
+                    <button type="button" id="sidebarCollapse" class="btn btn-info">
+                        <i class="fas fa-align-left"></i>
+                    </button>
+                </div>
+
+                <div class="main-container">
+                    <div class="fixer-container">
+                        <ui class="icon">
+                            <li><a href="activity.html"><i class="fas fa-clipboard-list" title="活動"></i></a></li>
+                            <li><a href="cost.html"><i class="fas fa-search-dollar" title="花費"></i></a><br></li>
+                            <li><a href="hair-condition.html"><i class="fas fa-user" title="頭髮狀況"></i></a></li>
+                        </ui>
+                    </div>
+                </div>
+
+                <div class="calendar">
+                    <div class="title">
+                        <h1 class="green" id="calendar-title">Month</h1>
+                        <h2 class="green small" id="calendar-year">Year</h2>
+                        <div class="prev-next">
+                            <a href="#" id="prev">&#10094;</a>
+                            <a href="#" id="next">&#10095;</a>
+                        </div>
+                    </div>
+                    <div class="body">
+                        <div class="lightgrey body-list">
+                            <ul>
+                                <li>MON</li>
+                                <li>TUE</li>
+                                <li>WED</li>
+                                <li>THU</li>
+                                <li>FRI</li>
+                                <li>SAT</li>
+                                <li>SUN</li>
+                            </ul>
+                        </div>
+                        <div class="darkgrey body-list">
+                            <ul id="days">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="add-modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="list-group">
+                            <a href="#add-activity-modal" class="list-group-item list-group-item-action" data-toggle="modal">新增活動</a>
+                            <a href="#add-cost-modal" class="list-group-item list-group-item-action" data-toggle="modal">記帳</a>
+                            <a href="#record-hair-modal" class="list-group-item list-group-item-action" data-toggle="modal">記錄頭髮</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="modal fade" id="add-activity-modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">新增活動</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="activity-form">
+                            <div class="form-group">
+                                <label for="activity-name" class="col-form-label">活動：</label>
+                                <input type="text" class="form-control" id="activity-name" required>
+                            </div>
+                            <div class="form-group">
+                                時間：<br>
+                                開始：<input type="datetime-local" id="start-time" required><br>
+                                結束：<input type="datetime-local" id="end-time" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="color-mark" class="col-form-label">顏色：</label>
+                                <select id="color-mark" class="red">
+                                    <option class="red"></option>
+                                    <option class="blue"></option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="customSwitch1" class="col-form-label">提醒：</label>
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" id="customSwitch1">
+                                    <label class="custom-control-label" for="customSwitch1">
+                                        <select id="notify">
+                                            <option id="min-10">10分鐘</option>
+                                            <option id="min-20">20分鐘</option>
+                                            <option id="min-30">30分鐘</option>
+                                            <option id="min-40">40分鐘</option>
+                                            <option id="min-50">50分鐘</option>
+                                            <option id="min-60">60分鐘</option>
+                                            <option id="day-1">一天</option>
+                                        </select>
+                                        前
+                                    </label>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-primary" id="add">新增</button>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="add-cost-modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">記帳</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="activity-form">
+                            <div class="form-group">
+                                時間： <span id="cost-date">2020年2月7日 週一</span>
+                            </div>
+
+                            <div class="form-group">
+                                類別：
+                                <select id="category">
+                                    <option id="hair">美髮</option>
+                                    <option id="product">商品</option>
+                                </select>
+                                <select id="kind">
+                                    <option id="hair-0">洗髮</option>
+                                    <option id="hair-1">染髮</option>
+                                    <option id="hair-2">燙髮</option>
+                                    <option id="hair-3">護髮</option>
+                                    <option id="hair-4">其他</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="cost-txt" class="col-form-label">金額：</label>
+                                <input type="number" id="cost-txt" class="form-control" min="0" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="description" class="col-form-label">備註：</label>
+                                <textarea id="description" cols="30" rows="2" class="form-control"></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="color-mark" class="col-form-label">顏色：</label>
+                                <select id="color-mark" class="red">
+                                    <option class="red"></option>
+                                    <option class="blue"></option>
+                                </select>
+                            </div>
+                            
+                            <button type="button" class="btn btn-primary" id="add">新增</button>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="record-hair-modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">記錄頭髮</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="recode-hair-form">
+                            <div class="form-group">
+                                <label class="btn btn-primary">
+                                    <input type="file" name="picture" id="new-photo" style="display:none;" accept="image/*" required>
+                                    <i class="fas fa-upload"></i> 上傳照片
+                                </label>
+                            </div>
+                            <img src="./static/img/test_photo3.png">
+                            <div class="form-group description-form">
+                                <label for="photo-description" class="col-form-label">備註：</label>
+                                <textarea id="photo-description" cols="30" rows="2" class="form-control"></textarea>
+                            </div>
+                            
+                            <button type="button" class="btn btn-primary" id="add">新增</button>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

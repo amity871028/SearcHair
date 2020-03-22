@@ -1,0 +1,18 @@
+.content {
+    position: relative;
+    height: 100vh;
+}
+
+.btn-setting {
+    font-size: 30px !important;
+    border-radius: 10px !important;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 50%;
+}
+@media only screen and (min-width: 0px) and (max-width: 575px){ 
+    .btn-setting {
+        font-size: initial !important;
+    }
+}

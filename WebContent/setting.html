@@ -1,0 +1,93 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        
+        <title>設定</title>
+        <script src="./static/js/navbar.js"></script>
+        <link rel="stylesheet" href="./static/css/all-setting.css">
+        <link rel="stylesheet" href="./static/css/setting.css">
+        <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+        <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+        <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <link href="../fontawesome-free-5.12.1-web/css/all.css" rel="stylesheet">
+        <script src="./static/js/setting.js"></script>
+    </head>
+
+    <body>
+        <div class="Splitter"> </div>
+        <div class="wrapper">
+            <!-- Sidebar  -->
+            <nav id="sidebar">
+                <br><br>
+                <div id="dismiss">
+                    <i class="fas fa-arrow-left"></i>
+                </div>
+                <div class="sidebar-header">
+                    <h3>設定</h3>
+                    <hr>
+                </div>
+                <div id="myList" role="tablist">
+                    <a class="btn btn-outline-primary active" data-toggle="tab" href="#profile" role="tab">個人資料</a><br>
+                    <a class="btn btn-outline-primary" data-toggle="tab" href="#hair-analysis" role="tab">頭髮分析</a><br>
+                    <a class="btn btn-outline-primary" data-toggle="tab" href="#notify" role="tab">推播通知</a>
+                </div>
+            </nav>
+    
+            <!-- Page Content  -->
+            <div id="content">
+                <br>
+                <div class="container-fluid">
+                    <button type="button" id="sidebarCollapse" class="btn btn-info">
+                        <i class="fas fa-align-left"></i>
+                    </button>
+                </div>
+                
+                <div class="tab-content">
+                    <div class="tab-pane active" id="profile" role="tabpanel">
+                        <label class="btn btn-primary">
+                            <input type="file" name="picture" id="new-photo" style="display:none;" accept="image/*">
+                            <i class="fas fa-upload"></i> 選擇照片
+                        </label>
+                        <br>
+                        <img src="./static/img/test_photo.png">
+        
+                        <div class="card">
+                            <div class="card-body">
+                                <div id="profile-content">
+                                    名稱<br>
+                                    <input type="text" disabled="disabled" value="xxx"><br>
+                                    信箱<br>
+                                    <input type="text" disabled="disabled" value="xxx123456789@gmail.com"><br>
+                                    密碼<br>
+                                    <button class="btn btn-primary"><i class="far fa-edit"></i>修改</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="tab-pane" id="hair-analysis" role="tabpanel">
+                        <h4>頭髮分析問卷</h4>
+                        <p>
+                            1.你是....<br>
+                            <form>
+                                <label class="radio-inline"><input type="radio" name="optradio" checked>a</label>
+                                <label class="radio-inline"><input type="radio" name="optradio">b</label>
+                            </form>
+                        </p>
+                    </div>
+
+                    <div class="tab-pane" id="notify" role="tabpanel">
+                        <h4>提醒</h4>
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="customSwitch1">
+                            <label class="custom-control-label" for="customSwitch1">每<input type="text" id="day">天提醒我一次記錄頭髮</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

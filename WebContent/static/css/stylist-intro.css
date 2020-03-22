@@ -1,0 +1,185 @@
+.Splitter{
+    min-height: 50px;
+}
+
+content > a,a:link,a:visited{
+    color: black !important;
+    text-decoration: none !important;
+}
+content > a:hover{
+    color: black !important;
+    text-decoration: none;
+}
+/* ---------------------------------------------------
+    SIDEBAR STYLE
+----------------------------------------------------- */
+
+.wrapper {
+    display: flex;
+    width: 100%;
+    align-items: stretch;
+}
+
+#sidebar {
+    position: fixed;
+    left: 0;
+    width: 310px;
+    height: -webkit-fill-available;
+    background: #beebe9;
+    color: black;
+    padding: 10px;
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
+}
+
+
+#sidebarCollapse {
+    display: none;
+}
+
+.side-card{
+    width: 90%;
+    margin:  15px 5px 5px 15px;
+}
+/* ---------------------------------------------------
+    CONTENT STYLE
+----------------------------------------------------- */
+
+#content {
+    width: 100%;
+    margin-left: 310px;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+#dismiss {
+    visibility:hidden;
+}
+
+#sidebar > a > img{
+    width: 7%;
+    vertical-align:middle;
+}
+
+#content > img {
+    width: 18px;
+    vertical-align:middle;
+    margin: 5px;
+}
+
+.card-size {
+    text-align: center;
+    width: 200px;
+    line-height: 20px;
+    margin: 12px 5px 5px 12px;
+}
+
+.works {
+    width: 200px;
+    margin: 8px;
+}
+
+/* ---------------------------------------------------
+    works modal STYLE
+----------------------------------------------------- */
+.row-setting {
+    height: 100%;
+}
+.card-setting {
+    height: 450px;
+}
+
+.card-img {
+    max-height: 80%;  
+    max-width: 80%; 
+    width: auto;
+    height: auto;
+    position: absolute;  
+    top: 0;  
+    bottom: 0;  
+    left: 0;  
+    right: 0;  
+    margin: auto;
+}
+
+.work-content {
+    margin: 50px 10px;
+    height: 360px;
+    overflow-x:hidden;
+    overflow-y:auto;
+}
+
+.hashtag {
+    /*position:absolute;
+    bottom:0px;*/
+    margin-bottom: 0px;
+}
+
+.carousel-control-setting {
+    width: 8% !important;
+}
+@media only screen and (min-width: 0px) and (max-width: 575px){ 
+    #sidebar {
+        width: 250px;
+        top: 56px;
+        left: -260px;
+        height: 100vh;
+        z-index: 999;
+        transition: all 0.3s;
+        overflow-y: scroll;
+        box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
+    }
+    
+    #sidebar.active {
+        left: 0;
+    }
+    
+    #sidebarCollapse {
+        display: block;
+    }
+    
+    #content {
+        margin-left: 0;
+    }
+
+    #dismiss {
+        visibility: visible;
+        width: 35px;
+        height: 35px;
+        position: absolute;
+        top: 43px;
+        right: 10px;
+        cursor: pointer;
+        -webkit-transition: all 0.3s;
+        -o-transition: all 0.3s;
+        transition: all 0.3s;
+    }
+    
+    #dismiss:hover {
+        background: #fff;
+        color: #7386D5;
+    }
+
+    .card-size {
+        width: 70%;
+        margin: 5px auto;
+    }
+
+    .works {
+        display: block;
+        width: 70%;
+        margin: 10px auto;
+    }
+}
+
+@media only screen and (min-width: 810px) {
+    #modal-lg-setting {
+        max-width: 800px;
+    }
+}
+/*
+@media only screen and (min-width: 500px) and (max-width: 810){
+    #modal-lg-setting {
+        max-width: 500px;
+    }
+}
+*/

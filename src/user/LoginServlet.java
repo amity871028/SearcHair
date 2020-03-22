@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import JDBC.mySql;
+import api.userApi;
 
 /**
  * Servlet implementation class LoginServlet
@@ -47,8 +47,8 @@ public class LoginServlet extends HttpServlet {
 		reader.close();
 		System.out.println(json);
 		// pass json to api
-		mySql login = new mySql();
-		int result = login.login(json);
+		userApi user = new userApi();
+		int result = user.loginJsonAnalyzing(json);
 		if (result == 1) {
 			response.setStatus(HttpServletResponse.SC_OK);
 			

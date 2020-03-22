@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import JDBC.mySql;
+import api.userApi;
 
 /**
  * Servlet implementation class RegisterServlet
@@ -54,8 +54,8 @@ public class RegisterServlet extends HttpServlet {
 		//test test = new test();
 		//test.test1();
 		// pass json to api
-		mySql register = new mySql();
-		int result = register.register(json);
+		userApi user = new userApi();
+		int result = user.registerJsonAnalyzing(json);
 		if (result == 1) {
 			response.setStatus(HttpServletResponse.SC_OK);
 

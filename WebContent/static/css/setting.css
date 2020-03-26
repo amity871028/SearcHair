@@ -1,0 +1,166 @@
+content > a,a:link,a:visited{
+    color: black;
+    text-decoration: none !important;
+}
+content > a:hover{
+    color: black !important;
+    text-decoration: none;
+}
+
+.Splitter{
+    min-height: 50px;
+}
+
+/* ---------------------------------------------------
+    SIDEBAR STYLE
+----------------------------------------------------- */
+
+.wrapper {
+    display: flex;
+    width: 100%;
+}
+
+#sidebar {
+    left: 0;
+    width: 30%;
+    min-width: 250px;
+    color: black;
+    transition: all 0.3s;
+    padding: 10px;
+    text-align: center;
+    z-index: 1;
+}
+
+#myList > a {
+    margin: 10px;
+}
+#sidebarCollapse {
+    display: none;
+}
+
+hr {
+    width: 80%;
+}
+
+/* ---------------------------------------------------
+    CONTENT STYLE
+----------------------------------------------------- */
+
+#dismiss {
+    visibility:hidden;
+}
+
+#content {
+    width: 100%;
+    padding: 20px;
+    min-height: 100vh;
+    transition: all 0.3s;
+    position: absolute;
+}
+
+#profile {
+    text-align: center;
+}
+
+#profile > img {
+    width: 200px;
+}
+
+
+.card {
+    width: 330px;
+    height: 220px;
+    right: 0;
+    left: 0;
+    position: absolute;
+    margin: 10px auto;
+    text-align: initial;
+    border-radius: 3rem !important; 
+}
+
+#profile-content {
+    position: absolute;
+    left: 72px;
+}
+
+#hair-analysis, #notify {
+    position: relative;
+    left: 35%;
+}
+
+#day {
+    width: 40px;
+    height: 25px;
+}
+
+@media only screen and (min-width: 0px) and (max-width: 575px){ 
+    #sidebar {
+        width: 250px;
+        position: fixed;
+        top: 20px;
+        left: -260px;
+        height: 100vh;
+        z-index: 999;
+        transition: all 0.3s;
+        overflow-y: scroll;
+        background-color: grey;
+        box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
+    }
+    
+    #sidebar.active {
+        left: 0;
+    }
+    
+    #sidebarCollapse {
+        display: block;
+    }
+    #dismiss {
+        visibility: visible;
+        width: 35px;
+        height: 35px;
+        position: absolute;
+        top: 60px;
+        right: 10px;
+        cursor: pointer;
+        -webkit-transition: all 0.3s;
+        -o-transition: all 0.3s;
+        transition: all 0.3s;
+    }
+    
+    #dismiss:hover {
+        background: #fff;
+        color: #7386D5;
+    }
+
+    .card-size {
+        width: 90%;
+    }
+
+    #hair-analysis, #notify {
+        left: 20px;
+        margin: 15px auto;
+    }
+}
+
+@media only screen and (min-width: 576px) and (max-width: 680px) {
+    #hair-analysis, #notify {
+        left: 220px;
+    }
+}
+@media only screen and (min-width: 0px) and (max-width: 680px) {
+    .card {
+        width: 240px;
+    }
+
+    #profile-content {
+        position: absolute;
+        left: 25px;
+    }
+}
+/*
+@media only screen and (min-width: 500px) and (max-width: 810){
+    #modal-lg-setting {
+        max-width: 500px;
+    }
+}
+*/

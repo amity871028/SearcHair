@@ -1,0 +1,151 @@
+
+
+.calendar > a,a:link,a:visited{
+    color: black;
+    text-decoration: none !important;
+}
+.calendar > a:hover{
+    color: black !important;
+    text-decoration: none;
+}
+
+.Splitter{
+    min-height: 80px;
+}
+
+#back {
+    position: relative;
+    left: 10px;
+}
+
+a > img{
+    width: 20;
+    vertical-align:middle;
+}
+
+h4 {
+    text-align: center;
+    font-weight: bolder !important;
+}
+
+.color-display {
+    width: 7px;
+}
+.red {
+    background-color: red;
+    width: 5px;
+}
+
+.blue {
+    background-color: blue;
+    width: 5px;
+}
+
+#color-mark {
+    width: 60px;
+}
+
+
+/**/
+.calendar{
+	position: absolute;
+    right: 0;
+    left: 0;
+    margin: 0 auto;
+    height: 350px;
+    text-align: center;
+}
+
+.lightgrey{
+	color:#a8a8a8; /*浅灰色*/
+}
+.darkgrey{
+	color:#565656; /*深灰色*/
+}
+.green{
+	color:#6ac13c; /*绿色*/
+}
+.greenbox{
+	border:1px solid #6ac13c;
+	background:#e9f8df; /*浅绿色背景*/
+}
+
+#prev {
+    position: absolute;
+    top: 20px;
+    right: 320px;
+    left: 0;
+    margin: 0 auto;
+    font-size: 20px;
+    width: fit-content;
+}
+
+#next {
+    position: absolute;
+    top: 20px;
+    left: 320px;
+    right: 0;
+    margin: 0 auto;
+    font-size: 20px;
+    width: fit-content;
+}
+
+.table {
+    width: 410px !important;
+    margin-top: 30px;
+    display: inline-block;
+}
+
+table td, table th {
+    padding: 0 !important;
+    vertical-align: middle !important;
+}
+
+tr {
+    border: 2px lightgrey solid;
+}
+
+.date {
+    text-align: center;
+    line-height: 63px;
+    width: 65px;
+}
+
+.time {
+    width: 85px;
+    text-align: center;
+}
+
+.description {
+    width: 250px;
+    padding: 10px !important;
+}
+@media only screen and (min-width: 0px) and (max-width: 575px){ 
+    h4 {
+        margin-top: 15px !important;
+    }
+
+    
+    #prev {
+        right: 270px;
+    }
+
+    #next {
+        left: 270px;
+    }
+
+    .table {
+        width: 310px !important;
+    }
+
+    .date {
+        line-height: 52px;
+        width: 54px;
+    }
+
+    .description {
+        width: 160px;
+        padding: 5px !important;
+    }
+
+}

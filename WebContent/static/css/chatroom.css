@@ -1,0 +1,122 @@
+content > a,a:link,a:visited{
+    color: black;
+    text-decoration: none !important;
+}
+content > a:hover{
+    color: black !important;
+    text-decoration: none;
+}
+
+.Splitter{
+    min-height: 56px;
+}
+
+/* ---------------------------------------------------
+    SIDEBAR STYLE
+----------------------------------------------------- */
+
+.wrapper {
+    display: flex;
+    width: 100%;
+}
+
+#sidebar {
+    position: fixed;
+    left: 0;
+    width: 310px;
+    height: -webkit-fill-available;
+    background: #beebe9;
+    color: black;
+    padding: 10px;
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
+}
+
+#sidebarCollapse {
+    display: none;
+}
+
+
+/* ---------------------------------------------------
+    CONTENT STYLE
+----------------------------------------------------- */
+
+#content {
+    width: 100%;
+    margin-left: 310px;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+#dismiss {
+    visibility:hidden;
+}
+
+#chatbox {
+    width: 100%;
+    height: 69vh;
+    border: 1px solid darkolivegreen;
+    border-radius: 5px;
+    overflow: auto;
+}
+
+#send-box {
+    margin-top: 5px;
+    width: 100%;
+}
+
+#send-box a i{
+    font-size: 24px;
+}
+
+
+::placeholder {
+    text-align: end;
+}
+
+@media only screen and (min-width: 0px) and (max-width: 575px){ 
+    #sidebar {
+        width: 250px;
+        top: 56px;
+        left: -260px;
+        height: 100vh;
+        z-index: 999;
+        transition: all 0.3s;
+        overflow-y: scroll;
+        box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
+    }
+    
+    #sidebar.active {
+        left: 0;
+    }
+    
+    #sidebarCollapse {
+        display: block;
+    }
+    
+    #content {
+        margin-left: 0;
+    }
+
+    #dismiss {
+        visibility: visible;
+        width: 35px;
+        height: 35px;
+        position: absolute;
+        top: 43px;
+        right: 10px;
+        cursor: pointer;
+        -webkit-transition: all 0.3s;
+        -o-transition: all 0.3s;
+        transition: all 0.3s;
+    }
+    
+    #dismiss:hover {
+        background: #fff;
+        color: #7386D5;
+    }
+
+    #chatbox {
+        height: 70vh;
+    }
+
+}

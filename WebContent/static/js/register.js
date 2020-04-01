@@ -12,6 +12,7 @@ var header = '<div class="modal fade" id="register-modal" tabindex="-1" role="di
                 <div class="form-group"> \
                     <label for="register-account">帳號(信箱)：</label> \
                     <input type="email" class="form-control" id="register-account" required> \
+                    <small id="register-wrong" class="form-text wrong-msg">　</small> \
                 </div> \
                 <div class="form-group"> \
                     <label for="register-name">使用者名稱：</label> \

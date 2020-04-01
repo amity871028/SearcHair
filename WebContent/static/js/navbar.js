@@ -27,18 +27,21 @@ var header = '<!--Navbar--> \
         <li class="nav-item"> \
             <a class="nav-link" href="hair-match.html">Hair Match</a> \
         </li> \
-        <li class="nav-item"> \
+        <!--<li class="nav-item"> \
             <a class="nav-link" href="map.html">美髮地圖</a> \
-        </li> \
-        <li class="nav-item"> \
+        </li>--> \
+        <!--<li class="nav-item"> \
             <a class="nav-link" href="chatroom.html">聊天室</a> \
-        </li> \
+        </li>--> \
     </ul> \
      \
     <ul class="navbar-nav ml-auto"> \
+        <li class="nav-item"> \
+            <a class="nav-link" href="weather.html">基隆市,  <img src="./static/img/weather/iconfinder_weather-10_809985.png" id="weather-picture"> 23℃</a> \
+        </li> \
     \
         <li class="nav-item dropdown"> \
-        <a class="nav-link dropdown-toggle active" href="#"  id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">xxx</a> \
+        <a class="nav-link dropdown-toggle active" href="#"  id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="./static/img/test頭貼.jpg" id="user-photo"> <span id="user-name">林小美</span></a> \
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink"> \
             <a class="dropdown-item" href="calendar.html">月曆</a> \
             <a class="dropdown-item" href="favorite.html">我的最愛</a> \

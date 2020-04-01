@@ -31,8 +31,11 @@ public class mySql {
 	public mySql() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			this.con = DriverManager.getConnection("jdbc:mysql://localhost:3306/searchair?characterEncoding=utf-8", "peggy",
-					"searchair");
+			//this.con = DriverManager.getConnection("jdbc:mysql://localhost:3306/searchair?characterEncoding=utf-8", "peggy",
+			//		"searchair");
+			this.con = DriverManager.getConnection("jdbc:mysql://localhost:3306/searchair?characterEncoding=utf-8", "root",
+					"12345789");
+
 
 		} catch (ClassNotFoundException e) {
 			System.out.println("DriverClassNotFound :" + e.toString());

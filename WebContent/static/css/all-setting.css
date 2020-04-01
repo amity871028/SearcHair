@@ -3,6 +3,16 @@ body {
     background-color: #f0efef;
 }
 
+#weather-picture {
+    height: 20px;
+    filter:invert(100%);
+    vertical-align: sub;
+}
+
+#user-photo {
+    height: 20px;
+}
+
 .navbar {
     background-color: #192965;
     filter: drop-shadow(0px 0px 3px rgba(0, 0, 0, 0.7));

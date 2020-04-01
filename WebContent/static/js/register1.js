@@ -1,5 +1,5 @@
 
-var url = 'http://localhost:8080/SearcHair/register';
+var url = 'register';
 
 
 function register() {

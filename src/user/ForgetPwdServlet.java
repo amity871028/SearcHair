@@ -2,6 +2,7 @@ package user;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -9,18 +10,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import api.userApi;
+import user.SendMail;
 
 /**
- * Servlet implementation class RegisterServlet
+ * Servlet implementation class ForgetPwdServlet
  */
-@WebServlet("/register")
-public class RegisterServlet extends HttpServlet {
+@WebServlet("/ForgetPassword")
+public class ForgetPwdServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public RegisterServlet() {
+	public ForgetPwdServlet() {
 		super();
 	}
 
@@ -49,10 +51,19 @@ public class RegisterServlet extends HttpServlet {
 		String json = reader.readLine();
 		reader.close();
 		System.out.println(json);
-		// pass json to api
 		userApi user = new userApi();
-		boolean result = user.registerJsonAnalyzing(json);
-		if (result == true) response.setStatus(HttpServletResponse.SC_OK);
-		else response.setStatus(HttpServletResponse.SC_CONFLICT);
+		String result = user.forgetPwdJsonAnalyzing(json); // this result will be user account
+		// System.out.println(result);
+		try {
+			if (result.equals("fail")) {
+				response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+			} else {
+				SendMail.sendMail(result);
+				response.setStatus(HttpServletResponse.SC_OK);
+			}
+		} catch (Exception desError) {
+			desError.printStackTrace();
+		}
 	}
+
 }

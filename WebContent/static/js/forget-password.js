@@ -1,14 +1,12 @@
 
-var url = 'http://127.0.0.1:8080/SearcHair/register';
+var url = 'http://localhost:8080/SearcHair/ForgetPassword';
 
 
-function register() {
+function forgetPassword() {
+	const account = document.getElementById('email').value;
+	const name = document.getElementById('user-name').value;
+	const data = {account: `${account}`, name: `${name}`};
 	
-	const account = document.getElementById('register-account').value;
-	const name = document.getElementById('register-name').value;
-	const password = document.getElementById('register-password').value;
-	const data = {account: `${account}`, password: `${password}`, name: `${name}`};
-
 	fetch(url, {
 		  method: 'POST', // or 'PUT'
 		  body: JSON.stringify(data), // data can be `string` or {object}!
@@ -24,10 +22,12 @@ function register() {
 		})
 }
 
-
 function init() {
-	  document.getElementById('register').addEventListener('click', register);
+	  document.getElementById('forget-password-btn').addEventListener('click', forgetPassword);
 }
 
 window.addEventListener('load', init);
 
+/**
+ * 
+ */

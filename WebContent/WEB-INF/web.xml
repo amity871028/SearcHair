@@ -17,4 +17,12 @@
     <servlet-name>RegisterServlet</servlet-name>
     <servlet-class>user.RegisterServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>ForgetPwdServlet</servlet-name>
+    <servlet-class>user.ForgetPwdServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>ResetPwdServlet</servlet-name>
+    <servlet-class>user.ResetPwdServlet</servlet-class>
+  </servlet>
 </web-app>

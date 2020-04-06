@@ -57,26 +57,6 @@ public class mySql {
 		}
 	}
 
-	public void SelectTable(String question) {
-		try {
-
-			String mysql = " where question='" + question + " '";
-			rs = stat.executeQuery(selectSQL + mysql);
-			// System.out.println("ID\t\tQuestion\t\tAnswer");
-			while (rs.next()) {
-				/*
-				 * System.out.println(rs.getInt("id")+"\t\t"+
-				 * rs.getString("question")+"\t\t"+rs.getString("answer"));
-				 */
-				System.out.println(rs.getString("answer"));
-			}
-		} catch (SQLException e) {
-			System.out.println("DropDB Exception :" + e.toString());
-		} finally {
-			Close();
-		}
-	}
-
 	public boolean userInsertion(String account, String password, String name) {
 		try {
 			String insertdbSQL = "insert into users (account, password, name) VALUES (" + account + ", " + password + ", " + name + ")";

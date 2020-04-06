@@ -1,4 +1,8 @@
-.content {
+body {
+    overflow: hidden;
+}
+
+#ocntent {
     position: relative;
     height: 100vh;
 }
@@ -11,6 +15,40 @@
     transform: translateX(-50%);
     top: 50%;
 }
+
+.icon {
+    position: absolute;
+    top: 60px;
+}
+
+#frame {
+    position: absolute;
+    width: 350px;
+    height: 500px;
+    top: 60px;
+    right: 0;
+    left: 0;
+    margin: 0 auto;
+}
+
+#face-frame {
+    position: absolute;
+    width: 350px;
+    height: 500px;
+    z-index: 10;
+}
+
+#edited-photo {
+    position: absolute;
+    z-index: 1;
+}
+
+#ok-btn {
+    position: absolute;
+    top: 100px;
+    left: 10px;
+}
+
 @media only screen and (min-width: 0px) and (max-width: 575px){ 
     .btn-setting {
         font-size: initial !important;

@@ -1,10 +1,8 @@
-content > a,a:link,a:visited{
-    color: black !important;
-    text-decoration: none !important;
+#content > a:not(#store-photo, #another-pohoto, #back-btn),a:link:not(#store-photo, #another-pohoto, #back-btn),a:visited:not(#store-photo, #another-pohoto, #back-btn){
+    color: black;
 }
-content > a:hover{
+#content > a:hover:not(#store-photo, #another-pohoto, #back-btn){
     color: black !important;
-    text-decoration: none;
 }
 
 .Splitter{
@@ -47,6 +45,14 @@ content > a:hover{
     margin: 3px;
 }
 
+.hairstylePos {
+	position: relative;
+	z-index: 15;
+	left: 0px;
+    top: 70px;
+    width: 360px;
+}
+
 #type {
     margin: 15px;
 }
@@ -63,6 +69,11 @@ content > a:hover{
     top: 2px;
     width: 18px !important;
 }
+
+#colorpicker {
+    margin: 35px;
+}
+
 /* ---------------------------------------------------
     CONTENT STYLE
 ----------------------------------------------------- */
@@ -75,16 +86,23 @@ content > a:hover{
     margin-left: 5px;
 }
 
-#store-photo {
-    vertical-align: top;
-}
-
-#user-photo {
-    height: 490px;
+#frame {
     position: absolute;
+    width: 350px;
+    height: 500px;
     right: 470px;
     left: 200px;
     margin: 0 auto;
+}
+
+#face-frame {
+	z-index: 10;
+}
+
+#user-edited-photo, #face-frame {
+    position: absolute;
+    width: 350px;
+    height: 500px;
 }
 
 .icon {
@@ -160,11 +178,9 @@ h4 {
         color: #7386D5;
     }
         
-    #user-photo {
+    #frame {
         right: 0;
         left: 0;
-        height: auto;
-        width: 90%;
     }
 
     .icon {
@@ -174,7 +190,7 @@ h4 {
 }
 
 @media only screen and (min-width: 574px) and (max-width: 873px){ 
-    #user-photo {
+    #frame {
         left: 0px;
         right: 320px;
     }

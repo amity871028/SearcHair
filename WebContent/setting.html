@@ -6,6 +6,7 @@
         
         <title>設定</title>
         <script src="./static/js/navbar.js"></script>
+        <script src="./static/js/lib/fetch-data.js"></script>
         <link rel="stylesheet" href="./static/css/all-setting.css">
         <link rel="stylesheet" href="./static/css/setting.css">
         <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
@@ -62,7 +63,7 @@
                                     信箱<br>
                                     <input type="text" disabled="disabled" value="xxx123456789@gmail.com"><br>
                                     密碼<br>
-                                    <button class="btn btn-primary"><i class="far fa-edit"></i>修改</button>
+                                    <a class="btn btn-primary" href="#update-password-modal" data-toggle="modal"><i class="far fa-edit"></i>修改</a>
                                 </div>
                             </div>
                         </div>
@@ -86,6 +87,60 @@
                             <label class="custom-control-label" for="customSwitch1">每<input type="text" id="day">天提醒我一次記錄頭髮</label>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="modal fade" id="update-password-modal" tabindex="-1" role="dialog"> 
+			<div class="modal-dialog" role="document"> 
+			    <div class="modal-content"> 
+			        <div class="modal-header"> 
+			            <h5 class="modal-title">修改密碼</h5> 
+			            <button type="button" class="close" data-dismiss="modal" aria-label="Close"> 
+			            <span aria-hidden="true">&times;</span> 
+			            </button> 
+			        </div> 
+			        <div class="modal-body"> 
+			            <form id="update-password-form"> 
+			                <div class="form-group"> 
+			                    <label for="old-password" class="col-form-label">請輸入原始密碼：</label> 
+			                    <input type="password" class="form-control" id="old-password" required> 
+			                </div> 
+			                <div class="form-group"> 
+			                    <label for="new-password" class="col-form-label">請輸入新密碼：</label> 
+			                    <input type="password" class="form-control" id="new-password" required> 
+			                </div> 
+			                <div class="form-group"> 
+			                    <label for="confirm-new-password" class="col-form-label">再輸入一次新密碼：</label> 
+			                    <input type="password" class="form-control" id="confirm-new-password" required> 
+			                </div> 
+			                <small id="update-password-wrong" class="form-text wrong-msg"></small>
+			            </form> 
+			            <div class="modal-footer">
+			                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+			                <button type="button" class="btn btn-primary" id="update-btn">確定</button>
+			            </div>
+			        </div> 
+			    </div> 
+			</div> 
+		</div>
+
+		<div class="modal fade" id="update-success-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">更新資料</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    	更新成功
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal"
+                    id="updatePassword">OK</button>
+                </div>
                 </div>
             </div>
         </div>

@@ -1,9 +1,6 @@
 
-<<<<<<< HEAD
 var url = 'http://127.0.0.1:8080/SearcHair/register';
-=======
-var url = 'register';
->>>>>>> branch 'master' of https://github.com/amity871028/SearcHair.git
+
 
 
 function register() {

@@ -17,7 +17,6 @@
     <servlet-name>RegisterServlet</servlet-name>
     <servlet-class>user.RegisterServlet</servlet-class>
   </servlet>
-<<<<<<< HEAD
   <servlet>
     <servlet-name>ForgetPwdServlet</servlet-name>
     <servlet-class>user.ForgetPwdServlet</servlet-class>
@@ -26,6 +25,12 @@
     <servlet-name>ResetPwdServlet</servlet-name>
     <servlet-class>user.ResetPwdServlet</servlet-class>
   </servlet>
-=======
->>>>>>> branch 'master' of https://github.com/amity871028/SearcHair.git
+  <servlet>
+    <servlet-name>SeaechServlet</servlet-name>
+    <servlet-class>search.SeaechServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>SeaechOneServlet</servlet-name>
+    <servlet-class>search.SeaechOneServlet</servlet-class>
+  </servlet>
 </web-app>

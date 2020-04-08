@@ -23,7 +23,6 @@ public class LoginServlet extends HttpServlet {
      */
     public LoginServlet() {
         super();
-<<<<<<< HEAD
     }
     
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -50,40 +49,6 @@ public class LoginServlet extends HttpServlet {
 		boolean result = user.loginJsonAnalyzing(json);
 		if (result == true) response.setStatus(HttpServletResponse.SC_OK);
 		else response.setStatus(HttpServletResponse.SC_CONFLICT);
-=======
-        // TODO Auto-generated constructor stub
     }
     
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		doPost(request, response);
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.setCharacterEncoding("UTF-8");  
-        response.setContentType("text/html;charset=UTF-8"); 
-        request.setCharacterEncoding("UTF-8");
-        response.setHeader("Access-Control-Allow-Origin", "*");
-		response.setHeader("Access-Control-Allow-Methods", "POST");
-		// read json
-		BufferedReader reader = request.getReader();
-		String json = reader.readLine();
-		reader.close();
-		System.out.println(json);
-		// pass json to api
-		userApi user = new userApi();
-		int result = user.loginJsonAnalyzing(json);
-		if (result == 1) {
-			response.setStatus(HttpServletResponse.SC_OK);
-			
-		} else {
-			response.setStatus(HttpServletResponse.SC_CONFLICT);
-		}
->>>>>>> branch 'master' of https://github.com/amity871028/SearcHair.git
-	}
-
 }

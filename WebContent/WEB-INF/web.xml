@@ -26,7 +26,7 @@
     <servlet-class>user.ResetPwdServlet</servlet-class>
   </servlet>
   <servlet>
-    <servlet-name>SeaechServlet</servlet-name>
+    <servlet-name>SearchServlet</servlet-name>
     <servlet-class>search.SeaechServlet</servlet-class>
   </servlet>
   <servlet>

@@ -23,7 +23,6 @@ public class LoginServlet extends HttpServlet {
      */
     public LoginServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
     
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -35,7 +34,6 @@ public class LoginServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		response.setCharacterEncoding("UTF-8");  
         response.setContentType("text/html;charset=UTF-8"); 
         request.setCharacterEncoding("UTF-8");
@@ -48,13 +46,9 @@ public class LoginServlet extends HttpServlet {
 		System.out.println(json);
 		// pass json to api
 		userApi user = new userApi();
-		int result = user.loginJsonAnalyzing(json);
-		if (result == 1) {
-			response.setStatus(HttpServletResponse.SC_OK);
-			
-		} else {
-			response.setStatus(HttpServletResponse.SC_CONFLICT);
-		}
-	}
-
+		boolean result = user.loginJsonAnalyzing(json);
+		if (result == true) response.setStatus(HttpServletResponse.SC_OK);
+		else response.setStatus(HttpServletResponse.SC_CONFLICT);
+    }
+    
 }

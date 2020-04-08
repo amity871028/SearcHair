@@ -2,7 +2,7 @@
     <wb-module deploy-name="SearcHair">
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
-        <property name="java-output-path" value="/SearcHair/build/classes"/>
+        <property name="java-output-path" value="/SearcHair/build/classes"/>            
         <property name="context-root" value="SearcHair"/>
     </wb-module>
 </project-modules>

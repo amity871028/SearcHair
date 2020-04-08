@@ -6,11 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.*;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.sun.org.apache.bcel.internal.generic.LNEG;
 
 public class mySql {
 	public Connection con = null; // Database objects
@@ -18,6 +13,7 @@ public class mySql {
 	private ResultSet rs = null;
 	private int rsInt = 0;
 	private PreparedStatement pst = null;
+	private boolean result = false;
 
 	// private String dropdbSQL = "DROP TABLE User ";
 
@@ -31,11 +27,9 @@ public class mySql {
 	public mySql() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			//this.con = DriverManager.getConnection("jdbc:mysql://localhost:3306/searchair?characterEncoding=utf-8", "peggy",
-			//		"searchair");
 			this.con = DriverManager.getConnection("jdbc:mysql://localhost:3306/searchair?characterEncoding=utf-8", "root",
-					"12345789");
-
+					"29118310");
+			this.stat = this.con.createStatement();
 
 		} catch (ClassNotFoundException e) {
 			System.out.println("DriverClassNotFound :" + e.toString());
@@ -63,71 +57,82 @@ public class mySql {
 		}
 	}
 
-	public void SelectTable(String question) {
-		try {
-
-			String mysql = " where question='" + question + " '";
-			stat = con.createStatement();
-
-			rs = stat.executeQuery(selectSQL + mysql);
-			// System.out.println("ID\t\tQuestion\t\tAnswer");
-			while (rs.next()) {
-				/*
-				 * System.out.println(rs.getInt("id")+"\t\t"+
-				 * rs.getString("question")+"\t\t"+rs.getString("answer"));
-				 */
-				System.out.println(rs.getString("answer"));
-			}
-		} catch (SQLException e) {
-			System.out.println("DropDB Exception :" + e.toString());
-		} finally {
-			Close();
-		}
-	}
-
-	public int insertUser(String account, String password, String name) {
+	public boolean userInsertion(String account, String password, String name) {
 		try {
 			String insertdbSQL = "insert into users (account, password, name) VALUES (" + account + ", " + password + ", " + name + ")";
 			System.out.println(insertdbSQL);
-			stat = con.createStatement();
 			rsInt = stat.executeUpdate(insertdbSQL);
-			return rsInt;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return rsInt;
 		} finally {
 			Close();
 		}
+		if (rsInt == 1) return true;
+		else return false;
 	}
 
-	public int checkUser(String account, String password) {
+	public boolean userChecking(String account, String password) {
 		try {
 			String checkDBUser = " where account = " + account;
 			password = password.replace("\"", ""); //take out ""
-			stat = con.createStatement();
 			rs = stat.executeQuery(selectSQL + checkDBUser);
 			if (rs.next()) {
 				String correctPwd = rs.getString("password");
 				if (correctPwd.equals(password)) { // compare password
 					// System.out.println("yes");
-					return 200;
+					result = true;
 				} else {
 					// System.out.println("no");
-					rsInt = 401;
+					result = false;
 				}
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			Close();
 		}
-		return rsInt;
+		return result;
 	}
-
-
 	
+	public boolean userCertification(String account, String name) {
+		try {
+			String checkDBUser = " where account = " + account;
+			name = name.replace("\"", ""); //take out ""
+			
+			rs = stat.executeQuery(selectSQL + checkDBUser);
+			if (rs.next()) {
+				String userName = rs.getString("name");
+				if (userName.equals(name)) { // compare user
+					System.out.println("yes");
+					result = true;
+				} else {
+					System.out.println("no");
+					result = false;
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			Close();
+		}
+		return result;
+	}
+	
+	
+	public boolean userResetPwd(String account, String password) {
+		try {
+			account = account.replace("\"", ""); //take out ""
+			password = password.replace("\"", ""); //take out ""
+			String updatePwd = "UPDATE users SET password = '" + password + "'  WHERE account = '" + account + "'";
+			rsInt = stat.executeUpdate(updatePwd);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			Close();
+		}
+		if (rsInt == 1) return true;
+		else return false;
+	}
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub

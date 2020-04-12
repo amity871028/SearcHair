@@ -13,11 +13,13 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
+import api.SearchApi;
+
 
 /**
  * Servlet implementation class SearchServlet
  */
-@WebServlet("/SearchServlet")
+@WebServlet("/api/search")
 public class SearchServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String ALL_SALON = "salon";
@@ -45,7 +47,7 @@ public class SearchServlet extends HttpServlet {
 		reader.close();
 		Search search = new Search();
 		ArrayList<String> resultList =  new ArrayList<String>();
-		String doOp = jsonAn.jsonAna(json);
+		String doOp = SearchApi.searchAll(json);
 		if (doOp.equals(ALL_SALON)) {
 			resultList = search.searchSalon();
 		} else if ((doOp.equals(ALL_STYLIST))) {

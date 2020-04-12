@@ -1,7 +1,7 @@
 /* global FetchData */
 const API = {
-	login : 'login',
-	register : 'register',
+	login : 'api/user/login',
+	register : 'api/user/register',
 };
 function validatePassword() {
 	const confirmPassword = document
@@ -21,7 +21,7 @@ async function login() {
 		// start post
 		const result = await
 		FetchData.post(API.login, {
-			userName : document.getElementById('login-user-name').value,
+			account : document.getElementById('login-user-name').value,
 			password : document.getElementById('login-password').value,
 		});
 		if (result.status === 401) {
@@ -29,7 +29,7 @@ async function login() {
 			document.getElementById('login-wrong').innerText = '帳號或密碼錯誤';
 		} else {
 			// refresh page
-			window.location.reload();
+			//window.location.reload();
 		}
 	}
 }

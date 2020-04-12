@@ -9,13 +9,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import api.userApi;
+import api.UserApi;
 import user.SendMail;
 
 /**
  * Servlet implementation class ForgetPwdServlet
  */
-@WebServlet("/ForgetPassword")
+@WebServlet("/api/user/password/forget")
 public class ForgetPwdServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -51,7 +51,7 @@ public class ForgetPwdServlet extends HttpServlet {
 		String json = reader.readLine();
 		reader.close();
 		System.out.println(json);
-		userApi user = new userApi();
+		UserApi user = new UserApi();
 		String result = user.forgetPwdJsonAnalyzing(json); // this result will be user account
 		// System.out.println(result);
 		try {

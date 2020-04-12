@@ -2,7 +2,6 @@ package search;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,15 +11,17 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
+import api.SearchApi;
+
 /**
  * Servlet implementation class SearchOneServlet
  */
-@WebServlet("/SearchOneServlet")
+@WebServlet("/api/search/detail")
 public class SearchOneServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final String ALL_SALON = "salon";
-	private static final String ALL_STYLIST = "stylist";
-	private static final String ALL_STYLIST_WORK = "stylist_works";
+	private static final String ONE_SALON = "salon";
+	private static final String ONE_STYLIST = "stylist";
+	private static final String ONE_STYLIST_WORK = "stylist_works";
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -38,24 +39,24 @@ public class SearchOneServlet extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");  
 		response.setContentType("application/json; charset=utf-8");
         request.setCharacterEncoding("UTF-8");
-        response.setHeader("Access-Control-Allow-Origin", "*");
-		response.setHeader("Access-Control-Allow-Methods", "GET");
+        response.setHeader("Access-Control-ONEow-Origin", "*");
+		response.setHeader("Access-Control-ONEow-Methods", "GET");
 		BufferedReader reader = request.getReader();
 		String json = reader.readLine();
 		reader.close();
 		Search search = new Search();
 		String result = null;
-		String[] doOp = jsonAn.jsonAnaOne(json);
+		String[] doOp = SearchApi.searchOne(json);
 		System.out.println(doOp[1]);
 		
-		if (doOp[0].equals(ALL_SALON)) {
-			System.out.println(ALL_SALON);
+		if (doOp[0].equals(ONE_SALON)) {
+			System.out.println(ONE_SALON);
 			result = search.oneSalon(Integer.parseInt(doOp[1]));
-		} else if ((doOp[0].equals(ALL_STYLIST))) {
-			System.out.println(ALL_STYLIST);
+		} else if ((doOp[0].equals(ONE_STYLIST))) {
+			System.out.println(ONE_STYLIST);
 			result = search.oneStylist(Integer.parseInt(doOp[1]));
-		} else if ((doOp[0].equals(ALL_STYLIST_WORK))) {
-			System.out.println(ALL_STYLIST_WORK);
+		} else if ((doOp[0].equals(ONE_STYLIST_WORK))) {
+			System.out.println(ONE_STYLIST_WORK);
 			result = search.oneHairstyle(Integer.parseInt(doOp[1]));
 		}
 		Gson gson = new Gson();

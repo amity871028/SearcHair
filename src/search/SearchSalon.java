@@ -1,24 +1,28 @@
-package dialogFlow;
+package search;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import javax.servlet.ServletConfig;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+
 /**
- * Servlet implementation class chatBot
+ * Servlet implementation class SearchSalon
  */
-@WebServlet("/chatbot")
-public class chatBot extends HttpServlet {
+@WebServlet("/SearchSalon")
+public class SearchSalon extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public chatBot() {
+    public SearchSalon() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -28,12 +32,19 @@ public class chatBot extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("hello");
-		response.setCharacterEncoding("UTF-8"); //頧��tf-8
-		response.setContentType("application/json; charset=utf-8"); //頧��son
-		response.addHeader("Access-Control-Allow-Origin", "*");
-		String question = request.getParameter("question"); //��zone���
-		System.out.println(question);
+		response.setCharacterEncoding("UTF-8");  
+		response.setContentType("application/json; charset=utf-8");
+        request.setCharacterEncoding("UTF-8");
+        response.setHeader("Access-Control-Allow-Origin", "*");
+		response.setHeader("Access-Control-Allow-Methods", "GET");
+		BufferedReader reader = request.getReader();
+		String json = reader.readLine();
+		reader.close();
+		Search search = new Search();
+		ArrayList<String> resultList =  new ArrayList<String>();
+		resultList = search.searchSalon();
+		Gson gson = new Gson();
+		response.getWriter().append(gson.toJson(resultList));
 	}
 
 	/**
@@ -43,6 +54,5 @@ public class chatBot extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
-	
 
 }

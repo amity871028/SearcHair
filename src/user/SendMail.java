@@ -13,7 +13,7 @@ public class SendMail {
 
 	public static String resetPwdLink(String account) throws Exception {
 		makeToken token = new makeToken();
-		return "http://localhost:8080/SearcHair/ResetPwdServlet?token=" + token.encrypt(account);
+		return "http://localhost:8080/SearcHair/api/user/password/reset?token=" + token.encrypt(account);
 		// return "http://localhost:8080/SearcHair/ResetPwdServlet?user=" + account + "&token=" + makeToken.convertMD5(account);
 
 	}

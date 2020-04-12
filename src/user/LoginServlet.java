@@ -2,6 +2,7 @@ package user;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,12 +10,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import api.userApi;
+import api.UserApi;
 
 /**
  * Servlet implementation class LoginServlet
  */
-@WebServlet("/login")
+@WebServlet("/api/user/login")
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -27,7 +28,9 @@ public class LoginServlet extends HttpServlet {
     
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		doPost(request, response);
+    	PrintWriter out = response.getWriter();
+    	out.println("hello");
+		// doPost(request, response);
 	}
 
 	/**
@@ -43,9 +46,9 @@ public class LoginServlet extends HttpServlet {
 		BufferedReader reader = request.getReader();
 		String json = reader.readLine();
 		reader.close();
-		System.out.println(json);
+		System.out.println("json " + json);
 		// pass json to api
-		userApi user = new userApi();
+		UserApi user = new UserApi();
 		boolean result = user.loginJsonAnalyzing(json);
 		if (result == true) response.setStatus(HttpServletResponse.SC_OK);
 		else response.setStatus(HttpServletResponse.SC_CONFLICT);

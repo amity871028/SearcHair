@@ -1,15 +1,15 @@
-package search;
+package api;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
-public class jsonAn {
+public class SearchApi {
 	
-	public jsonAn() {
+	public SearchApi() {
 		
 	}
 	
-	public static String[] jsonAnaOne(String jsonObject) {
+	public static String[] searchOne(String jsonObject) {
 
 		JsonObject jobj = new Gson().fromJson(jsonObject, JsonObject.class);
 		String[] doOp = new String[2];
@@ -18,7 +18,7 @@ public class jsonAn {
 		return doOp;
 	}
 	
-	public static String jsonAna(String jsonObject) {
+	public static String searchAll(String jsonObject) {
 
 		JsonObject jobj = new Gson().fromJson(jsonObject, JsonObject.class);
 		String doOp = jobj.get("function").toString().replace("\"", "");

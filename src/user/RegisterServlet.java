@@ -8,12 +8,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import api.userApi;
+import api.UserApi;
 
 /**
  * Servlet implementation class RegisterServlet
  */
-@WebServlet("/register")
+@WebServlet("/api/user/register")
 public class RegisterServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -50,7 +50,7 @@ public class RegisterServlet extends HttpServlet {
 		reader.close();
 		System.out.println(json);
 		// pass json to api
-		userApi user = new userApi();
+		UserApi user = new UserApi();
 		boolean result = user.registerJsonAnalyzing(json);
 		if (result == true) response.setStatus(HttpServletResponse.SC_OK);
 		else response.setStatus(HttpServletResponse.SC_CONFLICT);

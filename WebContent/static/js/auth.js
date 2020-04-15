@@ -1,7 +1,7 @@
 /* global FetchData */
 const API = {
-	login : '/api/user/login',
-	register : '/api/user/register',
+	login : 'api/user/login',
+	register : 'api/user/register',
 };
 function validatePassword() {
 	const confirmPassword = document
@@ -29,7 +29,7 @@ async function login() {
 			document.getElementById('login-wrong').innerText = '帳號或密碼錯誤';
 		} else {
 			// refresh page
-			window.location.reload();
+			//window.location.reload();
 		}
 	}
 }

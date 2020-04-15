@@ -10,12 +10,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import api.userApi;
+import api.UserApi;
 
 /**
  * Servlet implementation class ResetPwdServlet
  */
-@WebServlet("/ResetPwdServlet")
+@WebServlet("/api/user/password/reset/")
 public class ResetPwdServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -58,7 +58,7 @@ public class ResetPwdServlet extends HttpServlet {
 		String json = reader.readLine();
 		reader.close();
 		System.out.println(json);
-		userApi user = new userApi();
+		UserApi user = new UserApi();
 		String token = user.getValueFromCookie(request.getCookies(), "token");
 		System.out.println(token);
 		

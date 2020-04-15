@@ -8,11 +8,11 @@ import com.google.gson.JsonObject;
 import JDBC.mySql;
 import user.makeToken;
 
-public class userApi {
+public class UserApi {
 	
 	private mySql mysql = new mySql();
 	
-	public userApi() {
+	public UserApi() {
 		super();
 	}
 	
@@ -95,7 +95,7 @@ public class userApi {
 	
 	
 	public static void main(String[] args) {
-		userApi test = new userApi();
+		UserApi test = new UserApi();
 		String myJSONString = "{'account': 'test', 'name': 'test'}";
 
 		// sign up

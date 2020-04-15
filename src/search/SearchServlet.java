@@ -42,17 +42,16 @@ public class SearchServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setHeader("Access-Control-Allow-Origin", "*");
 		response.setHeader("Access-Control-Allow-Methods", "GET");
-		BufferedReader reader = request.getReader();
-		String json = reader.readLine();
-		reader.close();
+		
+		String function = request.getParameter("func");
 		Search search = new Search();
+		
 		ArrayList<String> resultList =  new ArrayList<String>();
-		String doOp = SearchApi.searchAll(json);
-		if (doOp.equals(ALL_SALON)) {
+		if (function.equals(ALL_SALON)) {
 			resultList = search.searchSalon();
-		} else if ((doOp.equals(ALL_STYLIST))) {
+		} else if ((function.equals(ALL_STYLIST))) {
 			resultList = search.searchStylist();
-		} else if ((doOp.equals(ALL_STYLIST_WORK))) {
+		} else if ((function.equals(ALL_STYLIST_WORK))) {
 			resultList = search.searchHairstyle();
 		}
 		Gson gson = new Gson();
@@ -63,7 +62,6 @@ public class SearchServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 	

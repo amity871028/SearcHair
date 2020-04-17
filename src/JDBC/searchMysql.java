@@ -9,17 +9,17 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import com.google.gson.Gson;
 
-public class mySql {
+public class SearchMysql {
 	private Connection con=null;
 	private Statement stat=null;
 	private ResultSet rs=null;
 	private PreparedStatement pst=null;
 	
-	public mySql() {
+	public SearchMysql() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver"); //register driver
 			con=DriverManager.getConnection("jdbc:mysql://localhost:3306/searchair?characterEncoding=utf-8", "root","29118310");
-			System.out.println("===³s½u¸ê®Æ®w¦¨¥\ ! ===");
+			System.out.println("===é€£ç·šè³‡æ–™åº«æˆåŠŸ ! ===");
 		}catch(ClassNotFoundException e) {
 			System.out.println("ClassNotFoundException:"+e.toString());
 		} catch (SQLException e) {
@@ -28,7 +28,7 @@ public class mySql {
 	}
 
 	public void searchSalon() {
-		System.out.println("¿é¥X©Ò¦³©±®a");
+		System.out.println("è¼¸å‡ºæ‰€æœ‰åº—å®¶");
 		int salonID,stylistID;
 		ArrayList<AllSalon> AllSalon_List = new ArrayList<AllSalon>();
 		
@@ -39,41 +39,41 @@ public class mySql {
 				AllSalon allSalon = new AllSalon();
 				ArrayList<String> service_List = new ArrayList<String>();
 				salonID = rs.getInt("id");
-				allSalon.set_ID(rs.getInt("id"));
-				allSalon.set_Name(rs.getString("name"));
-				allSalon.set_Address(rs.getString("address"));
-				allSalon.set_Phone(rs.getString("phone"));
-				allSalon.set_Picture(rs.getString("picture"));
+				allSalon.setID(rs.getInt("id"));
+				allSalon.setName(rs.getString("name"));
+				allSalon.setAddress(rs.getString("address"));
+				allSalon.setPhone(rs.getString("phone"));
+				allSalon.setPicture(rs.getString("picture"));
 				
 				Statement ST=null;
 				ResultSet RS = null;
 				ST=con.createStatement();
 				RS=ST.executeQuery("select id from stylist where salon="+salonID);
-				while(RS.next()) { //·j´M¬Y©±®a¸Ìªº©Ò¦³³]­p®v
+				while(RS.next()) { //æœå°‹æŸåº—å®¶è£¡çš„æ‰€æœ‰è¨­è¨ˆå¸«
 					stylistID=RS.getInt("id");
 
 			        Statement stt=null;
 					ResultSet rst = null;
 					stt=con.createStatement();
 					rst=stt.executeQuery("select name from service where stylist="+stylistID);
-					while(rst.next()) //·j´M¬Y³]­p®v¦³´£¨ÑªºªA°È
+					while(rst.next()) //æœå°‹æŸè¨­è¨ˆå¸«æœ‰æä¾›çš„æœå‹™
 						service_List.add(rst.getString("name"));
 				}
 				AllSalon_List.add(allSalon);
 			}
 			AllSalon output = new AllSalon();
 			String ans = output.convertToJson(AllSalon_List); 
-			System.out.println(ans); //======³o¸Ì¿é¥XJSON======
+			System.out.println(ans); //======é€™è£¡è¼¸å‡ºJSON======
 		}catch(SQLException e) {
 			System.out.println("select table SQLException:"+e.toString());
 		}
 		finally {
-			Close();
+			close();
 		}		
 	}
 	
 	public void searchStylist() { 
-		System.out.println("¿é¥X©Ò¦³³]­p®v");
+		System.out.println("è¼¸å‡ºæ‰€æœ‰è¨­è¨ˆå¸«");
 		int stylistID,salonID;
 		ArrayList<AllStylist> AllStylist_List = new ArrayList<AllStylist>(); 
 		try {
@@ -83,18 +83,18 @@ public class mySql {
 				AllStylist allStylist = new AllStylist();
 				salonID = rs.getInt("salon");
 				stylistID = rs.getInt("id");
-				allStylist.set_ID(rs.getInt("id"));
-				allStylist.set_Name(rs.getString("name"));
-				allStylist.set_Job_title(rs.getString("job_title"));
-				allStylist.set_Picture(rs.getString("picture"));
+				allStylist.setID(rs.getInt("id"));
+				allStylist.setName(rs.getString("name"));
+				allStylist.setJobTitle(rs.getString("job_title"));
+				allStylist.setPicture(rs.getString("picture"));
 				
 				Statement ST=null;
 				ResultSet RS = null;
 				ST=con.createStatement();
 				RS=ST.executeQuery("select * from salon where id="+salonID);
 				if(RS.next()) {
-					allStylist.set_Salon(RS.getString("name"));
-					allStylist.set_Address(RS.getString("address"));
+					allStylist.setSalon(RS.getString("name"));
+					allStylist.setAddress(RS.getString("address"));
 				}
 
 				Statement stt=null;
@@ -102,31 +102,31 @@ public class mySql {
 				stt=con.createStatement();
 				rst=stt.executeQuery("select * from service where stylist="+stylistID);
 				ArrayList<Service> Service_List = new ArrayList<Service>(); 
-				while(rst.next()) { //·j´M³]­p®v¦³´£¨ÑªºªA°È
+				while(rst.next()) { //æœå°‹è¨­è¨ˆå¸«æœ‰æä¾›çš„æœå‹™
 					Service service = new Service();
-			        service.set_Name(rst.getString("name"));
-			        service.set_Min_price(rst.getInt("min_price"));
-			        service.set_Max_price(rst.getInt("max_price"));
-			        service.set_Service_time(rst.getInt("service_time"));
-			        service.set_Description(rst.getString("description"));
+			        service.setName(rst.getString("name"));
+			        service.setMinPrice(rst.getInt("min_price"));
+			        service.setMaxPrice(rst.getInt("max_price"));
+			        service.setServiceTime(rst.getInt("service_time"));
+			        service.setDescription(rst.getString("description"));
 			        Service_List.add(service);
 				}
-				allStylist.set_Service(Service_List);
+				allStylist.setService(Service_List);
 				AllStylist_List.add(allStylist);
 			}
 			AllStylist output = new AllStylist();
 			String ans = output.convertToJson(AllStylist_List); 
-			System.out.println(ans); //======³o¸Ì¿é¥XJSON======
+			System.out.println(ans); //======é€™è£¡è¼¸å‡ºJSON======
 		}catch(SQLException e) {
 			System.out.println("select table SQLException:"+e.toString());
 		}
 		finally {
-			Close();
+			close();
 		}
 	}
 
 	public void searchHairstyle() { 
-		System.out.println("¿é¥X©Ò¦³¾v«¬");
+		System.out.println("è¼¸å‡ºæ‰€æœ‰é«®å‹");
 		int stylistID;
 		ArrayList<AllHairstyle> AllHairstyle_List = new ArrayList<AllHairstyle>(); 
 		try {
@@ -135,35 +135,35 @@ public class mySql {
 			while(rs.next()) {
 				AllHairstyle allHairstyle = new AllHairstyle();
 				stylistID = rs.getInt("stylist");
-				allHairstyle.set_ID(rs.getInt("id"));
-				allHairstyle.set_Picture(rs.getString("picture"));
-				allHairstyle.set_Description(rs.getString("description"));
-				allHairstyle.set_Hashtag(rs.getString("hashtag"));
+				allHairstyle.setID(rs.getInt("id"));
+				allHairstyle.setPicture(rs.getString("picture"));
+				allHairstyle.setDescription(rs.getString("description"));
+				allHairstyle.setHashtag(rs.getString("hashtag"));
 				
 				Statement ST=null;
 				ResultSet RS = null;
 				ST=con.createStatement();
 				RS=ST.executeQuery("select * from stylist where id="+stylistID);
 				if(RS.next()) {
-					allHairstyle.set_Stylist(RS.getString("name"));
-					allHairstyle.set_Stylist_job_title(RS.getString("job_title"));
+					allHairstyle.setStylist(RS.getString("name"));
+					allHairstyle.setStylistJobTitle(RS.getString("job_title"));
 				}
 				AllHairstyle_List.add(allHairstyle);
 			}
 			AllHairstyle output = new AllHairstyle();
 			String ans = output.convertToJson(AllHairstyle_List); 
-			System.out.println(ans); //======³o¸Ì¿é¥XJSON======
+			System.out.println(ans); //======é€™è£¡è¼¸å‡ºJSON======
 			
 		}catch(SQLException e) {
 			System.out.println("select table SQLException:"+e.toString());
 		}
 		finally {
-			Close();
+			close();
 		}
 	}
 
-	public void oneSalon(int num) {
-		System.out.println("¿é¥X³æ¤@©±®a");
+	public void searchOneSalon(int num) {
+		System.out.println("è¼¸å‡ºå–®ä¸€åº—å®¶");
 		int id=num;
 		ArrayList<StylistInfo> StylistInfo_List = new ArrayList<StylistInfo>(); 
 
@@ -172,52 +172,52 @@ public class mySql {
 			rs=stat.executeQuery("select * from salon where id ="+ num);
 			if(rs.next()) {
 				Salon salon = new Salon();
-				salon.set_Name(rs.getString("name"));
-				salon.set_Address(rs.getString("address"));
-				salon.set_Phone(rs.getString("phone"));
-				salon.set_Picture(rs.getString("picture"));
-				salon.set_BusinessTime(rs.getString("businessTime"));
+				salon.setName(rs.getString("name"));
+				salon.setAddress(rs.getString("address"));
+				salon.setPhone(rs.getString("phone"));
+				salon.setPicture(rs.getString("picture"));
+				salon.setBusinessTime(rs.getString("businessTime"));
 				
 		        Statement ST=null;
 				ResultSet RS = null;
 				ST=con.createStatement();
 				String stylist = "select * from stylist where salon="+num;
-				RS=ST.executeQuery(stylist); //§ä¥X¬Y©±®aªº©Ò¦³³]­p®v
+				RS=ST.executeQuery(stylist); //æ‰¾å‡ºæŸåº—å®¶çš„æ‰€æœ‰è¨­è¨ˆå¸«
 				while(RS.next()) {
 					ArrayList<Work> Work_List = new ArrayList<Work>(); 
 					StylistInfo stylistInfo = new StylistInfo();
 					id=RS.getInt("id");	
-					stylistInfo.set_ID(RS.getInt("id"));
-					stylistInfo.set_Name(RS.getString("name"));
-					stylistInfo.set_Picture(RS.getString("picture"));
+					stylistInfo.setID(RS.getInt("id"));
+					stylistInfo.setName(RS.getString("name"));
+					stylistInfo.setPicture(RS.getString("picture"));
 					
 					Statement stt=null;
 					ResultSet rst = null;
 					stt=con.createStatement();
-					rst=stt.executeQuery("select * from stylist_works where stylist="+id); //§ä¥X¬Y³]­p®vªº©Ò¦³§@«~
+					rst=stt.executeQuery("select * from stylist_works where stylist="+id); //æ‰¾å‡ºæŸè¨­è¨ˆå¸«çš„æ‰€æœ‰ä½œå“
 					while(rst.next()) {
 						Work work = new Work();
-						work.set_ID(rst.getInt("id"));
-						work.set_Picture(rst.getString("picture"));
+						work.setID(rst.getInt("id"));
+						work.setPicture(rst.getString("picture"));
 						Work_List.add(work);
 					}
-					stylistInfo.set_Works(Work_List);
+					stylistInfo.setWorks(Work_List);
 					StylistInfo_List.add(stylistInfo);
 				}
-				salon.set_Stylist_info(StylistInfo_List);
+				salon.setStylistInfo(StylistInfo_List);
 				String ans = salon.convertToJson(salon);
-				System.out.println(ans); //======³o¸Ì¿é¥XJSON======
+				System.out.println(ans); //======é€™è£¡è¼¸å‡ºJSON======
 			}
 		}catch(SQLException e) {
 			System.out.println("select table SQLException:"+e.toString());
 		}
 		finally {
-			Close();
+			close();
 		}
 	}
 
-	public void oneStylist(int num) { //num¬°­n§äªº³]­p®vid¸¹½X
-		System.out.println("¿é¥X³æ¤@³]­p®v");
+	public void searchOneStylist(int num) { //numç‚ºè¦æ‰¾çš„è¨­è¨ˆå¸«idè™Ÿç¢¼
+		System.out.println("è¼¸å‡ºå–®ä¸€è¨­è¨ˆå¸«");
 		int salonID;
 		Stylist stylist = new Stylist();
 		ArrayList<Service> Service_List = new ArrayList<Service>(); 
@@ -227,17 +227,17 @@ public class mySql {
 			rs=stat.executeQuery("select * from stylist where id ="+ num);
 			if(rs.next()) {
 				salonID = rs.getInt("salon");
-				stylist.set_Name(rs.getString("name"));
-				stylist.set_Job_title(rs.getString("job_title"));
-				stylist.set_Picture(rs.getString("picture"));
+				stylist.setName(rs.getString("name"));
+				stylist.setJobTitle(rs.getString("job_title"));
+				stylist.setPicture(rs.getString("picture"));
 				
 				Statement ST=null;
 				ResultSet RS = null;
 				ST=con.createStatement();
 				RS=ST.executeQuery("select * from salon where id="+salonID);
 				if (RS.next()) {
-					stylist.set_Salon(RS.getString("name"));
-					stylist.set_Address(RS.getString("address"));					
+					stylist.setSalon(RS.getString("name"));
+					stylist.setAddress(RS.getString("address"));					
 				}
 			
 				Statement STT=null;
@@ -246,40 +246,40 @@ public class mySql {
 				RSS=STT.executeQuery("select * from service where stylist="+num);
 				while(RSS.next()) {
 					Service service = new Service();
-			        service.set_Name(RSS.getString("name"));
-			        service.set_Min_price(RSS.getInt("min_price"));
-			        service.set_Max_price(RSS.getInt("max_price"));
-			        service.set_Service_time(RSS.getInt("service_time"));
-			        service.set_Description(RSS.getString("description"));
+			        service.setName(RSS.getString("name"));
+			        service.setMinPrice(RSS.getInt("min_price"));
+			        service.setMaxPrice(RSS.getInt("max_price"));
+			        service.setServiceTime(RSS.getInt("service_time"));
+			        service.setDescription(RSS.getString("description"));
 			        Service_List.add(service);
 				}
 				
 				Statement stt=null;
 				ResultSet rst = null;
 				stt=con.createStatement();
-				rst=stt.executeQuery("select * from stylist_works where stylist="+num); //§ä¥X¬Y³]­p®vªº©Ò¦³§@«~
+				rst=stt.executeQuery("select * from stylist_works where stylist="+num); //æ‰¾å‡ºæŸè¨­è¨ˆå¸«çš„æ‰€æœ‰ä½œå“
 				while(rst.next()) {
 					Work work = new Work();
-					work.set_ID(rst.getInt("id"));
-					work.set_Picture(rst.getString("picture"));
+					work.setID(rst.getInt("id"));
+					work.setPicture(rst.getString("picture"));
 					Work_List.add(work);
 				}
-				stylist.set_Service(Service_List);
-				stylist.set_Work(Work_List);
+				stylist.setService(Service_List);
+				stylist.setWork(Work_List);
 			}
 			Stylist output = new Stylist();
 			String ans = output.convertToJson(stylist); 
-			System.out.println(ans); //======³o¸Ì¿é¥XJSON======
+			System.out.println(ans); //======é€™è£¡è¼¸å‡ºJSON======
 		}catch(SQLException e) {
 			System.out.println("select table SQLException:"+e.toString());
 		}
 		finally {
-			Close();
+			close();
 		}
 	}
 
-	public void oneHairstyle(int num) { 
-		System.out.println("¿é¥X³æ¤@¾v«¬");
+	public void searchOneHairstyle(int num) { 
+		System.out.println("è¼¸å‡ºå–®ä¸€é«®å‹");
 		int id,stylistID;
 		String picture,description,hashtag;
 		String stylist = null,job_title = null;
@@ -304,17 +304,17 @@ public class mySql {
 				Hairstyle hairstyle = new Hairstyle(id,picture,stylist,job_title,description,hashtag);
 				Gson gson = new Gson();
 				String ans = gson.toJson(hairstyle);
-				System.out.println(ans); //======³o¸Ì¿é¥XJSON======	
+				System.out.println(ans); //======é€™è£¡è¼¸å‡ºJSON======	
 			}
 		}catch(SQLException e) {
 			System.out.println("select table SQLException:"+e.toString());
 		}
 		finally {
-			Close();
+			close();
 		}
 	}
 
-	public void Close(){
+	public void close(){
 		try{
 			if(rs!=null) {
 				rs.close();
@@ -334,12 +334,12 @@ public class mySql {
 	}
 	
 	public static void main(String args[]) {
-		mySql test = new mySql();
+		SearchMysql test = new SearchMysql();
 		test.searchSalon();
-		test.oneSalon(5);
+		test.searchOneSalon(5);
 		test.searchStylist();
-		test.oneStylist(88);
+		test.searchOneStylist(88);
 		test.searchHairstyle();
-		test.oneHairstyle(1);
+		test.searchOneHairstyle(1);
 	}
 }

@@ -8,27 +8,27 @@ public class AllHairstyle{
 	int id;
 	String picture,stylist,stylist_job_title,description,hashtag;
 
-    public void set_ID(int id) {
+    public void setID(int id) {
     	this.id = id;
 	}
     
-    public void set_Picture(String picture) {
+    public void setPicture(String picture) {
     	this.picture = picture;
 	}
     
-    public void set_Stylist(String stylist) {
+    public void setStylist(String stylist) {
     	this.stylist = stylist;
 	}
     
-    public void set_Stylist_job_title(String stylist_job_title) {
+    public void setStylistJobTitle(String stylist_job_title) {
     	this.stylist_job_title = stylist_job_title;
 	}
     
-    public void set_Description(String description) {
+    public void setDescription(String description) {
     	this.description = description;
 	}
     
-    public void set_Hashtag(String hashtag) {
+    public void setHashtag(String hashtag) {
     	this.hashtag = hashtag;
 	}
     

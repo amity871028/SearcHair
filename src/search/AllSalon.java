@@ -11,27 +11,27 @@ public class AllSalon {
 
 	public AllSalon() {}
 	
-    public void set_ID(int id) {
+    public void setID(int id) {
     	this.id = id;
 	}
     
-    public void set_Name(String name) {
+    public void setName(String name) {
     	this.name = name;
 	}
     
-    public void set_Address(String address) {
+    public void setAddress(String address) {
     	this.address = address;
 	}
     
-    public void set_Phone(String phone) {
+    public void setPhone(String phone) {
     	this.phone = phone;
 	}
     
-    public void set_Picture(String picture) {
+    public void setPicture(String picture) {
     	this.picture = picture;
 	}
     
-    public void set_Service(ArrayList<String> service) {
+    public void setService(ArrayList<String> service) {
     	this.service = service;
 	}
     

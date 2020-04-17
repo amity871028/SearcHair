@@ -16,19 +16,19 @@ public class StylistInfo {
 		this.picture = picture;
     }
     
-    public void set_ID(int id) {
+    public void setID(int id) {
     	this.id = id;
 	}
     
-    public void set_Name(String name) {
+    public void setName(String name) {
     	this.name = name;
 	}
     
-    public void set_Picture(String picture) {
+    public void setPicture(String picture) {
     	this.picture = picture;
 	}
     
-    public void set_Works(ArrayList<Work> works) {
+    public void setWorks(ArrayList<Work> works) {
     	this.works = works;
 	}    
 }

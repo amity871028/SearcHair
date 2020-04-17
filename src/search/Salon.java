@@ -7,26 +7,26 @@ public class Salon {
 	String name,address,phone,picture,businessTime;
 	ArrayList<StylistInfo> stylist_info = new ArrayList<StylistInfo>(); 
 
-    public void set_Name(String name) {
+    public void setName(String name) {
     	this.name = name;
 	}
     
-    public void set_Address(String address) {
+    public void setAddress(String address) {
     	this.address = address;
 	}
     
-    public void set_Phone(String phone) {
+    public void setPhone(String phone) {
     	this.phone = phone;
 	}
-    public void set_Picture(String picture) {
+    public void setPicture(String picture) {
     	this.picture = picture;
 	}
     
-    public void set_BusinessTime(String businessTime) {
+    public void setBusinessTime(String businessTime) {
     	this.businessTime = businessTime;
 	}
     
-    public void set_Stylist_info(ArrayList<StylistInfo> stylist_info) {
+    public void setStylistInfo(ArrayList<StylistInfo> stylist_info) {
     	this.stylist_info = stylist_info;
 	}  
     

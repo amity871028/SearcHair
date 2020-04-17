@@ -10,31 +10,31 @@ public class Stylist{
 
 	public Stylist() {}
 
-    public void set_Name(String name) {
+    public void setName(String name) {
     	this.name = name;
 	}
     
-    public void set_Job_title(String job_title) {
+    public void setJobTitle(String job_title) {
     	this.job_title = job_title;
 	}
     
-    public void set_Salon(String salon) {
+    public void setSalon(String salon) {
     	this.salon = salon;
 	}
     
-    public void set_Address(String address) {
+    public void setAddress(String address) {
     	this.address = address;
 	}
 
-    public void set_Picture(String picture) {
+    public void setPicture(String picture) {
     	this.picture = picture;
 	}  
     
-    public void set_Service(ArrayList<Service> service) {
+    public void setService(ArrayList<Service> service) {
     	this.service = service;
 	}    
     
-    public void set_Work(ArrayList<Work> works) {
+    public void setWork(ArrayList<Work> works) {
     	this.works = works;
 	}
     

@@ -51,13 +51,13 @@ public class SearchOneServlet extends HttpServlet {
 		
 		if (doOp[0].equals(ONE_SALON)) {
 			System.out.println(ONE_SALON);
-			result = search.oneSalon(Integer.parseInt(doOp[1]));
+			result = search.searchOneSalon(Integer.parseInt(doOp[1]));
 		} else if ((doOp[0].equals(ONE_STYLIST))) {
 			System.out.println(ONE_STYLIST);
-			result = search.oneStylist(Integer.parseInt(doOp[1]));
+			result = search.searchOneStylist(Integer.parseInt(doOp[1]));
 		} else if ((doOp[0].equals(ONE_STYLIST_WORK))) {
 			System.out.println(ONE_STYLIST_WORK);
-			result = search.oneHairstyle(Integer.parseInt(doOp[1]));
+			result = search.searchOneHairstyle(Integer.parseInt(doOp[1]));
 		}
 		Gson gson = new Gson();
 		response.getWriter().append(gson.toJson(result));

@@ -1,13 +1,23 @@
 package search;
-import java.util.ArrayList;
-import java.io.*;
-import com.google.gson.Gson;
 
 public class Work{
-	String id,picture;
+	int id;
+	String picture;
+	
+	public Work() {
+		
+	}
 	
     public Work(int id,String picture) {
-    	this.id = String.valueOf(id);
+    	this.id = id;
 		this.picture = picture;
     }
+    
+    public void set_ID(int id) {
+    	this.id = id;
+	}
+    
+    public void set_Picture(String picture) {
+    	this.picture = picture;
+	}
 }

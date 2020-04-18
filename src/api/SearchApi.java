@@ -3,7 +3,7 @@ package api;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
-import JDBC.SearchMysql;
+import jdbc.SearchMysql;
 
 public class SearchApi {
 	

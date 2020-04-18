@@ -5,7 +5,7 @@ import javax.servlet.http.Cookie;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
-import JDBC.MySql;
+import jdbc.MySql;
 import user.MakeToken;
 
 public class UserApi {

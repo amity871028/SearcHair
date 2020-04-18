@@ -13,7 +13,6 @@ import api.UserApi;
 /**
  * Servlet implementation class RegisterServlet
  */
-@WebServlet("/api/user/register")
 public class RegisterServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

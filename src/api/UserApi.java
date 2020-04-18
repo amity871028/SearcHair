@@ -5,12 +5,12 @@ import javax.servlet.http.Cookie;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
-import JDBC.mySql;
-import user.makeToken;
+import JDBC.MySql;
+import user.MakeToken;
 
 public class UserApi {
 	
-	private mySql mysql = new mySql();
+	private MySql mysql = new MySql();
 	
 	public UserApi() {
 		super();
@@ -51,7 +51,7 @@ public class UserApi {
 		JsonObject jsonobj = new Gson().fromJson(jsonObject, JsonObject.class);
 
 		String password = jsonobj.get("password").toString();
-		makeToken token = new makeToken();
+		MakeToken token = new MakeToken();
 		/*if (token.decrypt(userToken).equals(userToken)) {
 			return mysql.userResetPwd(account, password);
 		}
@@ -83,7 +83,7 @@ public class UserApi {
 		JsonObject jsonobj = new Gson().fromJson(jsonObject, JsonObject.class);
 		String oldPassword = jsonobj.get("oldPassword").toString();
 		String newPassword = jsonobj.get("newPassword").toString();
-		makeToken token = new makeToken();
+		MakeToken token = new MakeToken();
 		String account = token.decrypt(userToken);
 		
 		if(mysql.userChecking(account, oldPassword) == true){

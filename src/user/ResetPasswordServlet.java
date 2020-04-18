@@ -2,6 +2,7 @@ package user;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,14 +16,13 @@ import api.UserApi;
 /**
  * Servlet implementation class ResetPwdServlet
  */
-@WebServlet("/api/user/password/reset/")
-public class ResetPwdServlet extends HttpServlet {
+public class ResetPasswordServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ResetPwdServlet() {
+    public ResetPasswordServlet() {
         super();
     }
 
@@ -34,14 +34,15 @@ public class ResetPwdServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=UTF-8");
 		response.setHeader("Access-Control-Allow-Origin", "*");
-		response.setHeader("Access-Control-Allow-Methods", "GET");
-		// to reset pwd page
-		request.getRequestDispatcher("reset-password.html").forward(request, response);
+		response.setHeader("Access-Control-Allow-Methods", "GET");		
 		// add user token to cookie
 		String token = request.getParameter("token");
 		Cookie tokenCookie = new Cookie("token", token);
+		tokenCookie.setPath("/");
 		response.addCookie(tokenCookie);
-		tokenCookie.setMaxAge(60*60*24); //Store cookie for 1 year		
+		tokenCookie.setMaxAge(60*60*24); //Store cookie for 1 year
+		// to reset pwd page
+		response.sendRedirect("./reset-password.html");
 	}
 
 	/**

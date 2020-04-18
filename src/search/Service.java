@@ -1,16 +1,30 @@
 package search;
-import java.util.ArrayList;
-import java.io.*;
-import com.google.gson.Gson;
 
 public class Service{
-	String name,min_price,max_price,service_time,description;
+
+	String name;
+	int min_price,max_price,service_time;
+	String description;
 	
-    public Service(String name,String min_price,String max_price,String service_time,String description) {
-		this.name = name;
-		this.min_price = min_price;
-		this.max_price = max_price;
-		this.service_time = service_time;
-		this.description = description;
-    }
+	public Service() {}
+	
+    public void setName(String name) {
+    	this.name = name;
+	}
+    
+    public void setMinPrice(int min_price) {
+    	this.min_price = min_price;
+	}
+    
+    public void setMaxPrice(int max_price) {
+    	this.max_price = max_price;
+	}
+
+    public void setServiceTime(int service_time) {
+    	this.service_time = service_time;
+	}  
+    
+    public void setDescription(String description) {
+    	this.description = description;
+	}	
 }

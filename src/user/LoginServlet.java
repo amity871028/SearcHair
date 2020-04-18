@@ -15,7 +15,6 @@ import api.UserApi;
 /**
  * Servlet implementation class LoginServlet
  */
-@WebServlet("/api/user/login")
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

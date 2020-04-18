@@ -16,7 +16,6 @@ import api.SearchApi;
 /**
  * Servlet implementation class SearchOneServlet
  */
-@WebServlet("/api/search/detail")
 public class SearchOneServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String ONE_SALON = "salon";
@@ -42,21 +41,14 @@ public class SearchOneServlet extends HttpServlet {
 		
 		String function = request.getParameter("func");
 		String id = request.getParameter("id");
-		Search search = new Search();
-		
 		String result = null;
-		if (function.equals(ONE_SALON)) {
-			System.out.println(ONE_SALON);
-			result = search.oneSalon(Integer.parseInt(id));
-		} else if (function.equals(ONE_STYLIST)) {
-			System.out.println(ONE_STYLIST);
-			result = search.oneStylist(Integer.parseInt(id));
-		} else if (function.equals(ONE_STYLIST_WORK)) {
-			System.out.println(ONE_STYLIST_WORK);
-			result = search.oneHairstyle(Integer.parseInt(id));
-		}
-		Gson gson = new Gson();
-		response.getWriter().append(gson.toJson(result));
+		
+		SearchApi search = new SearchApi();
+		if (function.equals(ONE_SALON)) result = search.getOneSalon(Integer.parseInt(id));
+		else if (function.equals(ONE_STYLIST)) result = search.getOneStylist(Integer.parseInt(id));
+		else if (function.equals(ONE_STYLIST_WORK)) result = search.getOneStylistWorks(Integer.parseInt(id));
+		
+		response.getWriter().append(result);
 	}
 
 	/**

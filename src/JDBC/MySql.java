@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class mySql {
+public class MySql {
 	public Connection con = null; // Database objects
 	private Statement stat = null;
 	private ResultSet rs = null;
@@ -24,7 +24,7 @@ public class mySql {
 
 	private String selectSQL = "select * from users";
 
-	public mySql() {
+	public MySql() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			this.con = DriverManager.getConnection("jdbc:mysql://localhost:3306/searchair?characterEncoding=utf-8", "root",
@@ -38,7 +38,7 @@ public class mySql {
 		}
 	}
 
-	private void Close() {
+	private void close() {
 		try {
 			if (rs != null) {
 				rs.close();
@@ -65,7 +65,7 @@ public class mySql {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			Close();
+			close();
 		}
 		if (rsInt == 1) return true;
 		else return false;
@@ -89,7 +89,7 @@ public class mySql {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			Close();
+			close();
 		}
 		return result;
 	}
@@ -113,7 +113,7 @@ public class mySql {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			Close();
+			close();
 		}
 		return result;
 	}
@@ -128,7 +128,7 @@ public class mySql {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			Close();
+			close();
 		}
 		if (rsInt == 1) return true;
 		else return false;
@@ -136,7 +136,7 @@ public class mySql {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		mySql test = new mySql();
+		MySql test = new MySql();
 		String myJSONString = "{'account': 'pegylee112', 'name': 'peipei', 'password': '1234567'}";
 
 		// sign up

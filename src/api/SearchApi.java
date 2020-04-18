@@ -3,31 +3,34 @@ package api;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
+import JDBC.SearchMysql;
+
 public class SearchApi {
 	
-	public SearchApi() {
-		
+	SearchMysql searchMysql = new SearchMysql();
+	
+	public String getAllSalon() {
+		return searchMysql.searchSalon();
 	}
 	
-	public static String[] searchOne(String jsonObject) {
-
-		JsonObject jobj = new Gson().fromJson(jsonObject, JsonObject.class);
-		String[] doOp = new String[2];
-		doOp[0] = jobj.get("function").toString().replace("\"", "");
-		doOp[1] = jobj.get("id").toString().replace("\"", "");
-		return doOp;
+	public String getAllStylist() {
+		return searchMysql.searchStylist();
 	}
 	
-	public static String searchAll(String jsonObject) {
-
-		JsonObject jobj = new Gson().fromJson(jsonObject, JsonObject.class);
-		String doOp = jobj.get("function").toString().replace("\"", "");
-		return doOp;
+	public String getAllStylistWorks() {
+		return searchMysql.searchStylistWorks();
 	}
-
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+	
+	public String getOneSalon(int id) {
+		return searchMysql.searchOneSalon(id);
+	}
+	
+	public String getOneStylist(int id) {
+		return searchMysql.searchOneStylist(id);
+	}
+	
+	public String getOneStylistWorks(int id) {
+		return searchMysql.searchOneStylistWork(id);
 	}
 
 }

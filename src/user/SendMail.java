@@ -12,9 +12,8 @@ public class SendMail {
 	}
 
 	public static String resetPwdLink(String account) throws Exception {
-		makeToken token = new makeToken();
-		return "http://localhost:8080/SearcHair/api/user/password/reset?token=" + token.encrypt(account);
-		// return "http://localhost:8080/SearcHair/ResetPwdServlet?user=" + account + "&token=" + makeToken.convertMD5(account);
+		MakeToken token = new MakeToken();
+		return "http://localhost:8080/SearcHair/api-user-password-reset?token=" + token.encrypt(account);
 
 	}
 
@@ -24,12 +23,12 @@ public class SendMail {
 		String username = "searchair109@gmail.com";
 		String password = "searcHair1091";
 		String from = "searchair109@gmail";
-		String subject = "java mail test";
+		String subject = "SearcHair å¸³è™Ÿé‡è¨­å¯†ç¢¼é€šçŸ¥";
 		
 		
-		String content = "¦¹¬°¨t²Îµo¥Xªº³qª¾¡A½Ğ¤Åª½±µ¦^ÂĞ¡A·PÁÂ°t¦X¡I\n"
-				+ "§Ú­Ì¦¬¨ì±zµo¥X­«³]±K½Xªº³qª¾¡A­Y¨S¦³¡A½ĞµLµø³o«Ê«H¡C\n"
-				+ "­Y»İ­n­«³]±K½X¡A½ĞÂI¥H¤U³sµ²¡G\n"
+		String content = "æ­¤ç‚ºç³»çµ±ç™¼å‡ºçš„é€šçŸ¥ï¼Œè«‹å‹¿ç›´æ¥å›è¦†ï¼Œæ„Ÿè¬é…åˆï¼\n"
+				+ "æˆ‘å€‘æ”¶åˆ°æ‚¨ç™¼å‡ºé‡è¨­å¯†ç¢¼çš„é€šçŸ¥ï¼Œè‹¥æ²’æœ‰ï¼Œè«‹ç„¡è¦–é€™å°ä¿¡ã€‚\n"
+				+ "è‹¥éœ€è¦é‡è¨­å¯†ç¢¼ï¼Œè«‹é»ä»¥ä¸‹é€£çµï¼š\n"
 				+ resetPwdLink(sendTo);
 
 		Properties props = new Properties();

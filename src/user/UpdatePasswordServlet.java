@@ -13,14 +13,13 @@ import api.UserApi;
 /**
  * Servlet implementation class UpdateServlet
  */
-@WebServlet("/api/user/password/update")
-public class UpdateServlet extends HttpServlet {
+public class UpdatePasswordServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public UpdateServlet() {
+    public UpdatePasswordServlet() {
         super();
     }
 
@@ -47,8 +46,6 @@ public class UpdateServlet extends HttpServlet {
 		System.out.println(json);
 		UserApi user = new UserApi();
 		String token = user.getValueFromCookie(request.getCookies(), "token");
-		// String userAccount = user.getValueFromCookie(request.getCookies(), "userAccount");
-		// System.out.println(token + " " + userAccount);
 		try {
 			boolean result = user.checkUser(json, token);
 			System.out.println(result);

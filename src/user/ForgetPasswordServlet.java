@@ -15,14 +15,13 @@ import user.SendMail;
 /**
  * Servlet implementation class ForgetPwdServlet
  */
-@WebServlet("/api/user/password/forget")
-public class ForgetPwdServlet extends HttpServlet {
+public class ForgetPasswordServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public ForgetPwdServlet() {
+	public ForgetPasswordServlet() {
 		super();
 	}
 

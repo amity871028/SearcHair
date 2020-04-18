@@ -19,7 +19,6 @@ import api.SearchApi;
 /**
  * Servlet implementation class SearchServlet
  */
-@WebServlet("/api/search")
 public class SearchServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String ALL_SALON = "salon";
@@ -44,18 +43,14 @@ public class SearchServlet extends HttpServlet {
 		response.setHeader("Access-Control-Allow-Methods", "GET");
 		
 		String function = request.getParameter("func");
-		Search search = new Search();
+		String result = null;
 		
-		ArrayList<String> resultList =  new ArrayList<String>();
-		if (function.equals(ALL_SALON)) {
-			resultList = search.searchSalon();
-		} else if ((function.equals(ALL_STYLIST))) {
-			resultList = search.searchStylist();
-		} else if ((function.equals(ALL_STYLIST_WORK))) {
-			resultList = search.searchHairstyle();
-		}
-		Gson gson = new Gson();
-		response.getWriter().append(gson.toJson(resultList));
+		SearchApi search = new SearchApi();
+		if (function.equals(ALL_SALON)) result = search.getAllSalon();
+		else if ((function.equals(ALL_STYLIST))) result = search.getAllStylist();
+		else if ((function.equals(ALL_STYLIST_WORK))) result = search.getAllStylistWorks();
+		
+		response.getWriter().append(result);
 	}
 
 	/**

@@ -18,19 +18,54 @@
     <servlet-class>user.RegisterServlet</servlet-class>
   </servlet>
   <servlet>
-    <servlet-name>ForgetPwdServlet</servlet-name>
-    <servlet-class>user.ForgetPwdServlet</servlet-class>
+    <servlet-name>ForgetPasswordServlet</servlet-name>
+    <servlet-class>user.ForgetPasswordServlet</servlet-class>
   </servlet>
   <servlet>
-    <servlet-name>ResetPwdServlet</servlet-name>
-    <servlet-class>user.ResetPwdServlet</servlet-class>
+    <servlet-name>ResetPasswordServlet</servlet-name>
+    <servlet-class>user.ResetPasswordServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>UpdatePasswordServlet</servlet-name>
+    <servlet-class>user.UpdatePasswordServlet</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>SearchServlet</servlet-name>
-    <servlet-class>search.SeaechServlet</servlet-class>
+    <servlet-class>search.SearchServlet</servlet-class>
   </servlet>
   <servlet>
-    <servlet-name>SeaechOneServlet</servlet-name>
-    <servlet-class>search.SeaechOneServlet</servlet-class>
+    <servlet-name>SearchOneServlet</servlet-name>
+    <servlet-class>search.SearchOneServlet</servlet-class>
   </servlet>
+  
+  
+
+<servlet-mapping>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/api-user-login</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+        <servlet-name>RegisterServlet</servlet-name>
+        <url-pattern>/api-user-register</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+        <servlet-name>ForgetPasswordServlet</servlet-name>
+        <url-pattern>/api-user-password-forget</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+        <servlet-name>ResetPasswordServlet</servlet-name>
+        <url-pattern>/api-user-password-reset</url-pattern>
+  </servlet-mapping>
+   <servlet-mapping>
+        <servlet-name>UpdatePasswordServlet</servlet-name>
+        <url-pattern>/api-user-password-update</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+        <servlet-name>SearchServlet</servlet-name>
+        <url-pattern>/api-search</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+        <servlet-name>SearchOneServlet</servlet-name>
+        <url-pattern>/api-search-detail</url-pattern>
+  </servlet-mapping>
 </web-app>

@@ -1,15 +1,21 @@
 package search;
+
 import java.util.ArrayList;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-public class Stylist{
-	String name, job_title,salon, address,picture,description;
+public class AllStylist{ 
+
+	int id;
+	String name,job_title,salon,address, picture;
 	ArrayList<Service> service = new ArrayList<Service>();
-	ArrayList<Work> works = new ArrayList<Work>(); 
-
-	public Stylist() {}
-
+	
+    public AllStylist() {}
+    
+    public void setID(int id) {
+    	this.id = id;
+	}
+    
     public void setName(String name) {
     	this.name = name;
 	}
@@ -28,17 +34,13 @@ public class Stylist{
 
     public void setPicture(String picture) {
     	this.picture = picture;
-	}  
+	}    
     
     public void setService(ArrayList<Service> service) {
     	this.service = service;
-	}    
-    
-    public void setWork(ArrayList<Work> works) {
-    	this.works = works;
 	}
-    
-    public static String convertToJson(Stylist Item) {
+
+    public static String convertToJson(ArrayList<AllStylist> Item) {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		String jsonStr = gson.toJson(Item);
 		return jsonStr;

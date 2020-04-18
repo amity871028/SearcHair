@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import com.google.gson.Gson;
+
 import search.*;
 
 public class SearchMysql {

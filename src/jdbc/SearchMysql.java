@@ -1,7 +1,6 @@
 package jdbc;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,25 +11,16 @@ import com.google.gson.Gson;
 import search.*;
 
 public class SearchMysql {
-	private Connection con=null;
+	
+	private ConnectDB database = new ConnectDB();
+	private Connection con = database.getConnection();
 	private Statement stat=null;
 	private ResultSet rs=null;
-	private PreparedStatement pst=null;
 	
-	public SearchMysql() {
-		try {
-			Class.forName("com.mysql.jdbc.Driver"); //register driver
-			con=DriverManager.getConnection("jdbc:mysql://localhost:3306/searchair?characterEncoding=utf-8", "root","29118310");
-			System.out.println("===��蝺��澈���� ! ===");
-		}catch(ClassNotFoundException e) {
-			System.out.println("ClassNotFoundException:"+e.toString());
-		} catch (SQLException e) {
-			System.out.println("SQLException:"+e.toString());
-		}
-	}
+
 
 	public String searchSalon() {
-		System.out.println("頛詨�����振");
+		System.out.println("輸出所有店家");
 		int salonID,stylistID;
 		String ans = null; 
 		ArrayList<AllSalon> AllSalon_List = new ArrayList<AllSalon>();
@@ -52,32 +42,32 @@ public class SearchMysql {
 				ResultSet RS = null;
 				ST=con.createStatement();
 				RS=ST.executeQuery("select id from stylist where salon="+salonID);
-				while(RS.next()) { //�����振鋆∠����身閮葦
+				while(RS.next()) { //搜尋某店家裡的所有設計師
 					stylistID=RS.getInt("id");
 
 			        Statement stt=null;
 					ResultSet rst = null;
 					stt=con.createStatement();
 					rst=stt.executeQuery("select name from service where stylist="+stylistID);
-					while(rst.next()) //����身閮葦��������
+					while(rst.next()) //搜尋某設計師有提供的服務
 						service_List.add(rst.getString("name"));
 				}
 				AllSalon_List.add(allSalon);
 			}
 			AllSalon output = new AllSalon();
 			ans = output.convertToJson(AllSalon_List); 
-			System.out.println(ans); //======�ㄐ頛詨JSON======
+			System.out.println(ans); //======這裡輸出JSON======
 		}catch(SQLException e) {
 			System.out.println("select table SQLException:"+e.toString());
 		}
 		finally {
-			close();
+			database.close();
 		}
 		return ans;
 	}
 	
 	public String searchStylist() { 
-		System.out.println("頛詨����身閮葦");
+		System.out.println("輸出所有設計師");
 		int stylistID,salonID;
 		String ans = null;
 		ArrayList<AllStylist> AllStylist_List = new ArrayList<AllStylist>(); 
@@ -107,7 +97,7 @@ public class SearchMysql {
 				stt=con.createStatement();
 				rst=stt.executeQuery("select * from service where stylist="+stylistID);
 				ArrayList<Service> Service_List = new ArrayList<Service>(); 
-				while(rst.next()) { //���身閮葦��������
+				while(rst.next()) { //搜尋設計師有提供的服務
 					Service service = new Service();
 			        service.setName(rst.getString("name"));
 			        service.setMinPrice(rst.getInt("min_price"));
@@ -121,18 +111,18 @@ public class SearchMysql {
 			}
 			AllStylist output = new AllStylist();
 			ans = output.convertToJson(AllStylist_List); 
-			System.out.println(ans); //======�ㄐ頛詨JSON======
+			System.out.println(ans); //======這裡輸出JSON======
 		}catch(SQLException e) {
 			System.out.println("select table SQLException:"+e.toString());
 		}
 		finally {
-			close();
+			database.close();
 		}
 		return ans;
 	}
 
 	public String searchStylistWorks() { 
-		System.out.println("頛詨����垣���");
+		System.out.println("輸出所有髮型");
 		int stylistID;
 		String ans = null;
 		ArrayList<AllStylistWorks> allStylistWorksList = new ArrayList<AllStylistWorks>(); 
@@ -159,19 +149,19 @@ public class SearchMysql {
 			}
 			AllStylistWorks output = new AllStylistWorks();
 			ans = output.convertToJson(allStylistWorksList); 
-			System.out.println(ans); //======�ㄐ頛詨JSON======
+			System.out.println(ans);  //======這裡輸出JSON======
 			
 		}catch(SQLException e) {
 			System.out.println("select table SQLException:"+e.toString());
 		}
 		finally {
-			close();
+			database.close();
 		}
 		return ans;
 	}
 
 	public String searchOneSalon(int num) {
-		System.out.println("頛詨�銝�摨振");
+		System.out.println("輸出單一店家");
 		int id=num;
 		String ans = null;
 		ArrayList<StylistInfo> StylistInfo_List = new ArrayList<StylistInfo>(); 
@@ -191,7 +181,7 @@ public class SearchMysql {
 				ResultSet RS = null;
 				ST=con.createStatement();
 				String stylist = "select * from stylist where salon="+num;
-				RS=ST.executeQuery(stylist); //�����振�����身閮葦
+				RS=ST.executeQuery(stylist); //找出某店家的所有設計師
 				while(RS.next()) {
 					ArrayList<Work> Work_List = new ArrayList<Work>(); 
 					StylistInfo stylistInfo = new StylistInfo();
@@ -215,19 +205,19 @@ public class SearchMysql {
 				}
 				salon.setStylistInfo(StylistInfo_List);
 				ans = salon.convertToJson(salon);
-				System.out.println(ans); //======�ㄐ頛詨JSON======
+				System.out.println(ans); //======這裡輸出JSON======
 			}
 		}catch(SQLException e) {
 			System.out.println("select table SQLException:"+e.toString());
 		}
 		finally {
-			close();
+			database.close();
 		}
 		return ans;
 	}
 
-	public String searchOneStylist(int num) { //num�閬��身閮葦id��Ⅳ
-		System.out.println("頛詨�銝�閮剛�葦");
+	public String searchOneStylist(int num) { ///num為要找的設計師id號碼
+		System.out.println("輸出單一設計師");
 		int salonID;
 		String ans = null;
 		Stylist stylist = new Stylist();
@@ -280,18 +270,18 @@ public class SearchMysql {
 			}
 			Stylist output = new Stylist();
 			ans = output.convertToJson(stylist); 
-			System.out.println(ans); //======�ㄐ頛詨JSON======
+			System.out.println(ans); //======這裡輸出JSON======
 		}catch(SQLException e) {
 			System.out.println("select table SQLException:"+e.toString());
 		}
 		finally {
-			close();
+			database.close();
 		}
 		return ans;
 	}
 
 	public String searchOneStylistWork(int num) { 
-		System.out.println("頛詨�銝�擃桀��");
+		System.out.println("輸出單一髮型");
 		int id,stylistID;
 		String picture,description,hashtag;
 		String ans = null;
@@ -317,35 +307,17 @@ public class SearchMysql {
 				StylistWorks stylistWorks = new StylistWorks(id,picture,stylist,job_title,description,hashtag);
 				Gson gson = new Gson();
 				ans = gson.toJson(stylistWorks);
-				System.out.println(ans); //======�ㄐ頛詨JSON======	
+				System.out.println(ans); //======這裡輸出JSON======	
 			}
 		}catch(SQLException e) {
 			System.out.println("select table SQLException:"+e.toString());
 		}
 		finally {
-			close();
+			database.close();
 		}
 		return ans;
 	}
 
-	public void close(){
-		try{
-			if(rs!=null) {
-				rs.close();
-				rs=null;
-			}
-			if(stat!=null) {
-				stat.close();
-				stat=null;
-			}
-			if(pst!=null){
-				pst.close();
-				pst=null;
-			}
-		}catch(SQLException e){
-			System.out.println("close SQLException:"+e.toString());
-		}
-	}
 	
 	public static void main(String args[]) {
 		SearchMysql test = new SearchMysql();

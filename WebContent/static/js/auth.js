@@ -1,7 +1,7 @@
 /* global FetchData */
 const API = {
 	login : 'api/user/login',
-	register : 'api/user/register',
+	register : 'api-user-register',
 };
 function validatePassword() {
 	const confirmPassword = document

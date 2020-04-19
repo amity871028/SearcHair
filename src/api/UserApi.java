@@ -32,7 +32,7 @@ public class UserApi {
 		return user.userInsertion(account, password, name);
 	}
 
-	public String forgetPwdJsonAnalyzing(String jsonObject) {
+	public String forgetPasswordJsonAnalyzing(String jsonObject) {
 
 		JsonObject jsonobj = new Gson().fromJson(jsonObject, JsonObject.class);
 
@@ -44,13 +44,13 @@ public class UserApi {
 			return "fail";
 	}
 
-	public boolean resetPwdJsonAnalyzing(String jsonObject, String userToken) throws Exception {
+	public boolean resetPasswordJsonAnalyzing(String jsonObject, String userToken) throws Exception {
 
 		JsonObject jsonobj = new Gson().fromJson(jsonObject, JsonObject.class);
 
 		String password = jsonobj.get("password").toString();
 		MakeToken token = new MakeToken();
-		return user.userResetPwd(token.decrypt(userToken), password);
+		return user.userResetPassword(token.decrypt(userToken), password);
 	}
 
 	public String getValueFromCookie(Cookie[] cookies, String cookieKey) {
@@ -76,7 +76,7 @@ public class UserApi {
 		String account = token.decrypt(userToken);
 
 		if (user.userChecking(account, oldPassword) == true) {
-			return user.userResetPwd(account, newPassword);
+			return user.userResetPassword(account, newPassword);
 		} else {
 			return false;
 		}

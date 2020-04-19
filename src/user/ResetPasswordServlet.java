@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import api.UserApi;
 
 /**
- * Servlet implementation class ResetPwdServlet
+ * Servlet implementation class ResetPasswordServlet
  */
 public class ResetPasswordServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -68,7 +68,7 @@ public class ResetPasswordServlet extends HttpServlet {
 		System.out.println(token);
 
 		try {
-			boolean result = user.resetPwdJsonAnalyzing(json, token);
+			boolean result = user.resetPasswordJsonAnalyzing(json, token);
 			System.out.println(result);
 			if (result == true)
 				response.setStatus(HttpServletResponse.SC_OK);

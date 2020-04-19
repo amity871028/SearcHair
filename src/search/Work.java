@@ -4,10 +4,6 @@ public class Work {
 	int id;
 	String picture;
 
-	public Work(int id, String picture) {
-		this.id = id;
-		this.picture = picture;
-	}
 
 	public void setID(int id) {
 		this.id = id;

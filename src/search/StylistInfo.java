@@ -8,13 +8,6 @@ public class StylistInfo {
 	String name, picture;
 	ArrayList<Work> works = new ArrayList<Work>();
 
-
-	public StylistInfo(int id, String name, String picture) {
-		this.id = id;
-		this.name = name;
-		this.picture = picture;
-	}
-
 	public void setID(int id) {
 		this.id = id;
 	}

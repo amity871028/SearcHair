@@ -36,8 +36,8 @@ public class UserMySQL {
 			password = password.replace("\"", ""); // take out ""
 			rs = stat.executeQuery(selectSQL + checkDBUser);
 			if (rs.next()) {
-				String correctPwd = rs.getString("password");
-				if (correctPwd.equals(password)) { // compare password
+				String correctPassword = rs.getString("password");
+				if (correctPassword.equals(password)) { // compare password
 					result = true;
 				} else {
 					result = false;
@@ -75,12 +75,12 @@ public class UserMySQL {
 		return result;
 	}
 
-	public boolean userResetPwd(String account, String password) {
+	public boolean userResetPassword(String account, String password) {
 		try {
 			account = account.replace("\"", ""); // take out ""
 			password = password.replace("\"", ""); // take out ""
-			String updatePwd = "UPDATE users SET password = '" + password + "'  WHERE account = '" + account + "'";
-			rsInt = stat.executeUpdate(updatePwd);
+			String updatePassword = "UPDATE users SET password = '" + password + "'  WHERE account = '" + account + "'";
+			rsInt = stat.executeUpdate(updatePassword);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {

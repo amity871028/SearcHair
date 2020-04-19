@@ -81,10 +81,10 @@ public class MakeToken {
 
 			System.out.println("加密前：");
 			MakeToken des = new MakeToken();
-			String pwd = des.encrypt("suara1201fxt@gmail.com");
-			System.out.println("加密后：" + pwd);
-			pwd = des.decrypt(pwd);
-			System.out.println("解密密后：" + pwd);
+			String password = des.encrypt("suara1201fxt@gmail.com");
+			System.out.println("加密后：" + password);
+			password = des.decrypt(password);
+			System.out.println("解密密后：" + password);
 
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -43,7 +43,7 @@ public class ResetPasswordServlet extends HttpServlet {
 		tokenCookie.setPath("/");
 		response.addCookie(tokenCookie);
 		tokenCookie.setMaxAge(60 * 60 * 24); // Store cookie for 1 year
-		// to reset pwd page
+		// to reset password page
 		response.sendRedirect("./reset-password.html");
 	}
 

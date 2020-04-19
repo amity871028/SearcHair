@@ -1,5 +1,5 @@
 /* global FetchData */
-const sendEmailAPI = '/api/user/password/forget';
+const sendEmailAPI = 'api/user/password/forget';
 
 
 function delayURL(url, time) {
@@ -14,8 +14,8 @@ async function sendResetRequest() {
     document.getElementById('loadingImg').style.display = 'block';*/
     document.getElementById('txt').innerText = '';
     const result = await FetchData.post(sendEmailAPI, {
-      email: document.getElementById('email').value,
-      userName: document.getElementById('user-name').value,
+      account: document.getElementById('email').value,
+      name: document.getElementById('name').value,
     });
 
     if (result.status === 401) {
@@ -45,7 +45,7 @@ function clickOnEnter(event) {
 function init() {
   // add event listener
   document.getElementById('forget-password-btn').addEventListener('click', sendResetRequest);
-  document.getElementById('user-name').addEventListener('keyup', clickOnEnter);
+  document.getElementById('name').addEventListener('keyup', clickOnEnter);
 }
 
 window.addEventListener('load', init);

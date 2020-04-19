@@ -13,28 +13,31 @@ import api.UserApi;
 /**
  * Servlet implementation class UpdateServlet
  */
-@WebServlet("/api/user/password/update")
-public class UpdateServlet extends HttpServlet {
+public class UpdatePasswordServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public UpdateServlet() {
-        super();
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+	public UpdatePasswordServlet() {
+		super();
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=UTF-8");
@@ -47,14 +50,14 @@ public class UpdateServlet extends HttpServlet {
 		System.out.println(json);
 		UserApi user = new UserApi();
 		String token = user.getValueFromCookie(request.getCookies(), "token");
-		// String userAccount = user.getValueFromCookie(request.getCookies(), "userAccount");
-		// System.out.println(token + " " + userAccount);
 		try {
 			boolean result = user.checkUser(json, token);
 			System.out.println(result);
-			
-			if (result == true) response.setStatus(HttpServletResponse.SC_OK); 
-			else response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+
+			if (result == true)
+				response.setStatus(HttpServletResponse.SC_OK);
+			else
+				response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

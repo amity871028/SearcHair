@@ -13,16 +13,15 @@ import api.UserApi;
 import user.SendMail;
 
 /**
- * Servlet implementation class ForgetPwdServlet
+ * Servlet implementation class ForgetPasswordServlet
  */
-@WebServlet("/api/user/password/forget")
-public class ForgetPwdServlet extends HttpServlet {
+public class ForgetPasswordServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public ForgetPwdServlet() {
+	public ForgetPasswordServlet() {
 		super();
 	}
 
@@ -52,7 +51,7 @@ public class ForgetPwdServlet extends HttpServlet {
 		reader.close();
 		System.out.println(json);
 		UserApi user = new UserApi();
-		String result = user.forgetPwdJsonAnalyzing(json); // this result will be user account
+		String result = user.forgetPasswordJsonAnalyzing(json); // this result will be user account
 		// System.out.println(result);
 		try {
 			if (result.equals("fail")) {

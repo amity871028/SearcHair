@@ -17,29 +17,31 @@ import api.UserApi;
  */
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public LoginServlet() {
-        super();
-    }
-    
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public LoginServlet() {
+		super();
+	}
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-    	PrintWriter out = response.getWriter();
-    	out.println("hello");
+		PrintWriter out = response.getWriter();
+		out.println("hello");
 		// doPost(request, response);
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.setCharacterEncoding("UTF-8");  
-        response.setContentType("text/html;charset=UTF-8"); 
-        request.setCharacterEncoding("UTF-8");
-        response.setHeader("Access-Control-Allow-Origin", "*");
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html;charset=UTF-8");
+		request.setCharacterEncoding("UTF-8");
+		response.setHeader("Access-Control-Allow-Origin", "*");
 		response.setHeader("Access-Control-Allow-Methods", "POST");
 		// read json
 		BufferedReader reader = request.getReader();
@@ -49,8 +51,10 @@ public class LoginServlet extends HttpServlet {
 		// pass json to api
 		UserApi user = new UserApi();
 		boolean result = user.loginJsonAnalyzing(json);
-		if (result == true) response.setStatus(HttpServletResponse.SC_OK);
-		else response.setStatus(HttpServletResponse.SC_CONFLICT);
-    }
-    
+		if (result == true)
+			response.setStatus(HttpServletResponse.SC_OK);
+		else
+			response.setStatus(HttpServletResponse.SC_CONFLICT);
+	}
+
 }

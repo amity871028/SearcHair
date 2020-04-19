@@ -51,8 +51,10 @@ public class RegisterServlet extends HttpServlet {
 		// pass json to api
 		UserApi user = new UserApi();
 		boolean result = user.registerJsonAnalyzing(json);
-		if (result == true) response.setStatus(HttpServletResponse.SC_OK);
-		else response.setStatus(HttpServletResponse.SC_CONFLICT);
+		if (result == true)
+			response.setStatus(HttpServletResponse.SC_OK);
+		else
+			response.setStatus(HttpServletResponse.SC_CONFLICT);
 	}
 
 }

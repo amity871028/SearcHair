@@ -1,13 +1,11 @@
 package api;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
-import jdbc.SearchMysql;
+import jdbc.SearchMySQL;
 
 public class SearchApi {
 	
-	SearchMysql searchMysql = new SearchMysql();
+	SearchMySQL searchMysql = new SearchMySQL();
 	
 	public String getAllSalon() {
 		return searchMysql.searchSalon();

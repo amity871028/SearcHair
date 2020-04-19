@@ -5,30 +5,29 @@ import java.util.ArrayList;
 public class StylistInfo {
 
 	int id;
-	String name,picture;
-	ArrayList<Work> works = new ArrayList<Work>(); 
+	String name, picture;
+	ArrayList<Work> works = new ArrayList<Work>();
 
-	public StylistInfo() {}
-	
-    public StylistInfo(int id,String name,String picture) {
-    	this.id = id;
+
+	public StylistInfo(int id, String name, String picture) {
+		this.id = id;
 		this.name = name;
 		this.picture = picture;
-    }
-    
-    public void setID(int id) {
-    	this.id = id;
 	}
-    
-    public void setName(String name) {
-    	this.name = name;
+
+	public void setID(int id) {
+		this.id = id;
 	}
-    
-    public void setPicture(String picture) {
-    	this.picture = picture;
+
+	public void setName(String name) {
+		this.name = name;
 	}
-    
-    public void setWorks(ArrayList<Work> works) {
-    	this.works = works;
-	}    
+
+	public void setPicture(String picture) {
+		this.picture = picture;
+	}
+
+	public void setWorks(ArrayList<Work> works) {
+		this.works = works;
+	}
 }

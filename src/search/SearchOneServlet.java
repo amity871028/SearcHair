@@ -1,15 +1,11 @@
 package search;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.google.gson.Gson;
 
 import api.SearchApi;
 
@@ -21,40 +17,47 @@ public class SearchOneServlet extends HttpServlet {
 	private static final String ONE_SALON = "salon";
 	private static final String ONE_STYLIST = "stylist";
 	private static final String ONE_STYLIST_WORK = "stylist_works";
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public SearchOneServlet() {
-        super();
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.setCharacterEncoding("UTF-8");  
+	public SearchOneServlet() {
+		super();
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		response.setCharacterEncoding("UTF-8");
 		response.setContentType("application/json; charset=utf-8");
-        request.setCharacterEncoding("UTF-8");
-        response.setHeader("Access-Control-ONEow-Origin", "*");
+		request.setCharacterEncoding("UTF-8");
+		response.setHeader("Access-Control-ONEow-Origin", "*");
 		response.setHeader("Access-Control-ONEow-Methods", "GET");
-		
+
 		String function = request.getParameter("func");
 		String id = request.getParameter("id");
 		String result = null;
-		
+
 		SearchApi search = new SearchApi();
-		if (function.equals(ONE_SALON)) result = search.getOneSalon(Integer.parseInt(id));
-		else if (function.equals(ONE_STYLIST)) result = search.getOneStylist(Integer.parseInt(id));
-		else if (function.equals(ONE_STYLIST_WORK)) result = search.getOneStylistWorks(Integer.parseInt(id));
-		
+		if (function.equals(ONE_SALON))
+			result = search.getOneSalon(Integer.parseInt(id));
+		else if (function.equals(ONE_STYLIST))
+			result = search.getOneStylist(Integer.parseInt(id));
+		else if (function.equals(ONE_STYLIST_WORK))
+			result = search.getOneStylistWorks(Integer.parseInt(id));
+
 		response.getWriter().append(result);
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		doGet(request, response);
 	}
 

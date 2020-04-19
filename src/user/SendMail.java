@@ -6,12 +6,12 @@ import javax.mail.internet.*;
 import java.util.Properties;
 
 public class SendMail {
-	
+
 	public SendMail() {
 		super();
 	}
 
-	public static String resetPwdLink(String account) throws Exception {
+	public static String resetPasswordLink(String account) throws Exception {
 		MakeToken token = new MakeToken();
 		return "http://localhost:8080/SearcHair/api-user-password-reset?token=" + token.encrypt(account);
 
@@ -24,12 +24,11 @@ public class SendMail {
 		String password = "searcHair1091";
 		String from = "searchair109@gmail";
 		String subject = "SearcHair 帳號重設密碼通知";
-		
-		
-		String content = "此為系統發出的通知，請勿直接回覆，感謝配合！\n"
-				+ "我們收到您發出重設密碼的通知，若沒有，請無視這封信。\n"
-				+ "若需要重設密碼，請點以下連結：\n"
-				+ resetPwdLink(sendTo);
+
+		String content = "此為系統發出的通知，請勿直接回覆，感謝配合！\n" + 
+						 "我們收到您發出重設密碼的通知，若沒有，請無視這封信。\n" + 
+						 "若需要重設密碼，請點以下連結：\n"
+						 + resetPasswordLink(sendTo);
 
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
@@ -42,7 +41,7 @@ public class SendMail {
 				return new PasswordAuthentication(username, password);
 			}
 		});
-		
+
 		Message message = new MimeMessage(session);
 		message.setFrom(new InternetAddress(from));
 		message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(sendTo));
@@ -53,9 +52,8 @@ public class SendMail {
 		Transport.send(message);
 	}
 
-	
 	public static void main(String[] args) throws Exception {
 		SendMail.sendMail("suara1201fxt@gmail.com");
-		
+
 	}
 }

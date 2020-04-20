@@ -10,64 +10,62 @@ import javax.imageio.ImageIO;
 import com.google.gson.Gson;
 
 public class ColorHair {
-	
-	public String createFolder(String name) {
-		String path = "WebContent/static/img/hair-match/user/"+name;
-        File file = new File(path);
-        file.mkdir(); //«Ø¥ß¸ê®Æ§¨
-        return path+"/";
+
+	public String newFolder(String name) {
+		String path = "WebContent/static/img/hair-match/user/" + name;
+		File file = new File(path);
+		file.mkdir(); // å»ºç«‹è³‡æ–™å¤¾
+		return path + "/";
 	}
-	
-	public File getColorPicture(String path,String color) {
-		int red= Integer.valueOf(color.substring(1,3),16);
-		int green= Integer.valueOf(color.substring(3,5),16);
-		int blue= Integer.valueOf(color.substring(5,7),16);
-        int width=400,height=400;
-        BufferedImage colorImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB); 
-        Graphics2D graphics2d=(Graphics2D)colorImage.getGraphics();
-        graphics2d.clearRect(0, 0, width, height);      
-        graphics2d.setPaint(new Color(red,green,blue));      
-        graphics2d.fillRect(0, 0, width, height); 
-        
-        File file = new File(path+color+".png");    
-        try {
-            ImageIO.write(colorImage, "png", file);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return file;
+
+	public File colorPicture(String path, String color) {
+		int red = Integer.valueOf(color.substring(1, 3), 16);
+		int green = Integer.valueOf(color.substring(3, 5), 16);
+		int blue = Integer.valueOf(color.substring(5, 7), 16);
+		int width = 400, height = 400;
+		BufferedImage colorImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+		Graphics2D graphics2d = (Graphics2D) colorImage.getGraphics();
+		graphics2d.clearRect(0, 0, width, height);
+		graphics2d.setPaint(new Color(red, green, blue));
+		graphics2d.fillRect(0, 0, width, height);
+
+		File file = new File(path + color + ".png");
+		try {
+			ImageIO.write(colorImage, "png", file);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return file;
 	}
-	
-	public String getColorHair(String path,String picture,String color,File colorFile) throws IOException {    
-        File hairFile = new File(picture); 
-    	String[] arr=picture.split("\\\\");//¤£­­¨î¤¸¯À­Ó¼Æ
-    	String pictureName=arr[6]; //®³¨ì·Ó¤ù¦WºÙ
-        BufferedImage hairImg = ImageIO.read(hairFile);
-        BufferedImage colorImg = ImageIO.read(colorFile);
-        Graphics2D g2d = hairImg.createGraphics();
-        int Width = colorImg.getWidth();
-        int Height = colorImg.getHeight();
-        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP, 0.5f)); //ÀY¾v·Ó¤ù»PÃC¦â·Ó¤ù¦X¨Ö
-        g2d.drawImage(colorImg, 0, 0, Width, Height, null);
-        g2d.dispose();	
-        File newFile = new File(path+"/"+color+"_"+pictureName);
-        ImageIO.write(hairImg, "png", newFile); //²£¥Í¦X¦¨·Ó¤ù
-        colorFile.delete(); //¿é¥X·Ó¤ù«á§R±¼ÃC¦â·Ó¤ù
-        String url=newFile.getPath();
+
+	public String colorHair(String path, String picture, File colorFile) throws IOException {
+		File hairFile = new File(picture);
+		BufferedImage hairImg = ImageIO.read(hairFile);
+		BufferedImage colorImg = ImageIO.read(colorFile);
+		Graphics2D g2d = hairImg.createGraphics();
+		int Width = colorImg.getWidth();
+		int Height = colorImg.getHeight();
+		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP, 0.5f)); // é ­é«®ç…§ç‰‡èˆ‡é¡è‰²ç…§ç‰‡åˆä½µ
+		g2d.drawImage(colorImg, 0, 0, Width, Height, null);
+		g2d.dispose();
+		File newFile = new File(path + "/current.png");
+		ImageIO.write(hairImg, "png", newFile); // ç”¢ç”Ÿåˆæˆç…§ç‰‡
+		colorFile.delete(); // è¼¸å‡ºå¾Œåˆªæ‰é¡è‰²ç…§ç‰‡
+		String url = newFile.getPath();
 		Hair hair = new Hair(url);
 		Gson gson = new Gson();
 		String ans = gson.toJson(hair);
-        return ans;
+		return ans;
 	}
-	
+
 	public static void main(String args[]) throws IOException {
-		String picture="WebContent\\static\\img\\hair-match\\ÀY¾v¯À§÷\\¨k¥Íµu¾v\\boy1.png";
-		String color = "#FF7F50"; //¿ï¾ÜªºÃC¦â
-		String userName = "ITZY"; //¨Ï¥ÎªÌ¦WºÙ
+		String picture = "WebContent\\static\\img\\hair-match\\é ­é«®ç´ æ\\ç”·ç”ŸçŸ­é«®\\boy1.png";
+		String color = "#D2691E"; // é¸æ“‡çš„é¡è‰²
+		String userName = "è±éµå¥½é†œ"; // ä½¿ç”¨è€…åç¨±
 		ColorHair colorHair = new ColorHair();
-		String path = colorHair.createFolder(userName); //Àò±o¨Ï¥ÎªÌ·s«Øªº­Ó¤H¸ê®Æ§¨¸ô®|
-		File colorFile = colorHair.getColorPicture(path,color); //Àò±o¨Ï¥ÎªÌ¿ïªºÃC¦â·Ó¤ù
-		String url = colorHair.getColorHair(path, picture,color, colorFile);
-        System.out.println(url); //======³o¸Ì¿é¥XJSON====== 
+		String path = colorHair.newFolder(userName); // ç²å¾—ä½¿ç”¨è€…æ–°å»ºçš„å€‹äººè³‡æ–™å¤¾è·¯å¾‘
+		File colorFile = colorHair.colorPicture(path, color); // ç²å¾—ä½¿ç”¨è€…é¸çš„é¡è‰²ç…§ç‰‡
+		String url = colorHair.colorHair(path, picture, colorFile);
+		System.out.println(url); // ======é€™è£¡è¼¸å‡ºJSON======
 	}
 }

@@ -14,7 +14,7 @@ public class ColorHair {
 	public String newFolder(String name) {
 		String path = "WebContent/static/img/hair-match/user/" + name;
 		File file = new File(path);
-		file.mkdir(); // «Ø¥ß¸ê®Æ§¨
+		file.mkdir(); // å»ºç«‹è³‡æ–™å¤¾
 		return path + "/";
 	}
 
@@ -45,12 +45,12 @@ public class ColorHair {
 		Graphics2D g2d = hairImg.createGraphics();
 		int Width = colorImg.getWidth();
 		int Height = colorImg.getHeight();
-		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP, 0.5f)); // ÀY¾v·Ó¤ù»PÃC¦â·Ó¤ù¦X¨Ö
+		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP, 0.5f)); // é ­é«®ç…§ç‰‡èˆ‡é¡è‰²ç…§ç‰‡åˆä½µ
 		g2d.drawImage(colorImg, 0, 0, Width, Height, null);
 		g2d.dispose();
 		File newFile = new File(path + "/current.png");
-		ImageIO.write(hairImg, "png", newFile); // ²£¥Í¦X¦¨·Ó¤ù
-		colorFile.delete(); // ¿é¥X«á§R±¼ÃC¦â·Ó¤ù
+		ImageIO.write(hairImg, "png", newFile); // ç”¢ç”Ÿåˆæˆç…§ç‰‡
+		colorFile.delete(); // è¼¸å‡ºå¾Œåˆªæ‰é¡è‰²ç…§ç‰‡
 		String url = newFile.getPath();
 		Hair hair = new Hair(url);
 		Gson gson = new Gson();
@@ -59,13 +59,13 @@ public class ColorHair {
 	}
 
 	public static void main(String args[]) throws IOException {
-		String picture = "WebContent\\static\\img\\hair-match\\ÀY¾v¯À§÷\\¨k¥Íµu¾v\\boy1.png";
-		String color = "#D2691E"; // ¿ï¾ÜªºÃC¦â
-		String userName = "¸©ÃZ¦nÁà"; // ¨Ï¥ÎªÌ¦WºÙ
+		String picture = "WebContent\\static\\img\\hair-match\\é ­é«®ç´ æ\\ç”·ç”ŸçŸ­é«®\\boy1.png";
+		String color = "#D2691E"; // é¸æ“‡çš„é¡è‰²
+		String userName = "è±éµå¥½é†œ"; // ä½¿ç”¨è€…åç¨±
 		ColorHair colorHair = new ColorHair();
-		String path = colorHair.newFolder(userName); // Àò±o¨Ï¥ÎªÌ·s«Øªº­Ó¤H¸ê®Æ§¨¸ô®|
-		File colorFile = colorHair.colorPicture(path, color); // Àò±o¨Ï¥ÎªÌ¿ïªºÃC¦â·Ó¤ù
+		String path = colorHair.newFolder(userName); // ç²å¾—ä½¿ç”¨è€…æ–°å»ºçš„å€‹äººè³‡æ–™å¤¾è·¯å¾‘
+		File colorFile = colorHair.colorPicture(path, color); // ç²å¾—ä½¿ç”¨è€…é¸çš„é¡è‰²ç…§ç‰‡
 		String url = colorHair.colorHair(path, picture, colorFile);
-		System.out.println(url); // ======³o¸Ì¿é¥XJSON======
+		System.out.println(url); // ======é€™è£¡è¼¸å‡ºJSON======
 	}
 }

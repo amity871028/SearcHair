@@ -11,14 +11,14 @@ import com.google.gson.Gson;
 
 public class ColorHair {
 	
-	public String newFolder(String name) {
+	public String createFolder(String name) {
 		String path = "WebContent/static/img/hair-match/user/"+name;
         File file = new File(path);
         file.mkdir(); //建立資料夾
         return path+"/";
 	}
 	
-	public File colorPicture(String path,String color) {
+	public File getColorPicture(String path,String color) {
 		int red= Integer.valueOf(color.substring(1,3),16);
 		int green= Integer.valueOf(color.substring(3,5),16);
 		int blue= Integer.valueOf(color.substring(5,7),16);
@@ -38,7 +38,7 @@ public class ColorHair {
         return file;
 	}
 	
-	public void colorHair(String path,String picture,String color,File colorFile) throws IOException {    
+	public String getColorHair(String path,String picture,String color,File colorFile) throws IOException {    
         File hairFile = new File(picture); 
     	String[] arr=picture.split("\\\\");//不限制元素個數
     	String pictureName=arr[6]; //拿到照片名稱
@@ -57,7 +57,7 @@ public class ColorHair {
 		Hair hair = new Hair(url);
 		Gson gson = new Gson();
 		String ans = gson.toJson(hair);
-		System.out.println(ans); //======這裡輸出JSON======	
+        return ans;
 	}
 	
 	public static void main(String args[]) throws IOException {
@@ -65,8 +65,9 @@ public class ColorHair {
 		String color = "#FF7F50"; //選擇的顏色
 		String userName = "ITZY"; //使用者名稱
 		ColorHair colorHair = new ColorHair();
-		String path = colorHair.newFolder(userName); //獲得使用者新建的個人資料夾路徑
-		File colorFile = colorHair.colorPicture(path,color); //獲得使用者選的顏色照片
-		colorHair.colorHair(path, picture,color, colorFile);
+		String path = colorHair.createFolder(userName); //獲得使用者新建的個人資料夾路徑
+		File colorFile = colorHair.getColorPicture(path,color); //獲得使用者選的顏色照片
+		String url = colorHair.getColorHair(path, picture,color, colorFile);
+        System.out.println(url); //======這裡輸出JSON====== 
 	}
 }

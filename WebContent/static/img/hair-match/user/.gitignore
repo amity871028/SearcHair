@@ -1,1 +1,4 @@
-ECHO ¤w±Ò°Ê¡C
+# Ignore everything in this directory
+*
+# Except this file
+!.gitignore

@@ -38,10 +38,8 @@ public class ColorHair {
 		return file;
 	}
 
-	public String getColorHair(String path, String picture, String color, File colorFile) throws IOException {
+	public String getColorHair(String path, String picture, File colorFile) throws IOException {
 		File hairFile = new File(picture);
-		String[] arr = picture.split("\\\\");// 不限制元素個數
-		String pictureName = arr[6]; // 拿到照片名稱
 		BufferedImage hairImg = ImageIO.read(hairFile);
 		BufferedImage colorImg = ImageIO.read(colorFile);
 		Graphics2D g2d = hairImg.createGraphics();
@@ -50,7 +48,7 @@ public class ColorHair {
 		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP, 0.5f)); // 頭髮照片與顏色照片合併
 		g2d.drawImage(colorImg, 0, 0, Width, Height, null);
 		g2d.dispose();
-		File newFile = new File(path + "/" + color + "_" + pictureName);
+		File newFile = new File(path + "/current.png");
 		ImageIO.write(hairImg, "png", newFile); // 產生合成照片
 		colorFile.delete(); // 輸出照片後刪掉顏色照片
 		String url = newFile.getPath();
@@ -63,11 +61,11 @@ public class ColorHair {
 	public static void main(String args[]) throws IOException {
 		String picture = "WebContent\\static\\img\\hair-match\\頭髮素材\\男生短髮\\boy1.png";
 		String color = "#FF7F50"; // 選擇的顏色
-		String userName = "ITZY"; // 使用者名稱
+		String userName = "萱鵝鵝鵝"; // 使用者名稱
 		ColorHair colorHair = new ColorHair();
 		String path = colorHair.createFolder(userName); // 獲得使用者新建的個人資料夾路徑
 		File colorFile = colorHair.getColorPicture(path, color); // 獲得使用者選的顏色照片
-		String url = colorHair.getColorHair(path, picture, color, colorFile);
+		String url = colorHair.getColorHair(path, picture, colorFile);
 		System.out.println(url); // ======這裡輸出JSON======
 	}
 }

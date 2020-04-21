@@ -1,6 +1,5 @@
 /* global FetchData */
-const sendEmailAPI = 'api/user/password/forget';
-
+const sendEmailAPI = 'api-user-password-forget';
 
 function delayURL(url, time) {
   setTimeout(() => { window.location.href = `${url}`; }, time);
@@ -10,12 +9,12 @@ async function sendResetRequest() {
   // validate field and show hint
   if (document.forms['forget-password-form'].reportValidity()) {
     // start post
-    /*document.getElementById('loadingDiv').style.display = 'block';
-    document.getElementById('loadingImg').style.display = 'block';*/
+    document.getElementById('loadingDiv').style.display = 'block';
+    document.getElementById('loadingImg').style.display = 'block';
     document.getElementById('txt').innerText = '';
     const result = await FetchData.post(sendEmailAPI, {
-      account: document.getElementById('email').value,
-      name: document.getElementById('name').value,
+    	account: document.getElementById('email').value,
+    	name: document.getElementById('name').value,
     });
 
     if (result.status === 401) {
@@ -29,7 +28,7 @@ async function sendResetRequest() {
       document.getElementById('loadingImg').style.display = 'none';
       document.getElementById('forget-password-form').innerHTML = '';
       document.getElementById('txt').innerText = '重設密碼信件已發送，請至信箱查看。';
-      delayURL('/menu', 1800);
+      delayURL('./index.html', 1800);
     }
   }
 }

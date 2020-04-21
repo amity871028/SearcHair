@@ -1,5 +1,5 @@
 /* global FetchData */
-const resetPasswordAPI = '/api/user/password/reset/';
+const resetPasswordAPI = 'api-user-password-reset';
 
 
 function delayURL(url, time) {
@@ -17,28 +17,22 @@ function validateNewPassword() {
 }
 
 async function resetPassword() {
-  // resolve API address problem
-  const address = window.location.href;
-  const tmp = address.match('reset/');
-  const token = address.substring(tmp.index + 6);
-  const API = resetPasswordAPI + token;
-
   // validate field and show hint
   if (document.forms['reset-password-form'].reportValidity()) {
     // start post
-    const result = await FetchData.post(API, {
+    const result = await FetchData.post(resetPasswordAPI, {
       password: document.getElementById('new-password').value,
     });
     if (result.status === 401) {
       // show wrong msg
       document.getElementById('reset-password-form').innerHTML = '';
-      document.getElementById('txt').innerText = '網頁已過期，自動跳轉菜單畫面。';
-      delayURL('/menu', 1800);
+      document.getElementById('txt').innerText = '網頁已過期，自動跳轉主頁面。';
+      delayURL('./index.html', 1800);
     } else {
       // show successful msg
       document.getElementById('reset-password-form').innerHTML = '';
-      document.getElementById('txt').innerText = '重設密碼成功！移轉到菜單頁面。';
-      delayURL('/menu', 1800);
+      document.getElementById('txt').innerText = '重設密碼成功！移轉到主頁面。';
+      delayURL('./index.html', 1800);
     }
   }
 }
@@ -51,7 +45,18 @@ function clickOnEnter(event) {
   }
 }
 
+function checkToken(){
+	var decodedCookie = decodeURIComponent(document.cookie);
+	var cookieList = decodedCookie.split(';');
+	for(var i in cookieList){
+		if(cookieList[i].match("token=")) return;
+	}
+	console.log("denied!");
+	//denied!
+}
+
 function init() {
+  checkToken();
   // add event listener
   document.getElementById('reset-password-btn').addEventListener('click', resetPassword);
   // validate password when password or confirm password change

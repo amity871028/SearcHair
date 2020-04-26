@@ -1,29 +1,28 @@
 package hairMatch;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 public class GetHairstyle {
 
-	public void getPath(String type) {
-		String path = "WebContent/static/img/hair-match/hairstyle-source/" + type;
-		File file = new File(path);
-		String[] filelist = file.list();
+	public String getAllPictures(String type) throws IOException {
+		String project = ColorHair.class.getClassLoader().getResource("").toString();
+		project = project.substring(6, project.length() - 90);
+		String path = "/SearcHair/WebContent/static/img/hair-match/hairstyle-source/" + type;
 		ArrayList<String> allHairstyle = new ArrayList<String>();
-		for (int i = 0; i < filelist.length; i++) {
-			File readfile = new File(file + "//" + filelist[i]);
-			allHairstyle.add(readfile.getPath());
+		try {
+			File file = new File(project + path);
+			File[] f1 = file.listFiles(); // 獲取目錄下的所有檔案或資料夾
+			for (int i = 0; i < file.listFiles().length; i++)
+				allHairstyle.add(f1[i].getPath());
+		} catch (Exception e) {
+			System.out.println("此資料夾不存在");
 		}
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		String jsonStr = gson.toJson(allHairstyle);
-		System.out.println(jsonStr); // ======這裡輸出JSON=====
-	}
-
-	public static void main(String args[]) {
-		String type = "girl-long"; // 可輸入不同的髮型種類
-		GetHairstyle hair = new GetHairstyle();
-		hair.getPath(type);
+		return jsonStr;
 	}
 }

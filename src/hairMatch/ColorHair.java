@@ -11,11 +11,18 @@ import com.google.gson.Gson;
 
 public class ColorHair {
 
-	public String createFolder(String name) {
-		String path = "WebContent/static/img/hair-match/user/" + name;
-		File file = new File(path);
-		file.mkdir(); // 建立資料夾
-		return path + "/";
+	public String createFolder(String name) throws IOException {
+		String project = ColorHair.class.getClassLoader().getResource("").toString();
+		project = project.substring(6, project.length() - 90);
+		String path = "/SearcHair/WebContent/static/img/hair-match/user/" + name;
+		try {
+			File file = new File(project + path);
+			if (!file.exists())
+				file.mkdir();// 建立資料夾
+		} catch (Exception e) {
+			System.out.println("'" + path + "'此資料夾不存在");
+		}
+		return project + path + "/";
 	}
 
 	public File getColorPicture(String path, String color) {
@@ -29,11 +36,14 @@ public class ColorHair {
 		graphics2d.setPaint(new Color(red, green, blue));
 		graphics2d.fillRect(0, 0, width, height);
 
+		String project = ColorHair.class.getClassLoader().getResource("").toString();
+		project = project.substring(6, project.length() - 90);
+
 		File file = new File(path + color + ".png");
 		try {
 			ImageIO.write(colorImage, "png", file);
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println("IOException " + e);
 		}
 		return file;
 	}
@@ -48,6 +58,7 @@ public class ColorHair {
 		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP, 0.5f)); // 頭髮照片與顏色照片合併
 		g2d.drawImage(colorImg, 0, 0, Width, Height, null);
 		g2d.dispose();
+
 		File newFile = new File(path + "/current.png");
 		ImageIO.write(hairImg, "png", newFile); // 產生合成照片
 		colorFile.delete(); // 輸出照片後刪掉顏色照片
@@ -56,16 +67,5 @@ public class ColorHair {
 		Gson gson = new Gson();
 		String ans = gson.toJson(hair);
 		return ans;
-	}
-
-	public static void main(String args[]) throws IOException {
-		String picture = "WebContent\\static\\img\\hair-match\\hairstyle-source\\boy-short\\boy1.png";
-		String color = "#FF7F50"; // 選擇的顏色
-		String userName = "haaa"; // 使用者名稱
-		ColorHair colorHair = new ColorHair();
-		String path = colorHair.createFolder(userName); // 獲得使用者新建的個人資料夾路徑
-		File colorFile = colorHair.getColorPicture(path, color); // 獲得使用者選的顏色照片
-		String url = colorHair.getColorHair(path, picture, colorFile);
-		System.out.println(url); // ======這裡輸出JSON======
 	}
 }

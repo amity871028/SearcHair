@@ -13,7 +13,7 @@ public class ColorHair {
 
 	public String createFolder(String name) throws IOException {
 		String project = ColorHair.class.getClassLoader().getResource("").toString();
-		project = project.substring(6, project.length() - 90);
+		project = project.substring(6, project.length() - 90); // 取得專案根目錄的位置
 		String path = "/SearcHair/WebContent/static/img/hair-match/user/" + name;
 		try {
 			File file = new File(project + path);
@@ -22,7 +22,7 @@ public class ColorHair {
 		} catch (Exception e) {
 			System.out.println("'" + path + "'此資料夾不存在");
 		}
-		return project + path + "/";
+		return project + path + "/"; // 回傳使用者的資料夾路徑
 	}
 
 	public File getColorPicture(String path, String color) {
@@ -36,9 +36,6 @@ public class ColorHair {
 		graphics2d.setPaint(new Color(red, green, blue));
 		graphics2d.fillRect(0, 0, width, height);
 
-		String project = ColorHair.class.getClassLoader().getResource("").toString();
-		project = project.substring(6, project.length() - 90);
-
 		File file = new File(path + color + ".png");
 		try {
 			ImageIO.write(colorImage, "png", file);
@@ -49,7 +46,10 @@ public class ColorHair {
 	}
 
 	public String getColorHair(String path, String picture, File colorFile) throws IOException {
-		File hairFile = new File(picture);
+		String project = ColorHair.class.getClassLoader().getResource("").toString();
+		project = project.substring(6, project.length() - 90);
+		String hairPath = project + "/SearcHair/WebContent/" + picture;
+		File hairFile = new File(hairPath);
 		BufferedImage hairImg = ImageIO.read(hairFile);
 		BufferedImage colorImg = ImageIO.read(colorFile);
 		Graphics2D g2d = hairImg.createGraphics();
@@ -63,9 +63,10 @@ public class ColorHair {
 		ImageIO.write(hairImg, "png", newFile); // 產生合成照片
 		colorFile.delete(); // 輸出照片後刪掉顏色照片
 		String url = newFile.getPath();
+		url = url.substring(url.indexOf("static"), url.length()); // 取相對路徑
 		Hair hair = new Hair(url);
 		Gson gson = new Gson();
-		String ans = gson.toJson(hair);
+		String ans = gson.toJson(hair); // 轉成JSON檔
 		return ans;
 	}
 }

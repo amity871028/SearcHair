@@ -16,13 +16,16 @@ public class GetHairstyle {
 		try {
 			File file = new File(project + path);
 			File[] f1 = file.listFiles(); // 獲取目錄下的所有檔案或資料夾
-			for (int i = 0; i < file.listFiles().length; i++)
-				allHairstyle.add(f1[i].getPath());
+			for (int i = 0; i < file.listFiles().length; i++) {
+				String filePath = f1[i].getPath();
+				filePath = filePath.substring(filePath.indexOf("static"), filePath.length()); // 取相對路徑
+				allHairstyle.add(filePath);
+			}
 		} catch (Exception e) {
 			System.out.println("此資料夾不存在");
 		}
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-		String jsonStr = gson.toJson(allHairstyle);
+		String jsonStr = gson.toJson(allHairstyle); // 轉成JSON檔
 		return jsonStr;
 	}
 }

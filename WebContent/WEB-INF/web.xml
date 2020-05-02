@@ -3,11 +3,6 @@
   <display-name>SearcHair</display-name>
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
-    <welcome-file>index.htm</welcome-file>
-    <welcome-file>index.jsp</welcome-file>
-    <welcome-file>default.html</welcome-file>
-    <welcome-file>default.htm</welcome-file>
-    <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
   <servlet>
     <servlet-name>LoginServlet</servlet-name>
@@ -36,6 +31,22 @@
   <servlet>
     <servlet-name>SearchOneServlet</servlet-name>
     <servlet-class>search.SearchOneServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>CalendarNewServlet</servlet-name>
+    <servlet-class>calendar.CalendarNewServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>CalendarDeleteServlet</servlet-name>
+    <servlet-class>calendar.CalendarDeleteServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>CalendarUpdateServlet</servlet-name>
+    <servlet-class>calendar.CalendarUpdateServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>CalendarGetServlet</servlet-name>
+    <servlet-class>calendar.CalendarGetServlet</servlet-class>
   </servlet>
   
   
@@ -67,5 +78,21 @@
   <servlet-mapping>
         <servlet-name>SearchOneServlet</servlet-name>
         <url-pattern>/api-search-detail</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+        <servlet-name>CalendarNewServlet</servlet-name>
+        <url-pattern>/api-calendar-new</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+        <servlet-name>CalendarDeleteServlet</servlet-name>
+        <url-pattern>/api-calendar-delete</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+        <servlet-name>CalendarUpdateServlet</servlet-name>
+        <url-pattern>/api-calendar-update</url-pattern>
+  </servlet-mapping>
+   <servlet-mapping>
+        <servlet-name>CalendarGetServlet</servlet-name>
+        <url-pattern>/api-calendar</url-pattern>
   </servlet-mapping>
 </web-app>

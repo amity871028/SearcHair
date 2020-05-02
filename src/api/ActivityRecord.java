@@ -40,7 +40,7 @@ public class ActivityRecord {
 	}
 	
 	public void setColor(String color) {
-		this.color = color;
+		this.color = CalendarColor.setColor(color);
 	}
 	
 	public void setNoticeTime(int noticeTime) {

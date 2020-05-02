@@ -8,7 +8,6 @@ import com.google.gson.GsonBuilder;
 import search.AllSalon;
 
 public class CostRecord {
-	//color色碼轉換成顏色字串
 	int id;
 	String account;
 	String time;
@@ -47,7 +46,7 @@ public class CostRecord {
 	}
 	
 	public void setColor(String color) {
-		this.color = color;
+		this.color = CalendarColor.setColor(color);
 	}
 	
 	// get

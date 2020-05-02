@@ -34,8 +34,8 @@ public class SearchOneServlet extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("application/json; charset=utf-8");
 		request.setCharacterEncoding("UTF-8");
-		response.setHeader("Access-Control-ONEow-Origin", "*");
-		response.setHeader("Access-Control-ONEow-Methods", "GET");
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		response.setHeader("Access-Control-Allow-Methods", "GET");
 
 		String function = request.getParameter("func");
 		String id = request.getParameter("id");

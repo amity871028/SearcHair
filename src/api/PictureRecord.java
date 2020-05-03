@@ -1,5 +1,10 @@
 package api;
 
+import java.util.ArrayList;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 public class PictureRecord {
 		int id;
 		String account;
@@ -47,5 +52,12 @@ public class PictureRecord {
 		
 		public String getTime() {
 			return time;
+		}
+		
+		public static String convertToJson(ArrayList<PictureRecord> allPictureData) {
+			Gson gson = new GsonBuilder().setPrettyPrinting().create();
+			String jsonStr = gson.toJson(allPictureData);
+			System.out.println(jsonStr);
+			return jsonStr;
 		}
 }

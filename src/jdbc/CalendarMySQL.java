@@ -161,8 +161,8 @@ public class CalendarMySQL {
 			pstmt.setInt(1, id);
 			pstmt.setString(2, activityRecord.getAccount());
 			pstmt.setString(3, activityRecord.getActivityName());
-			pstmt.setTimestamp(4, Timestamp.valueOf(activityRecord.getStartTime()));
-			pstmt.setTimestamp(5, Timestamp.valueOf(activityRecord.getEndTime()));
+			pstmt.setTimestamp(4, Timestamp.valueOf(fixInsertTime(activityRecord.getStartTime())));
+			pstmt.setTimestamp(5, Timestamp.valueOf(fixInsertTime(activityRecord.getEndTime())));
 			pstmt.setString(6, activityRecord.getColor());
 
 			// insert into the activity notice table
@@ -190,11 +190,15 @@ public class CalendarMySQL {
 
 	public boolean deleteActivity(String account, int id) {
 		try {
-			rs = stat.executeQuery("SELECT account FROM activity WHERE id = " + id);
+			rs = stat.executeQuery("SELECT account, notice FROM activity WHERE id = " + id);
 			if (rs.next()) {
 				String checkAccount = rs.getString("account");
-				if (checkAccount.equals(account))
+				if (checkAccount.equals(account)) {
+					if(rs.getBoolean("notice") == true) {
+						deleteActivityNotice(account, id);
+					}
 					rsInt = stat.executeUpdate("DELETE FROM activity WHERE id = " + id);
+				}
 				else
 					return false;
 			}
@@ -226,17 +230,19 @@ public class CalendarMySQL {
 				pstmt.setInt(1, activityRecord.getId());
 				pstmt.setString(2, activityRecord.getAccount());
 				pstmt.setString(3, activityRecord.getActivityName());
-				pstmt.setTimestamp(4, Timestamp.valueOf(activityRecord.getStartTime()));
-				pstmt.setTimestamp(5, Timestamp.valueOf(activityRecord.getEndTime()));
+				pstmt.setTimestamp(4, Timestamp.valueOf(fixInsertTime(activityRecord.getStartTime())));
+				pstmt.setTimestamp(5, Timestamp.valueOf(fixInsertTime(activityRecord.getEndTime())));
 				pstmt.setString(6, activityRecord.getColor());
 				if (activityRecord.getNoticeTime() > 0) {
 					pstmt.setBoolean(7, true);
+					rsInt = pstmt.executeUpdate();
 					result = newActivityNotice(activityRecord.getAccount(), activityRecord.getId(),
 							activityRecord.getNoticeTime());
 					if (result == false)
 						return false;
 				} else {
 					pstmt.setBoolean(7, false);
+					rsInt = pstmt.executeUpdate();
 				}
 			}
 		} catch (SQLException e) {
@@ -249,25 +255,39 @@ public class CalendarMySQL {
 		else
 			return false;
 	}
+	
+	public String fixGetTime (String time) {
+		return time.replace(" ", "T").replace(".0", "");
+	}
+	
+	public String fixInsertTime (String time) {
+		String temp = time.replace("T", " ");
+		return temp+=":00";
+	}
 
 	public String getActivity() {
 
 		ArrayList<ActivityRecord> allActivity = new ArrayList<ActivityRecord>();
 		try {
 			rs = stat.executeQuery(selectActivity);
-			ResultSet rs1= null;
-			// int tableColumn = rs.getMetaData().getColumnCount();
-
 			while (rs.next()) {
 				ActivityRecord activityRecord = new ActivityRecord();
 				activityRecord.setId(rs.getInt("id"));
 				activityRecord.setActivityName(rs.getString("activity_name"));
-				activityRecord.setStartTime(rs.getString("start_time"));
-				activityRecord.setEndTime(rs.getString("end_time"));
+				activityRecord.setStartTime(fixGetTime(rs.getString("start_time")));
+				activityRecord.setEndTime(fixGetTime(rs.getString("end_time")));
 				activityRecord.setColor(rs.getString("color"));
-				rs1 = stat.executeQuery("SELECT notice_time FROM activity_notice WHERE activity_id = " + rs.getInt("id"));
-				if(rs1.next()) {
-					activityRecord.setNoticeTime(rs.getInt("notice_time"));
+				if(rs.getString("notice").equals("1")) {
+					Statement stat1 = null;
+					ResultSet rs1 = null;
+					stat1 = con.createStatement();
+					rs1 = stat1.executeQuery("SELECT notice_time FROM activity_notice WHERE activity_id = " + rs.getInt("id"));
+					if(rs1.next()) {
+						activityRecord.setNoticeTime(rs1.getInt("notice_time"));
+					}
+				}
+				else {
+					activityRecord.setNoticeTime(-1);
 				}
 				allActivity.add(activityRecord);
 			}
@@ -397,22 +417,27 @@ public class CalendarMySQL {
 	}
 
 	public String getPicture() {
+		ArrayList<PictureRecord> allPicture = new ArrayList<PictureRecord>();
 		try {
 			rs = stat.executeQuery(selectPicture);
-			int tableColumn = rs.getMetaData().getColumnCount();
 
 			while (rs.next()) {
-				// get all column value for a row
-				for (int i = 1; i <= tableColumn; i++) {
-					System.out.println(rs.getString(i));
-				}
+				PictureRecord pictureRecord = new PictureRecord();
+				pictureRecord.setId(rs.getInt("id"));
+				pictureRecord.setAccount(rs.getString("account"));
+				pictureRecord.setDescription(rs.getString("description"));
+				pictureRecord.setPictrue(rs.getBlob("picture").getBinaryStream().toString());
+				pictureRecord.setTime(rs.getString("time"));
+				allPicture.add(pictureRecord);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			database.close();
 		}
-		return null;
+		return PictureRecord.convertToJson(allPicture);
 	}
 
 }
+
+

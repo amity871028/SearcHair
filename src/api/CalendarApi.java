@@ -126,11 +126,11 @@ public class CalendarApi {
 		
 		JsonObject jobj = new Gson().fromJson(jsonObject, JsonObject.class);
 
-		String activityName = jobj.get("activity_name").getAsString();
-		String startTime = jobj.get("start_time").getAsString();
-		String endTime = jobj.get("end_time").getAsString();
+		String activityName = jobj.get("activityName").getAsString();
+		String startTime = jobj.get("startTime").getAsString();
+		String endTime = jobj.get("endTime").getAsString();
 		String color = jobj.get("color").toString();
-		String noticeTime = jobj.get("notice_time").getAsString();
+		String noticeTime = jobj.get("noticeTime").getAsString();
 
 		ActivityRecord activityRecord = new ActivityRecord();
 		activityRecord.setAccount(account);
@@ -148,11 +148,11 @@ public class CalendarApi {
 		JsonObject jobj = new Gson().fromJson(jsonObject, JsonObject.class);
 
 		String id = jobj.get("id").toString();
-		String activityName = jobj.get("activity_name").getAsString();
-		String startTime = jobj.get("start_time").getAsString();
-		String endTime = jobj.get("end_time").getAsString();
+		String activityName = jobj.get("activityName").getAsString();
+		String startTime = jobj.get("startTime").getAsString();
+		String endTime = jobj.get("endTime").getAsString();
 		String color = jobj.get("color").toString();
-		String noticeTime = jobj.get("notice_time").toString();
+		String noticeTime = jobj.get("noticeTime").toString();
 		
 		ActivityRecord activityRecord = new ActivityRecord();
 		activityRecord.setId(Integer.parseInt(id));

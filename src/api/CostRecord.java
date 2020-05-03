@@ -46,7 +46,7 @@ public class CostRecord {
 	}
 	
 	public void setColor(String color) {
-		this.color = CalendarColor.setColor(color);
+		this.color = color;
 	}
 	
 	// get
@@ -85,6 +85,7 @@ public class CostRecord {
 	public static String convertToJson(ArrayList<CostRecord> allCostData) {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		String jsonStr = gson.toJson(allCostData);
+		System.out.println(jsonStr);
 		return jsonStr;
 	}
 }

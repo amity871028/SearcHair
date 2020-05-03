@@ -14,7 +14,6 @@ public class ActivityRecord {
 	String endTime;
 	String color;
 	int noticeTime;
-	boolean notice;
 	
 	
 	public void setId(int id) {
@@ -30,26 +29,21 @@ public class ActivityRecord {
 	}
 
 	public void setStartTime(String startTime) {
-		startTime = startTime.replace("T", " "); // convert to timestamp string
 		this.startTime = startTime;
 	}
 
 	public void setEndTime(String endTime) {
-		endTime = endTime.replace("T", " "); // convert to timestamp string
 		this.endTime = endTime;
 	}
 	
 	public void setColor(String color) {
-		this.color = CalendarColor.setColor(color);
+		this.color = color;
 	}
 	
 	public void setNoticeTime(int noticeTime) {
 		this.noticeTime = noticeTime;
 	}
 	
-	public void setNotice(boolean notice) {
-		this.notice = notice;
-	}
 	
 	// get
 	public int getId() {
@@ -80,13 +74,11 @@ public class ActivityRecord {
 		return noticeTime;
 	}
 	
-	public boolean getNotice() {
-		return notice;
-	}
 	
 	public static String convertToJson(ArrayList<ActivityRecord> allActivityData) {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		String jsonStr = gson.toJson(allActivityData);
+		System.out.println(jsonStr);
 		return jsonStr;
 	}
 

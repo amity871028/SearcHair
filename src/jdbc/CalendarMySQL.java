@@ -10,8 +10,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -306,7 +304,6 @@ public class CalendarMySQL {
 	
 	public Timestamp time2Timestamp (String time) {
 		String temp = time.replace("T", " ");
-		temp += ":00";
 		return Timestamp.valueOf(temp);
 	}
 	
@@ -316,9 +313,8 @@ public class CalendarMySQL {
 			d = startTime;
 		 Calendar cal = Calendar.getInstance();
 		 cal.setTime(d);
-		 cal.add(Calendar.MINUTE, -10);
+		 cal.add(Calendar.MINUTE, noticeTime*(-1));
 		 String newTime = df.format(cal.getTime());
-		 System.out.println(newTime);
 		return Timestamp.valueOf(newTime);
 	}
 
@@ -460,6 +456,62 @@ public class CalendarMySQL {
 		}
 		return PictureRecord.convertToJson(allPicture);
 	}
+	
+	public static void main(String[] args) throws SQLException, IOException {
+		CalendarMySQL c = new CalendarMySQL();
+		boolean result = false;
+
+		// ================ cost ======================//
+		CostRecord costRecord = new CostRecord();
+		costRecord.setAccount("123@gmail.com");
+		costRecord.setTime("2020-04-29");
+		costRecord.setCategory("美髮");
+		costRecord.setKind("a");
+		costRecord.setCost(200);
+		costRecord.setDescription("ya");
+		costRecord.setColor("blue");
+
+		// result = c.newCost(costRecord);
+		// result = c.updateCost(5, "123@gmail.com", "2020-04-27", 0, "a", 2500,
+		// "我的洗髮精棒", "blue");
+		// result = c.deleteCost(costRecord.getAccount(), 1);
+		// c.getCost();
+
+		// ================ activity ======================//
+		ActivityRecord activityRecord = new ActivityRecord();
+		activityRecord.setId(3);
+		activityRecord.setAccount("1234@gmail.com");
+		activityRecord.setActivityName("你好");
+		activityRecord.setStartTime("2020-04-26T21:33:00");
+		activityRecord.setEndTime("2020-04-27T10:23:00");
+		activityRecord.setColor("red");
+		activityRecord.setNoticeTime(0);
+
+		result = c.newActivity(activityRecord);
+		// result = c.deleteActivity("1234@gmail.com", 4);
+		// result = c.updateActivity(activityRecord);
+		// c.getActivity();
+
+		// ================ picture ======================//
+		String s1 = "1231dsdgasd";
+		Blob b = new SerialBlob(s1.getBytes("GBK"));// String 转 blob
+		String file = "C:\\243070_1.jpg";
+		FileInputStream fis = new FileInputStream(file);
+		PictureRecord pictureRecord = new PictureRecord();
+		pictureRecord.setId(4);
+		pictureRecord.setAccount("1234@gmail.com");
+		pictureRecord.setDescription("拉拉拉");
+		pictureRecord.setPictrue(s1);
+		pictureRecord.setTime("2020-04-30T20:11:00");
+
+		// result = c.newPicture(pictureRecord);
+		// result = c.deletePicture("1234@gmail.com", 10);
+		// result = c.updatePicture(pictureRecord);
+		// c.getPicture();
+
+		// c.calculateNoticeTime(Timestamp.valueOf("2020-05-03 20:46:00"), 30);
+		System.out.println(result);
+	}	
 
 }
 

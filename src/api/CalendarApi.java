@@ -68,7 +68,7 @@ public class CalendarApi {
 		String kind = jobj.get("kind").getAsString();
 		String cost = jobj.get("cost").toString();
 		String description = jobj.get("description").getAsString();
-		String color = jobj.get("color").toString();
+		String color = jobj.get("color").getAsString();
 
 		CostRecord costRecord = new CostRecord();
 		costRecord.setAccount(account);
@@ -92,7 +92,7 @@ public class CalendarApi {
 		String kind = jobj.get("kind").getAsString();
 		String cost = jobj.get("cost").toString();
 		String description = jobj.get("description").getAsString();
-		String color = jobj.get("color").toString();
+		String color = jobj.get("color").getAsString();
 
 		CostRecord costRecord = new CostRecord();
 		costRecord.setId(Integer.parseInt(id));
@@ -129,7 +129,7 @@ public class CalendarApi {
 		String activityName = jobj.get("activityName").getAsString();
 		String startTime = jobj.get("startTime").getAsString();
 		String endTime = jobj.get("endTime").getAsString();
-		String color = jobj.get("color").toString();
+		String color = jobj.get("color").getAsString();
 		String noticeTime = jobj.get("noticeTime").getAsString();
 
 		ActivityRecord activityRecord = new ActivityRecord();
@@ -151,7 +151,7 @@ public class CalendarApi {
 		String activityName = jobj.get("activityName").getAsString();
 		String startTime = jobj.get("startTime").getAsString();
 		String endTime = jobj.get("endTime").getAsString();
-		String color = jobj.get("color").toString();
+		String color = jobj.get("color").getAsString();
 		String noticeTime = jobj.get("noticeTime").toString();
 		
 		ActivityRecord activityRecord = new ActivityRecord();

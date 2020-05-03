@@ -5,7 +5,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 public class Stylist {
-	String name, job_title, salon, address, picture, description;
+	String name, job_title;
+	int salonId;
+	String salon, address, picture, description;
 	ArrayList<Service> service = new ArrayList<Service>();
 	ArrayList<Work> works = new ArrayList<Work>();
 
@@ -19,6 +21,10 @@ public class Stylist {
 
 	public void setSalon(String salon) {
 		this.salon = salon;
+	}
+
+	public void setSalonId(int salonId) {
+		this.salonId = salonId;
 	}
 
 	public void setAddress(String address) {

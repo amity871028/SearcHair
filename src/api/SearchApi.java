@@ -7,16 +7,16 @@ public class SearchApi {
 	
 	SearchMySQL searchMysql = new SearchMySQL();
 	
-	public String getAllSalon() {
-		return searchMysql.searchSalon();
+	public String getAllSalon(int page) {
+		return searchMysql.searchSalon(page);
 	}
 	
-	public String getAllStylist() {
-		return searchMysql.searchStylist();
+	public String getAllStylist(int page) {
+		return searchMysql.searchStylist(page);
 	}
 	
-	public String getAllStylistWorks() {
-		return searchMysql.searchStylistWorks();
+	public String getAllStylistWorks(int page) {
+		return searchMysql.searchStylistWorks(page);
 	}
 	
 	public String getOneSalon(int id) {

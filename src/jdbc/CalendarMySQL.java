@@ -10,7 +10,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import javax.sql.rowset.serial.SerialBlob;
 
@@ -157,19 +161,21 @@ public class CalendarMySQL {
 				id = rs.getInt(1) + 1;
 			}
 			// insert data
+			Timestamp startTime = time2Timestamp(activityRecord.getStartTime());
+			Timestamp endTime = time2Timestamp(activityRecord.getEndTime());
 			PreparedStatement pstmt = con.prepareStatement(insertActivitySQL);
 			pstmt.setInt(1, id);
 			pstmt.setString(2, activityRecord.getAccount());
 			pstmt.setString(3, activityRecord.getActivityName());
-			pstmt.setTimestamp(4, Timestamp.valueOf(fixInsertTime(activityRecord.getStartTime())));
-			pstmt.setTimestamp(5, Timestamp.valueOf(fixInsertTime(activityRecord.getEndTime())));
+			pstmt.setTimestamp(4, startTime);
+			pstmt.setTimestamp(5, endTime);
 			pstmt.setString(6, activityRecord.getColor());
 
 			// insert into the activity notice table
 			if (activityRecord.getNoticeTime() > -1) {
 				pstmt.setBoolean(7, true);
 				rsInt = pstmt.executeUpdate();
-				result = newActivityNotice(activityRecord.getAccount(), id, activityRecord.getNoticeTime());
+				result = newActivityNotice(activityRecord.getAccount(), id, startTime, activityRecord.getNoticeTime());
 				if (result == false)
 					return false;
 			} else {
@@ -226,18 +232,20 @@ public class CalendarMySQL {
 				// using delete and insert instead of update each attribute
 				deleteActivityNotice(activityRecord.getAccount(), activityRecord.getId());
 				rsInt = stat.executeUpdate("DELETE FROM activity WHERE id = " + activityRecord.getId());
+				Timestamp startTime = time2Timestamp(activityRecord.getStartTime());
+				Timestamp endTime = time2Timestamp(activityRecord.getEndTime());
 				PreparedStatement pstmt = con.prepareStatement(insertActivitySQL);
 				pstmt.setInt(1, activityRecord.getId());
 				pstmt.setString(2, activityRecord.getAccount());
 				pstmt.setString(3, activityRecord.getActivityName());
-				pstmt.setTimestamp(4, Timestamp.valueOf(fixInsertTime(activityRecord.getStartTime())));
-				pstmt.setTimestamp(5, Timestamp.valueOf(fixInsertTime(activityRecord.getEndTime())));
+				pstmt.setTimestamp(4, startTime);
+				pstmt.setTimestamp(5, endTime);
 				pstmt.setString(6, activityRecord.getColor());
 				if (activityRecord.getNoticeTime() > 0) {
 					pstmt.setBoolean(7, true);
 					rsInt = pstmt.executeUpdate();
 					result = newActivityNotice(activityRecord.getAccount(), activityRecord.getId(),
-							activityRecord.getNoticeTime());
+							startTime, activityRecord.getNoticeTime());
 					if (result == false)
 						return false;
 				} else {
@@ -255,15 +263,6 @@ public class CalendarMySQL {
 		else
 			return false;
 	}
-	
-	public String fixGetTime (String time) {
-		return time.replace(" ", "T").replace(".0", "");
-	}
-	
-	public String fixInsertTime (String time) {
-		String temp = time.replace("T", " ");
-		return temp+=":00";
-	}
 
 	public String getActivity() {
 
@@ -274,8 +273,8 @@ public class CalendarMySQL {
 				ActivityRecord activityRecord = new ActivityRecord();
 				activityRecord.setId(rs.getInt("id"));
 				activityRecord.setActivityName(rs.getString("activity_name"));
-				activityRecord.setStartTime(fixGetTime(rs.getString("start_time")));
-				activityRecord.setEndTime(fixGetTime(rs.getString("end_time")));
+				activityRecord.setStartTime(timestamp2Time(rs.getString("start_time")));
+				activityRecord.setEndTime(timestamp2Time(rs.getString("end_time")));
 				activityRecord.setColor(rs.getString("color"));
 				if(rs.getString("notice").equals("1")) {
 					Statement stat1 = null;
@@ -298,16 +297,40 @@ public class CalendarMySQL {
 		}
 		return ActivityRecord.convertToJson(allActivity);
 	}
+	
+	// =================== time convert function ==========================//
+	
+	public String timestamp2Time (String time) {
+		return time.replace(" ", "T").replace(".0", "");
+	}
+	
+	public Timestamp time2Timestamp (String time) {
+		String temp = time.replace("T", " ");
+		temp += ":00";
+		return Timestamp.valueOf(temp);
+	}
+	
+	public Timestamp calculateNoticeTime(Timestamp startTime, int noticeTime) {
+		 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
+		 java.util.Date d = null;
+			d = startTime;
+		 Calendar cal = Calendar.getInstance();
+		 cal.setTime(d);
+		 cal.add(Calendar.MINUTE, -10);
+		 String newTime = df.format(cal.getTime());
+		 System.out.println(newTime);
+		return Timestamp.valueOf(newTime);
+	}
 
 	// =================== activity notice function ==========================//
 	
-	public boolean newActivityNotice(String account, int activityId, int noticeTime) {
+	public boolean newActivityNotice(String account, int activityId, Timestamp startTime, int noticeTime) {
 		try {
 			// insert data
 			PreparedStatement pstmt = con.prepareStatement(insertActivityNoticeSQL);
 			pstmt.setString(1, account);
 			pstmt.setInt(2, activityId);
-			pstmt.setInt(3, noticeTime);
+			pstmt.setTimestamp(3, calculateNoticeTime(startTime, noticeTime));
 			rsInt = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

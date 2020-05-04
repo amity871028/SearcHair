@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class StylistInfo {
 
 	int id;
-	String name, picture;
+	String name, picture, stylist_job_title;
 	ArrayList<Work> works = new ArrayList<Work>();
 
 	public void setID(int id) {
@@ -18,6 +18,10 @@ public class StylistInfo {
 
 	public void setPicture(String picture) {
 		this.picture = picture;
+	}
+
+	public void setStylistJobTitle(String stylist_job_title) {
+		this.stylist_job_title = stylist_job_title;
 	}
 
 	public void setWorks(ArrayList<Work> works) {

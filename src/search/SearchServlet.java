@@ -38,15 +38,16 @@ public class SearchServlet extends HttpServlet {
 		response.setHeader("Access-Control-Allow-Methods", "GET");
 
 		String function = request.getParameter("func");
+		String page = request.getParameter("page");
 		String result = null;
 
 		SearchApi search = new SearchApi();
 		if (function.equals(ALL_SALON))
-			result = search.getAllSalon();
+			result = search.getAllSalon(Integer.parseInt(page));
 		else if ((function.equals(ALL_STYLIST)))
-			result = search.getAllStylist();
+			result = search.getAllStylist(Integer.parseInt(page));
 		else if ((function.equals(ALL_STYLIST_WORK)))
-			result = search.getAllStylistWorks();
+			result = search.getAllStylistWorks(Integer.parseInt(page));
 
 		response.getWriter().append(result);
 	}

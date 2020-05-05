@@ -3,13 +3,11 @@ package calendar;
 import java.io.BufferedReader;
 import java.io.IOException;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import api.CalendarApi;
-import api.SearchApi;
 
 /**
  * Servlet implementation class CalendarGetServlet
@@ -43,12 +41,13 @@ public class CalendarGetServlet extends HttpServlet {
 		response.setHeader("Access-Control-Allow-Methods", "GET");
 		
 		String function = request.getParameter("func");
-		String year = request.getParameter("year");
-		String month = request.getParameter("month");
+		int year = Integer.parseInt(request.getParameter("year"));
+		int month = Integer.parseInt(request.getParameter("month"));
 		String result = null;
 
 		CalendarApi calendarApi = new CalendarApi();
-		result = calendarApi.getCostJsonAnalyzing();
+		
+		result = calendarApi.getJsonAnalyzing(function, year, month);
 
 		response.getWriter().append(result);
 	}

@@ -78,7 +78,6 @@ public class ActivityRecord {
 	public static String convertToJson(ArrayList<ActivityRecord> allActivityData) {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		String jsonStr = gson.toJson(allActivityData);
-		System.out.println(jsonStr);
 		return jsonStr;
 	}
 

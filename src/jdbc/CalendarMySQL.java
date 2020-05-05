@@ -12,9 +12,13 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.stream.IntStream;
 
 import javax.sql.rowset.serial.SerialBlob;
+
+import org.apache.tomcat.util.codec.binary.Base64;
 
 import api.ActivityRecord;
 import api.CostRecord;
@@ -120,12 +124,13 @@ public class CalendarMySQL {
 			return false;
 	}
 
-	public String getCost() {
-
+	public String getCost(int year, int month) {
+		String[] timeArray = getPeriod(year, month);
 		ArrayList<CostRecord> allCost = new ArrayList<CostRecord>();
 		try {
-			rs = stat.executeQuery(selectCost);
-			// int tableColumn = rs.getMetaData().getColumnCount();
+			String whereClause = " where time between '" + timeArray[0] + "' and '" + timeArray[1] + "'";
+			rs = stat.executeQuery(selectCost + whereClause);
+			// select * from cost where time between '2019-08-01' and '2019-08-31'
 
 			while (rs.next()) {
 				CostRecord costRecord = new CostRecord();
@@ -262,11 +267,12 @@ public class CalendarMySQL {
 			return false;
 	}
 
-	public String getActivity() {
-
+	public String getActivity(int year, int month) {
+		String[] timeArray = getPeriod(year, month);
 		ArrayList<ActivityRecord> allActivity = new ArrayList<ActivityRecord>();
 		try {
-			rs = stat.executeQuery(selectActivity);
+			String whereClause = " where start_time between '" + timeArray[0] + "' and '" + timeArray[1] + "'";
+			rs = stat.executeQuery(selectActivity + whereClause);
 			while (rs.next()) {
 				ActivityRecord activityRecord = new ActivityRecord();
 				activityRecord.setId(rs.getInt("id"));
@@ -295,29 +301,8 @@ public class CalendarMySQL {
 		}
 		return ActivityRecord.convertToJson(allActivity);
 	}
-	
-	// =================== time convert function ==========================//
-	
-	public String timestamp2Time (String time) {
-		return time.replace(" ", "T").replace(".0", "");
-	}
-	
-	public Timestamp time2Timestamp (String time) {
-		String temp = time.replace("T", " ");
-		return Timestamp.valueOf(temp);
-	}
-	
-	public Timestamp calculateNoticeTime(Timestamp startTime, int noticeTime) {
-		 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
-		 java.util.Date d = null;
-			d = startTime;
-		 Calendar cal = Calendar.getInstance();
-		 cal.setTime(d);
-		 cal.add(Calendar.MINUTE, noticeTime*(-1));
-		 String newTime = df.format(cal.getTime());
-		return Timestamp.valueOf(newTime);
-	}
 
+	
 	// =================== activity notice function ==========================//
 	
 	public boolean newActivityNotice(String account, int activityId, Timestamp startTime, int noticeTime) {
@@ -435,17 +420,19 @@ public class CalendarMySQL {
 			return false;
 	}
 
-	public String getPicture() {
+	public String getPicture(int year, int month) {
+		String[] timeArray = getPeriod(year, month);
 		ArrayList<PictureRecord> allPicture = new ArrayList<PictureRecord>();
 		try {
-			rs = stat.executeQuery(selectPicture);
+			String whereClause = " where time between '" + timeArray[0] + "' and '" + timeArray[1] + "'";
+			rs = stat.executeQuery(selectPicture + whereClause);
 
 			while (rs.next()) {
 				PictureRecord pictureRecord = new PictureRecord();
 				pictureRecord.setId(rs.getInt("id"));
-				pictureRecord.setAccount(rs.getString("account"));
 				pictureRecord.setDescription(rs.getString("description"));
-				pictureRecord.setPictrue(rs.getBlob("picture").getBinaryStream().toString());
+				String picture = blobToString(rs.getBlob("picture"));
+				pictureRecord.setPictrue(picture);
 				pictureRecord.setTime(rs.getString("time"));
 				allPicture.add(pictureRecord);
 			}
@@ -457,61 +444,59 @@ public class CalendarMySQL {
 		return PictureRecord.convertToJson(allPicture);
 	}
 	
-	public static void main(String[] args) throws SQLException, IOException {
-		CalendarMySQL c = new CalendarMySQL();
-		boolean result = false;
+	public String blobToString(Blob picture) throws SQLException {
+		Blob blob = picture;
+		int blobLength = (int) blob.length();  
+		byte[] blobAsBytes = blob.getBytes(1, blobLength);
+		String blobString = new String(Base64.encodeBase64(blobAsBytes));
+		
+		return blobString;
+	}
+	
+	// =================== time convert function ==========================//
+	
+	public String timestamp2Time (String time) {
+		return time.replace(" ", "T").replace(".0", "");
+	}
+	
+	public Timestamp time2Timestamp (String time) {
+		String temp = time.replace("T", " ");
+		return Timestamp.valueOf(temp);
+	}
+	
+	public Timestamp calculateNoticeTime(Timestamp startTime, int noticeTime) {
+		 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
+		 java.util.Date d = null;
+			d = startTime;
+		 Calendar cal = Calendar.getInstance();
+		 cal.setTime(d);
+		 cal.add(Calendar.MINUTE, noticeTime*(-1));
+		 String newTime = df.format(cal.getTime());
+		return Timestamp.valueOf(newTime);
+	}
 
-		// ================ cost ======================//
-		CostRecord costRecord = new CostRecord();
-		costRecord.setAccount("123@gmail.com");
-		costRecord.setTime("2020-04-29");
-		costRecord.setCategory("美髮");
-		costRecord.setKind("a");
-		costRecord.setCost(200);
-		costRecord.setDescription("ya");
-		costRecord.setColor("blue");
-
-		// result = c.newCost(costRecord);
-		// result = c.updateCost(5, "123@gmail.com", "2020-04-27", 0, "a", 2500,
-		// "我的洗髮精棒", "blue");
-		// result = c.deleteCost(costRecord.getAccount(), 1);
-		// c.getCost();
-
-		// ================ activity ======================//
-		ActivityRecord activityRecord = new ActivityRecord();
-		activityRecord.setId(3);
-		activityRecord.setAccount("1234@gmail.com");
-		activityRecord.setActivityName("你好");
-		activityRecord.setStartTime("2020-04-26T21:33:00");
-		activityRecord.setEndTime("2020-04-27T10:23:00");
-		activityRecord.setColor("red");
-		activityRecord.setNoticeTime(0);
-
-		result = c.newActivity(activityRecord);
-		// result = c.deleteActivity("1234@gmail.com", 4);
-		// result = c.updateActivity(activityRecord);
-		// c.getActivity();
-
-		// ================ picture ======================//
-		String s1 = "1231dsdgasd";
-		Blob b = new SerialBlob(s1.getBytes("GBK"));// String 转 blob
-		String file = "C:\\243070_1.jpg";
-		FileInputStream fis = new FileInputStream(file);
-		PictureRecord pictureRecord = new PictureRecord();
-		pictureRecord.setId(4);
-		pictureRecord.setAccount("1234@gmail.com");
-		pictureRecord.setDescription("拉拉拉");
-		pictureRecord.setPictrue(s1);
-		pictureRecord.setTime("2020-04-30T20:11:00");
-
-		// result = c.newPicture(pictureRecord);
-		// result = c.deletePicture("1234@gmail.com", 10);
-		// result = c.updatePicture(pictureRecord);
-		// c.getPicture();
-
-		// c.calculateNoticeTime(Timestamp.valueOf("2020-05-03 20:46:00"), 30);
-		System.out.println(result);
-	}	
+	public String[] getPeriod(int year, int month) {
+		int[] monthHas31Days = {1, 3, 5, 7, 8, 10, 12};
+		String[] timeArray = new String[2];
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		Calendar cal = Calendar.getInstance();
+		cal.set(year, month-1, 1);
+		timeArray[0] = df.format(cal.getTime());
+		
+		if (IntStream.of(monthHas31Days).anyMatch(x -> x == month)) {
+			cal.set(year, month - 1, 31);
+		} else if (month == 2 && year % 4 != 0) {
+			cal.set(year, month - 1, 28);
+		} else if (month == 2 && year % 4 == 0) {
+			cal.set(year, month - 1, 29);
+		} else {
+			cal.set(year, month - 1, 30);
+		}
+		timeArray[1] = df.format(cal.getTime());		
+		return timeArray;
+	}
+	
+	
 
 }
 

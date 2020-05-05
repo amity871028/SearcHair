@@ -56,6 +56,17 @@ public class CalendarApi {
 			return false;
 
 	}
+	
+	public String getJsonAnalyzing(String function, int year, int month) {
+		if (function.equals("cost"))
+			return calendar.getCost(year, month);
+		else if (function.equals("activity"))
+			return calendar.getActivity(year, month);
+		else if (function.equals("picture"))
+			return calendar.getPicture(year, month);
+		else
+			return null;
+	}
 
 	// =================== cost function ======================//
 
@@ -114,10 +125,6 @@ public class CalendarApi {
 		String id = jobj.get("id").toString();
 
 		return calendar.deleteCost(account, Integer.parseInt(id));
-	}
-	
-	public String getCostJsonAnalyzing() {
-		return calendar.getCost();
 	}
 
 	// =================== activity function ======================//

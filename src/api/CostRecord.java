@@ -85,7 +85,6 @@ public class CostRecord {
 	public static String convertToJson(ArrayList<CostRecord> allCostData) {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		String jsonStr = gson.toJson(allCostData);
-		System.out.println(jsonStr);
 		return jsonStr;
 	}
 }

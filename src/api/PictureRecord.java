@@ -57,7 +57,6 @@ public class PictureRecord {
 		public static String convertToJson(ArrayList<PictureRecord> allPictureData) {
 			Gson gson = new GsonBuilder().setPrettyPrinting().create();
 			String jsonStr = gson.toJson(allPictureData);
-			System.out.println(jsonStr);
 			return jsonStr;
 		}
 }

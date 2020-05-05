@@ -7,21 +7,27 @@ import java.awt.AlphaComposite;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
-import com.google.gson.Gson;
-
 public class ColorHair {
+	boolean first = true;
 
-	public String createFolder(String name) {
-		String path = "WebContent/static/img/hair-match/user/" + name;
-		File file = new File(path);
-		file.mkdir(); // 建立資料夾
-		return path + "/";
+	public String createFolder(String path, String name) throws IOException {
+		String userPath = path + "/" + name;
+		try {
+			File file = new File(userPath);
+			if (!file.exists())
+				file.mkdir();// 建立資料夾
+			else
+				first = false;
+		} catch (Exception e) {
+			System.out.println("'" + path + "'此資料夾不存在");
+		}
+		return userPath; // 回傳使用者的資料夾路徑
 	}
 
 	public File getColorPicture(String path, String color) {
-		int red = Integer.valueOf(color.substring(1, 3), 16);
-		int green = Integer.valueOf(color.substring(3, 5), 16);
-		int blue = Integer.valueOf(color.substring(5, 7), 16);
+		int red = Integer.valueOf(color.substring(0, 2), 16);
+		int green = Integer.valueOf(color.substring(2, 4), 16);
+		int blue = Integer.valueOf(color.substring(4, 6), 16);
 		int width = 400, height = 400;
 		BufferedImage colorImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		Graphics2D graphics2d = (Graphics2D) colorImage.getGraphics();
@@ -29,17 +35,19 @@ public class ColorHair {
 		graphics2d.setPaint(new Color(red, green, blue));
 		graphics2d.fillRect(0, 0, width, height);
 
-		File file = new File(path + color + ".png");
+		File file = new File(path + "/" + color + ".png");
 		try {
 			ImageIO.write(colorImage, "png", file);
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println("IOException " + e);
 		}
 		return file;
 	}
 
-	public String getColorHair(String path, String picture, File colorFile) throws IOException {
-		File hairFile = new File(picture);
+	public String getColorHair(String hairstyleFolderRealPath, String folder, String path, String picture,
+			File colorFile) throws IOException {
+		String hairPath = hairstyleFolderRealPath + "/" + folder + "/" + picture;
+		File hairFile = new File(hairPath);
 		BufferedImage hairImg = ImageIO.read(hairFile);
 		BufferedImage colorImg = ImageIO.read(colorFile);
 		Graphics2D g2d = hairImg.createGraphics();
@@ -48,24 +56,25 @@ public class ColorHair {
 		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP, 0.5f)); // 頭髮照片與顏色照片合併
 		g2d.drawImage(colorImg, 0, 0, Width, Height, null);
 		g2d.dispose();
-		File newFile = new File(path + "/current.png");
-		ImageIO.write(hairImg, "png", newFile); // 產生合成照片
+
 		colorFile.delete(); // 輸出照片後刪掉顏色照片
-		String url = newFile.getPath();
-		Hair hair = new Hair(url);
-		Gson gson = new Gson();
-		String ans = gson.toJson(hair);
-		return ans;
+		String fileName = null;
+		if (first) // 第一次使用這功能 第一次建立資料夾
+			fileName = CodeGenerator.getRandomCode(6); // 隨機產生一個檔案名稱
+		else { // 已有個人資料夾
+			fileName = getUserPictureName(path); // 取得資料夾內檔案名稱
+			fileName = fileName.substring(0, 6); // 留前六個字元 去掉.png字串
+		}
+		String newFileName = fileName + ".png";
+		File newFile = new File(path + "/" + newFileName);
+		ImageIO.write(hairImg, "png", newFile); // 產生合成照片
+		return fileName + ".png";
 	}
 
-	public static void main(String args[]) throws IOException {
-		String picture = "WebContent\\static\\img\\hair-match\\hairstyle-source\\boy-short\\boy1.png";
-		String color = "#FF7F50"; // 選擇的顏色
-		String userName = "haaa"; // 使用者名稱
-		ColorHair colorHair = new ColorHair();
-		String path = colorHair.createFolder(userName); // 獲得使用者新建的個人資料夾路徑
-		File colorFile = colorHair.getColorPicture(path, color); // 獲得使用者選的顏色照片
-		String url = colorHair.getColorHair(path, picture, colorFile);
-		System.out.println(url); // ======這裡輸出JSON======
+	public static String getUserPictureName(String path) {
+		File user = new File(path);
+		String[] filenames;
+		filenames = user.list(); // 回傳資料夾內所有檔案的檔名(含副檔名)
+		return filenames[0];
 	}
 }

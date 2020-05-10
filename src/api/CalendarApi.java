@@ -11,47 +11,47 @@ public class CalendarApi {
 
 	// =================== to know what action will do ======================//
 
-	public boolean newJsonAnalyzing(String account, String jsonObject) {
+	public boolean newJsonAnalyzing(String jsonObject) {
 		
 		JsonObject jobj = new Gson().fromJson(jsonObject, JsonObject.class);
 		String function = jobj.get("func").getAsString();
 		if (function.equals("cost"))
-			return costNewJsonAnalyzing(account, jsonObject);
+			return costNewJsonAnalyzing(jsonObject);
 		else if (function.equals("activity")) {
-			return activityNewJsonAnalyzing(account, jsonObject);
+			return activityNewJsonAnalyzing(jsonObject);
 			}
 		else if (function.equals("picture"))
-			return pictureNewJsonAnalyzing(account, jsonObject);
+			return pictureNewJsonAnalyzing(jsonObject);
 		else
 			return false;
 
 	}
 
-	public boolean deleteJsonAnalyzing(String account, String jsonObject) {
+	public boolean deleteJsonAnalyzing(String jsonObject) {
 
 		JsonObject jobj = new Gson().fromJson(jsonObject, JsonObject.class);
 		String function = jobj.get("func").getAsString();
 		if (function.equals("cost"))
-			return costDeleteJsonAnalyzing(account, jsonObject);
+			return costDeleteJsonAnalyzing(jsonObject);
 		else if (function.equals("activity"))
-			return activityDeleteJsonAnalyzing(account, jsonObject);
+			return activityDeleteJsonAnalyzing(jsonObject);
 		else if (function.equals("picture"))
-			return pictureDeleteJsonAnalyzing(account, jsonObject);
+			return pictureDeleteJsonAnalyzing(jsonObject);
 		else
 			return false;
 
 	}
 
-	public boolean updateJsonAnalyzing(String account, String jsonObject) {
+	public boolean updateJsonAnalyzing(String jsonObject) {
 
 		JsonObject jobj = new Gson().fromJson(jsonObject, JsonObject.class);
 		String function = jobj.get("func").getAsString();
 		if (function.equals("cost"))
-			return costUpdateJsonAnalyzing(account, jsonObject);
+			return costUpdateJsonAnalyzing(jsonObject);
 		else if (function.equals("activity"))
-			return activityUpdateJsonAnalyzing(account, jsonObject);
+			return activityUpdateJsonAnalyzing(jsonObject);
 		else if (function.equals("picture"))
-			return pictureUpdateJsonAnalyzing(account, jsonObject);
+			return pictureUpdateJsonAnalyzing(jsonObject);
 		else
 			return false;
 
@@ -70,58 +70,27 @@ public class CalendarApi {
 
 	// =================== cost function ======================//
 
-	public boolean costNewJsonAnalyzing(String account, String jsonObject) {
+	public boolean costNewJsonAnalyzing(String jsonObject) {
 
 		JsonObject jobj = new Gson().fromJson(jsonObject, JsonObject.class);
-
-		String time = jobj.get("time").getAsString();
-		String category = jobj.get("category").getAsString();
-		String kind = jobj.get("kind").getAsString();
-		String cost = jobj.get("cost").toString();
-		String description = jobj.get("description").getAsString();
-		String color = jobj.get("color").getAsString();
-
-		CostRecord costRecord = new CostRecord();
-		costRecord.setAccount(account);
-		costRecord.setTime(time);
-		costRecord.setCategory(category);
-		costRecord.setKind(kind);
-		costRecord.setCost(Integer.parseInt(cost));
-		costRecord.setDescription(description);
-		costRecord.setColor(color);
-
+		CostRecord costRecord = new Gson().fromJson(jobj, CostRecord.class);
+		
 		return calendar.newCost(costRecord);
 	}
 
-	public boolean costUpdateJsonAnalyzing(String account, String jsonObject) {
+	public boolean costUpdateJsonAnalyzing(String jsonObject) {
 
 		JsonObject jobj = new Gson().fromJson(jsonObject, JsonObject.class);
-
-		String id = jobj.get("id").toString();
-		String time = jobj.get("time").getAsString();
-		String category = jobj.get("category").getAsString();
-		String kind = jobj.get("kind").getAsString();
-		String cost = jobj.get("cost").toString();
-		String description = jobj.get("description").getAsString();
-		String color = jobj.get("color").getAsString();
-
-		CostRecord costRecord = new CostRecord();
-		costRecord.setId(Integer.parseInt(id));
-		costRecord.setAccount(account);
-		costRecord.setTime(time);
-		costRecord.setCategory(category);
-		costRecord.setKind(kind);
-		costRecord.setCost(Integer.parseInt(cost));
-		costRecord.setDescription(description);
-		costRecord.setColor(color);
-
+		CostRecord costRecord = new Gson().fromJson(jobj, CostRecord.class);
+		
 		return calendar.updateCost(costRecord);
 	}
 
-	public boolean costDeleteJsonAnalyzing(String account, String jsonObject) {
+	public boolean costDeleteJsonAnalyzing(String jsonObject) {
 
 		JsonObject jobj = new Gson().fromJson(jsonObject, JsonObject.class);
 
+		String account = jobj.get("account").getAsString();
 		String id = jobj.get("id").toString();
 
 		return calendar.deleteCost(account, Integer.parseInt(id));
@@ -129,54 +98,27 @@ public class CalendarApi {
 
 	// =================== activity function ======================//
 
-	public boolean activityNewJsonAnalyzing(String account, String jsonObject) {
+	public boolean activityNewJsonAnalyzing(String jsonObject) {
 		
 		JsonObject jobj = new Gson().fromJson(jsonObject, JsonObject.class);
-
-		String activityName = jobj.get("activityName").getAsString();
-		String startTime = jobj.get("startTime").getAsString();
-		String endTime = jobj.get("endTime").getAsString();
-		String color = jobj.get("color").getAsString();
-		String noticeTime = jobj.get("noticeTime").getAsString();
-
-		ActivityRecord activityRecord = new ActivityRecord();
-		activityRecord.setAccount(account);
-		activityRecord.setActivityName(activityName);
-		activityRecord.setStartTime(startTime);
-		activityRecord.setEndTime(endTime);
-		activityRecord.setNoticeTime(Integer.parseInt(noticeTime));
-		activityRecord.setColor(color);
+		ActivityRecord activityRecord = new Gson().fromJson(jobj, ActivityRecord.class);
 
 		return calendar.newActivity(activityRecord);
 	}
 
-	public boolean activityUpdateJsonAnalyzing(String account, String jsonObject) {
+	public boolean activityUpdateJsonAnalyzing(String jsonObject) {
 
 		JsonObject jobj = new Gson().fromJson(jsonObject, JsonObject.class);
-
-		String id = jobj.get("id").toString();
-		String activityName = jobj.get("activityName").getAsString();
-		String startTime = jobj.get("startTime").getAsString();
-		String endTime = jobj.get("endTime").getAsString();
-		String color = jobj.get("color").getAsString();
-		String noticeTime = jobj.get("noticeTime").toString();
-		
-		ActivityRecord activityRecord = new ActivityRecord();
-		activityRecord.setId(Integer.parseInt(id));
-		activityRecord.setAccount(account);
-		activityRecord.setActivityName(activityName);
-		activityRecord.setStartTime(startTime);
-		activityRecord.setEndTime(endTime);
-		activityRecord.setNoticeTime(Integer.parseInt(noticeTime));
-		activityRecord.setColor(color);
+		ActivityRecord activityRecord = new Gson().fromJson(jobj, ActivityRecord.class);
 
 		return calendar.updateActivity(activityRecord);
 	}
 
-	public boolean activityDeleteJsonAnalyzing(String account, String jsonObject) {
+	public boolean activityDeleteJsonAnalyzing(String jsonObject) {
 
 		JsonObject jobj = new Gson().fromJson(jsonObject, JsonObject.class);
 
+		String account = jobj.get("account").getAsString();
 		String id = jobj.get("id").toString();
 
 		return calendar.deleteActivity(account, Integer.parseInt(id));
@@ -184,46 +126,27 @@ public class CalendarApi {
 
 	// =================== picture function ======================//
 
-	public boolean pictureNewJsonAnalyzing(String account, String jsonObject) {
+	public boolean pictureNewJsonAnalyzing(String jsonObject) {
 
 		JsonObject jobj = new Gson().fromJson(jsonObject, JsonObject.class);
-
-		String pictureBlob = jobj.get("picture").getAsString();
-		String description = jobj.get("description").getAsString();
-		String time = jobj.get("time").getAsString();
-
-		PictureRecord pictureRecord = new PictureRecord();
-		pictureRecord.setAccount(account);
-		pictureRecord.setPictrue(pictureBlob);
-		pictureRecord.setDescription(description);
-		pictureRecord.setTime(time);
+		PictureRecord pictureRecord  = new Gson().fromJson(jobj, PictureRecord.class);
 
 		return calendar.newPicture(pictureRecord);
 	}
 
-	public boolean pictureUpdateJsonAnalyzing(String account, String jsonObject) {
+	public boolean pictureUpdateJsonAnalyzing(String jsonObject) {
 
 		JsonObject jobj = new Gson().fromJson(jsonObject, JsonObject.class);
-
-		String id = jobj.get("id").toString();
-		String pictureBlob = jobj.get("picture").getAsString();
-		String description = jobj.get("description").getAsString();
-		String time = jobj.get("time").getAsString();
-
-		PictureRecord pictureRecord = new PictureRecord();
-		pictureRecord.setId(Integer.parseInt(id));
-		pictureRecord.setAccount(account);
-		pictureRecord.setPictrue(pictureBlob);
-		pictureRecord.setDescription(description);
-		pictureRecord.setTime(time);
+		PictureRecord pictureRecord  = new Gson().fromJson(jobj, PictureRecord.class);
 
 		return calendar.updatePicture(pictureRecord);
 	}
 
-	public boolean pictureDeleteJsonAnalyzing(String account, String jsonObject) {
+	public boolean pictureDeleteJsonAnalyzing(String jsonObject) {
 
 		JsonObject jobj = new Gson().fromJson(jsonObject, JsonObject.class);
 
+		String account = jobj.get("account").getAsString();
 		String id = jobj.get("id").toString();
 
 		return calendar.deletePicture(account, Integer.parseInt(id));

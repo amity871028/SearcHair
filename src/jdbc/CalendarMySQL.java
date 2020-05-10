@@ -94,9 +94,10 @@ public class CalendarMySQL {
 
 	public boolean updateCost(CostRecord costRecord) {
 		try {
-			rs = stat.executeQuery("SELECT account FROM activity WHERE id = " + costRecord.getId());
+			rs = stat.executeQuery("SELECT account FROM cost WHERE id = " + costRecord.getId());
 			if (rs.next()) {
 				String checkAccount = rs.getString("account");
+				System.out.println(checkAccount);
 				if (checkAccount.equals(costRecord.getAccount())) {
 					// using delete and insert instead of update each attribute
 					rsInt = stat.executeUpdate("DELETE FROM cost WHERE id = " + costRecord.getId());
@@ -118,6 +119,7 @@ public class CalendarMySQL {
 		} finally {
 			database.close();
 		}
+		System.out.println(rsInt);
 		if (rsInt == 1)
 			return true;
 		else
@@ -128,7 +130,7 @@ public class CalendarMySQL {
 		String[] timeArray = getPeriod(year, month);
 		ArrayList<CostRecord> allCost = new ArrayList<CostRecord>();
 		try {
-			String whereClause = " where time between '" + timeArray[0] + "' and '" + timeArray[1] + "'";
+			String whereClause = " WHERE time between '" + timeArray[0] + "' and '" + timeArray[1] + "'";
 			rs = stat.executeQuery(selectCost + whereClause);
 			// select * from cost where time between '2019-08-01' and '2019-08-31'
 
@@ -159,7 +161,7 @@ public class CalendarMySQL {
 		int id = 0;
 		try {
 			// find max id to know what id will this data has
-			rs = stat.executeQuery("select MAX(id) from activity");
+			rs = stat.executeQuery("SELECT MAX(id) FROM activity");
 			if (rs.next()) {
 				id = rs.getInt(1) + 1;
 			}

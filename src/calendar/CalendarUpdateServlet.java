@@ -40,14 +40,12 @@ public class CalendarUpdateServlet extends HttpServlet {
 		response.setHeader("Access-Control-Allow-Origin", "*");
 		response.setHeader("Access-Control-Allow-Methods", "POST");
 		// read json
-		
 		BufferedReader reader = request.getReader();
 		String json = reader.readLine();
 		reader.close();
 		
-		String account = "123@gmail.com";
 		CalendarApi calendarApi = new CalendarApi();
-		boolean result = calendarApi.updateJsonAnalyzing(account, json);
+		boolean result = calendarApi.updateJsonAnalyzing(json);
 		if (result == true)
 			response.setStatus(HttpServletResponse.SC_OK);
 		else

@@ -44,9 +44,8 @@ public class CalendarNewServlet extends HttpServlet {
 		String json = reader.readLine();
 		reader.close();
 		
-		String account = "1234@gmail.com";
 		CalendarApi calendarApi = new CalendarApi();
-		boolean result = calendarApi.newJsonAnalyzing(account, json);
+		boolean result = calendarApi.newJsonAnalyzing(json);
 		if (result == true)
 			response.setStatus(HttpServletResponse.SC_OK);
 		else

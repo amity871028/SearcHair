@@ -45,9 +45,8 @@ public class CalendarDeleteServlet extends HttpServlet {
 		String json = reader.readLine();
 		reader.close();
 		
-		String account = "1234@gmail.com";
 		CalendarApi calendarApi = new CalendarApi();
-		boolean result = calendarApi.deleteJsonAnalyzing(account, json);
+		boolean result = calendarApi.deleteJsonAnalyzing(json);
 		if (result == true)
 			response.setStatus(HttpServletResponse.SC_OK);
 		else

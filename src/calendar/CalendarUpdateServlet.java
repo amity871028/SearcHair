@@ -21,7 +21,6 @@ public class CalendarUpdateServlet extends HttpServlet {
      */
     public CalendarUpdateServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**

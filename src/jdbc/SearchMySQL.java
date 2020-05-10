@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
+
 import com.google.gson.Gson;
 
 import search.*;
@@ -17,9 +19,10 @@ public class SearchMySQL {
 	private Connection con = database.getConnection();
 	private ResultSet rs = null;
 
-	public String searchSalon() {
+	public String searchSalon(int page) {
 		System.out.println("輸出所有店家");
 		int salonID, stylistID;
+		int num = 1; // 計算有幾筆資料
 		String ans = null;
 		ArrayList<AllSalon> AllSalon_List = new ArrayList<AllSalon>();
 
@@ -28,7 +31,7 @@ public class SearchMySQL {
 			rs = stat.executeQuery("select * from salon");
 			while (rs.next()) {
 				AllSalon allSalon = new AllSalon();
-				ArrayList<String> service_List = new ArrayList<String>();
+				ArrayList<String> all_Service_List = new ArrayList<String>();
 				salonID = rs.getInt("id");
 				allSalon.setID(rs.getInt("id"));
 				allSalon.setName(rs.getString("name"));
@@ -48,9 +51,15 @@ public class SearchMySQL {
 					stt = con.createStatement();
 					rst = stt.executeQuery("select name from service where stylist=" + stylistID);
 					while (rst.next()) // 搜尋某設計師有提供的服務
-						service_List.add(rst.getString("name"));
+						all_Service_List.add(rst.getString("name"));
+
+					LinkedHashSet<String> set = new LinkedHashSet<String>(all_Service_List); // 刪除重複的值(service)
+					ArrayList<String> service_List = new ArrayList<String>(set);
+					allSalon.setService(service_List);
 				}
-				AllSalon_List.add(allSalon);
+				if (num <= page * 100 && num > (page - 1) * 100)
+					AllSalon_List.add(allSalon);
+				num++;
 			}
 			AllSalon output = new AllSalon();
 			ans = output.convertToJson(AllSalon_List);
@@ -58,14 +67,15 @@ public class SearchMySQL {
 		} catch (SQLException e) {
 			System.out.println("select table SQLException:" + e.toString());
 		} finally {
-			database.close();
+			// database.close();
 		}
 		return ans;
 	}
 
-	public String searchStylist() {
+	public String searchStylist(int page) {
 		System.out.println("輸出所有設計師");
 		int stylistID, salonID;
+		int num = 1; // 計算有幾筆資料
 		String ans = null;
 		ArrayList<AllStylist> AllStylist_List = new ArrayList<AllStylist>();
 		try {
@@ -76,6 +86,7 @@ public class SearchMySQL {
 				salonID = rs.getInt("salon");
 				stylistID = rs.getInt("id");
 				allStylist.setID(rs.getInt("id"));
+				allStylist.setSalonId(rs.getInt("salon"));
 				allStylist.setName(rs.getString("name"));
 				allStylist.setJobTitle(rs.getString("job_title"));
 				allStylist.setPicture(rs.getString("picture"));
@@ -104,7 +115,9 @@ public class SearchMySQL {
 					Service_List.add(service);
 				}
 				allStylist.setService(Service_List);
-				AllStylist_List.add(allStylist);
+				if (num <= page * 100 && num > (page - 1) * 100)
+					AllStylist_List.add(allStylist);
+				num++;
 			}
 			AllStylist output = new AllStylist();
 			ans = output.convertToJson(AllStylist_List);
@@ -112,14 +125,15 @@ public class SearchMySQL {
 		} catch (SQLException e) {
 			System.out.println("select table SQLException:" + e.toString());
 		} finally {
-			database.close();
+			// database.close();
 		}
 		return ans;
 	}
 
-	public String searchStylistWorks() {
+	public String searchStylistWorks(int page) {
 		System.out.println("輸出所有髮型");
 		int stylistID;
+		int num = 1; // 計算有幾筆資料
 		String ans = null;
 		ArrayList<AllStylistWorks> allStylistWorksList = new ArrayList<AllStylistWorks>();
 		try {
@@ -141,7 +155,9 @@ public class SearchMySQL {
 					allStylistWorks.setStylist(RS.getString("name"));
 					allStylistWorks.setStylistJobTitle(RS.getString("job_title"));
 				}
-				allStylistWorksList.add(allStylistWorks);
+				if (num <= page * 100 && num > (page - 1) * 100)
+					allStylistWorksList.add(allStylistWorks);
+				num++;
 			}
 			AllStylistWorks output = new AllStylistWorks();
 			ans = output.convertToJson(allStylistWorksList);
@@ -150,7 +166,7 @@ public class SearchMySQL {
 		} catch (SQLException e) {
 			System.out.println("select table SQLException:" + e.toString());
 		} finally {
-			database.close();
+			// database.close();
 		}
 		return ans;
 	}
@@ -158,6 +174,7 @@ public class SearchMySQL {
 	public String searchOneSalon(int num) {
 		System.out.println("輸出單一店家");
 		int id = num;
+		int count = 0;
 		String ans = null;
 		ArrayList<StylistInfo> StylistInfo_List = new ArrayList<StylistInfo>();
 
@@ -180,20 +197,27 @@ public class SearchMySQL {
 				while (RS.next()) {
 					ArrayList<Work> Work_List = new ArrayList<Work>();
 					StylistInfo stylistInfo = new StylistInfo();
+					Work work = new Work();
 					id = RS.getInt("id");
 					stylistInfo.setID(RS.getInt("id"));
 					stylistInfo.setName(RS.getString("name"));
 					stylistInfo.setPicture(RS.getString("picture"));
+					stylistInfo.setStylistJobTitle(RS.getString("job_title"));
 
 					Statement stt = null;
 					ResultSet rst = null;
 					stt = con.createStatement();
-					rst = stt.executeQuery("select * from stylist_works where stylist=" + id); // ����身閮葦��������
+					rst = stt.executeQuery("select * from stylist_works where stylist=" + id); // 找出某設計師的所有作品
 					while (rst.next()) {
-						Work work = new Work();
 						work.setID(rst.getInt("id"));
 						work.setPicture(rst.getString("picture"));
-						Work_List.add(work);
+						work.setDescription(rst.getString("description"));
+						work.setHashtag(rst.getString("hashtag"));
+						if (count < 3)
+							Work_List.add(work);
+						else
+							break;
+						count++;
 					}
 					stylistInfo.setWorks(Work_List);
 					StylistInfo_List.add(stylistInfo);
@@ -224,6 +248,7 @@ public class SearchMySQL {
 				salonID = rs.getInt("salon");
 				stylist.setName(rs.getString("name"));
 				stylist.setJobTitle(rs.getString("job_title"));
+				stylist.setSalonId(rs.getInt("salon"));
 				stylist.setPicture(rs.getString("picture"));
 
 				Statement ST = null;
@@ -257,6 +282,8 @@ public class SearchMySQL {
 					Work work = new Work();
 					work.setID(rst.getInt("id"));
 					work.setPicture(rst.getString("picture"));
+					work.setDescription(rst.getString("description"));
+					work.setHashtag(rst.getString("hashtag"));
 					Work_List.add(work);
 				}
 				stylist.setService(Service_List);
@@ -312,11 +339,11 @@ public class SearchMySQL {
 
 	public static void main(String args[]) {
 		SearchMySQL test = new SearchMySQL();
-		test.searchSalon();
+		test.searchSalon(1);
 		test.searchOneSalon(5);
-		test.searchStylist();
+		test.searchStylist(1);
 		test.searchOneStylist(88);
-		test.searchStylistWorks();
+		test.searchStylistWorks(1);
 		test.searchOneStylistWork(1);
 	}
 }

@@ -48,9 +48,12 @@
     <servlet-name>CalendarGetServlet</servlet-name>
     <servlet-class>calendar.CalendarGetServlet</servlet-class>
   </servlet>
+  <servlet>
+		<servlet-name>HairMatchServlet</servlet-name>
+		<servlet-class>hairMatch.HairMatchServlet</servlet-class>
+	</servlet>
   
-  
-
+ 
 <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/api-user-login</url-pattern>
@@ -95,4 +98,8 @@
         <servlet-name>CalendarGetServlet</servlet-name>
         <url-pattern>/api-calendar</url-pattern>
   </servlet-mapping>
+  	<servlet-mapping>
+		<servlet-name>HairMatchServlet</servlet-name>
+		<url-pattern>/api-hairMatch</url-pattern>
+	</servlet-mapping>
 </web-app>

@@ -21,7 +21,6 @@ public class CalendarDeleteServlet extends HttpServlet {
      */
     public CalendarDeleteServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**

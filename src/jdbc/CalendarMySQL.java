@@ -1,8 +1,6 @@
 package jdbc;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.sql.Blob;
+
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -12,13 +10,8 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.stream.IntStream;
-
-import javax.sql.rowset.serial.SerialBlob;
-
-import org.apache.tomcat.util.codec.binary.Base64;
 
 import api.ActivityRecord;
 import api.CostRecord;
@@ -97,7 +90,6 @@ public class CalendarMySQL {
 			rs = stat.executeQuery("SELECT account FROM cost WHERE id = " + costRecord.getId());
 			if (rs.next()) {
 				String checkAccount = rs.getString("account");
-				System.out.println(checkAccount);
 				if (checkAccount.equals(costRecord.getAccount())) {
 					// using delete and insert instead of update each attribute
 					rsInt = stat.executeUpdate("DELETE FROM cost WHERE id = " + costRecord.getId());
@@ -119,19 +111,19 @@ public class CalendarMySQL {
 		} finally {
 			database.close();
 		}
-		System.out.println(rsInt);
 		if (rsInt == 1)
 			return true;
 		else
 			return false;
 	}
 
-	public String getCost(int year, int month) {
+	public String getCost(String account, int year, int month) {
 		String[] timeArray = getPeriod(year, month);
 		ArrayList<CostRecord> allCost = new ArrayList<CostRecord>();
 		try {
-			String whereClause = " WHERE time between '" + timeArray[0] + "' and '" + timeArray[1] + "'";
-			rs = stat.executeQuery(selectCost + whereClause);
+			String getTime = " WHERE (time between '" + timeArray[0] + "' and '" + timeArray[1] + "')";
+			String getAccount = "(account = '" + account + "')";
+			rs = stat.executeQuery(selectCost + getTime + "AND " + getAccount);
 			// select * from cost where time between '2019-08-01' and '2019-08-31'
 
 			while (rs.next()) {
@@ -269,12 +261,13 @@ public class CalendarMySQL {
 			return false;
 	}
 
-	public String getActivity(int year, int month) {
+	public String getActivity(String account, int year, int month) {
 		String[] timeArray = getPeriod(year, month);
 		ArrayList<ActivityRecord> allActivity = new ArrayList<ActivityRecord>();
 		try {
-			String whereClause = " where start_time between '" + timeArray[0] + "' and '" + timeArray[1] + "'";
-			rs = stat.executeQuery(selectActivity + whereClause);
+			String getTime = " where (start_time between '" + timeArray[0] + "' and '" + timeArray[1] + "')";
+			String getAccount = "(account = '" + account + "')";
+			rs = stat.executeQuery(selectActivity + getTime + "AND " + getAccount);
 			while (rs.next()) {
 				ActivityRecord activityRecord = new ActivityRecord();
 				activityRecord.setId(rs.getInt("id"));
@@ -422,19 +415,19 @@ public class CalendarMySQL {
 			return false;
 	}
 
-	public String getPicture(int year, int month) {
+	public String getPicture(String account, int year, int month) {
 		String[] timeArray = getPeriod(year, month);
 		ArrayList<PictureRecord> allPicture = new ArrayList<PictureRecord>();
 		try {
-			String whereClause = " where time between '" + timeArray[0] + "' and '" + timeArray[1] + "'";
-			rs = stat.executeQuery(selectPicture + whereClause);
+			String getTime = " where (time between '" + timeArray[0] + "' and '" + timeArray[1] + "')";
+			String getAccount = "(account = '" + account + "')";
+			rs = stat.executeQuery(selectPicture + getTime + "AND " + getAccount);
 
 			while (rs.next()) {
 				PictureRecord pictureRecord = new PictureRecord();
 				pictureRecord.setId(rs.getInt("id"));
 				pictureRecord.setDescription(rs.getString("description"));
-				String picture = blobToString(rs.getBlob("picture"));
-				pictureRecord.setPictrue(picture);
+				pictureRecord.setPictrue(rs.getString("picture"));
 				pictureRecord.setTime(rs.getString("time"));
 				allPicture.add(pictureRecord);
 			}
@@ -444,15 +437,6 @@ public class CalendarMySQL {
 			database.close();
 		}
 		return PictureRecord.convertToJson(allPicture);
-	}
-	
-	public String blobToString(Blob picture) throws SQLException {
-		Blob blob = picture;
-		int blobLength = (int) blob.length();  
-		byte[] blobAsBytes = blob.getBytes(1, blobLength);
-		String blobString = new String(Base64.encodeBase64(blobAsBytes));
-		
-		return blobString;
 	}
 	
 	// =================== time convert function ==========================//
@@ -497,9 +481,6 @@ public class CalendarMySQL {
 		timeArray[1] = df.format(cal.getTime());		
 		return timeArray;
 	}
-	
-	
-
 }
 
 

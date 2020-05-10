@@ -41,13 +41,14 @@ public class CalendarGetServlet extends HttpServlet {
 		response.setHeader("Access-Control-Allow-Methods", "GET");
 		
 		String function = request.getParameter("func");
+		String account = request.getParameter("account");
 		int year = Integer.parseInt(request.getParameter("year"));
 		int month = Integer.parseInt(request.getParameter("month"));
 		String result = null;
 
 		CalendarApi calendarApi = new CalendarApi();
 		
-		result = calendarApi.getJsonAnalyzing(function, year, month);
+		result = calendarApi.getJsonAnalyzing(function, account, year, month);
 
 		response.getWriter().append(result);
 	}

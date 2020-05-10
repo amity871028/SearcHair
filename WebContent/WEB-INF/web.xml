@@ -51,7 +51,7 @@
   <servlet>
 		<servlet-name>HairMatchServlet</servlet-name>
 		<servlet-class>hairMatch.HairMatchServlet</servlet-class>
-	</servlet>
+</servlet>
   
  
 <servlet-mapping>
@@ -98,8 +98,8 @@
         <servlet-name>CalendarGetServlet</servlet-name>
         <url-pattern>/api-calendar</url-pattern>
   </servlet-mapping>
-  	<servlet-mapping>
-		<servlet-name>HairMatchServlet</servlet-name>
+  <servlet-mapping>
+	<servlet-name>HairMatchServlet</servlet-name>
 		<url-pattern>/api-hairMatch</url-pattern>
 	</servlet-mapping>
 </web-app>

@@ -18,7 +18,6 @@ public class SearchMySQL {
 	private ResultSet rs = null;
 
 	public String searchSalon(int page, String keyword, String[] service) {
-		System.out.println("輸出所有店家");
 		int salonID, stylistID;
 		int num = 1; // 計算有幾筆資料
 		String ans = null;
@@ -119,7 +118,6 @@ public class SearchMySQL {
 			ArrayList<AllSalon> output_List = new ArrayList<AllSalon>(set);
 			AllSalon output = new AllSalon();
 			ans = output.convertToJson(output_List);
-			System.out.println(ans); // ======這裡輸出JSON======
 		} catch (SQLException e) {
 			System.out.println("select table SQLException:" + e.toString());
 		} finally {
@@ -129,7 +127,6 @@ public class SearchMySQL {
 	}
 
 	public String searchStylist(int page, String keyword, String[] serviceArray, int[] price) {
-		System.out.println("輸出所有設計師");
 		int stylistID, salonID;
 		int num = 1; // 計算有幾筆資料
 		String ans = null;
@@ -243,7 +240,6 @@ public class SearchMySQL {
 			}
 			AllStylist output = new AllStylist();
 			ans = output.convertToJson(AllStylist_List);
-			System.out.println(ans); // ======這裡輸出JSON======
 		} catch (SQLException e) {
 			System.out.println("select table SQLException:" + e.toString());
 		} finally {
@@ -253,7 +249,6 @@ public class SearchMySQL {
 	}
 
 	public String searchStylistWorks(int page, String keyword) {
-		System.out.println("輸出所有髮型");
 		int stylistID;
 		int num = 1; // 計算有幾筆資料
 		String ans = null;
@@ -289,8 +284,6 @@ public class SearchMySQL {
 			}
 			AllStylistWorks output = new AllStylistWorks();
 			ans = output.convertToJson(allStylistWorksList);
-			System.out.println(ans); // ======這裡輸出JSON======
-
 		} catch (SQLException e) {
 			System.out.println("select table SQLException:" + e.toString());
 		} finally {
@@ -300,7 +293,6 @@ public class SearchMySQL {
 	}
 
 	public String searchOneSalon(int num) {
-		System.out.println("輸出單一店家");
 		int id = num;
 		int count = 0;
 		String ans = null;
@@ -352,7 +344,6 @@ public class SearchMySQL {
 				}
 				salon.setStylistInfo(StylistInfo_List);
 				ans = salon.convertToJson(salon);
-				System.out.println(ans); // ======這裡輸出JSON======
 			}
 		} catch (SQLException e) {
 			System.out.println("select table SQLException:" + e.toString());
@@ -363,7 +354,6 @@ public class SearchMySQL {
 	}
 
 	public String searchOneStylist(int num) { // num為要找的設計師id號碼
-		System.out.println("輸出單一設計師");
 		int salonID;
 		String ans = null;
 		Stylist stylist = new Stylist();
@@ -419,7 +409,6 @@ public class SearchMySQL {
 			}
 			Stylist output = new Stylist();
 			ans = output.convertToJson(stylist);
-			System.out.println(ans); // ======這裡輸出JSON======
 		} catch (SQLException e) {
 			System.out.println("select table SQLException:" + e.toString());
 		} finally {
@@ -429,7 +418,6 @@ public class SearchMySQL {
 	}
 
 	public String searchOneStylistWork(int num) {
-		System.out.println("輸出單一髮型");
 		int id, stylistID;
 		String picture, description, hashtag;
 		String ans = null;
@@ -455,7 +443,6 @@ public class SearchMySQL {
 				StylistWorks stylistWorks = new StylistWorks(id, picture, stylist, job_title, description, hashtag);
 				Gson gson = new Gson();
 				ans = gson.toJson(stylistWorks);
-				System.out.println(ans);// ======這裡輸出JSON======
 			}
 		} catch (SQLException e) {
 			System.out.println("select table SQLException:" + e.toString());
@@ -465,19 +452,4 @@ public class SearchMySQL {
 		return ans;
 	}
 
-	public static void main(String args[]) {
-		SearchMySQL test = new SearchMySQL();
-		String[] service = { "其他","w髮" }; // ["洗髮","染髮", "其他" ] // "w髮", "髮q"
-		int[] price = { -1, 1000000 };
-
-		// String[] service = null;
-		// int[] price = null;
-
-//		test.searchSalon(1, "d", null);
-//		test.searchOneSalon(5);
-//		test.searchStylist(1, null, service, price);
-//		test.searchOneStylist(88);
-//		test.searchStylistWorks(1, "w");
-//		test.searchOneStylistWork(1);
-	}
 }

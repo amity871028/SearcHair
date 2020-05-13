@@ -4,14 +4,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import api.UserApi;
-import user.SendMail;
-
 /**
  * Servlet implementation class ForgetPasswordServlet
  */
@@ -52,7 +49,6 @@ public class ForgetPasswordServlet extends HttpServlet {
 		System.out.println(json);
 		UserApi user = new UserApi();
 		String result = user.forgetPasswordJsonAnalyzing(json); // this result will be user account
-		// System.out.println(result);
 		try {
 			if (result.equals("fail")) {
 				response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

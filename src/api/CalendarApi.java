@@ -17,9 +17,8 @@ public class CalendarApi {
 		String function = jobj.get("func").getAsString();
 		if (function.equals("cost"))
 			return costNewJsonAnalyzing(jsonObject);
-		else if (function.equals("activity")) {
+		else if (function.equals("activity"))
 			return activityNewJsonAnalyzing(jsonObject);
-			}
 		else if (function.equals("picture"))
 			return pictureNewJsonAnalyzing(jsonObject);
 		else

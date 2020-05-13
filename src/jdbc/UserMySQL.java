@@ -30,17 +30,15 @@ public class UserMySQL {
 			return false;
 	}
 
-	public boolean userChecking(String account, String password) {
+	public String userChecking(String account, String password) {
+		String userName = null;
 		try {
-			String checkDBUser = " where account = " + account;
-			password = password.replace("\"", ""); // take out ""
-			rs = stat.executeQuery(selectSQL + checkDBUser);
+			String checkDBUser = " select * from users where account = " + account;
+			rs = stat.executeQuery(checkDBUser);
 			if (rs.next()) {
 				String correctPassword = rs.getString("password");
 				if (correctPassword.equals(password)) { // compare password
-					result = true;
-				} else {
-					result = false;
+					userName = rs.getString("name");
 				}
 			}
 		} catch (SQLException e) {
@@ -48,13 +46,12 @@ public class UserMySQL {
 		} finally {
 			database.close();
 		}
-		return result;
+		return userName;
 	}
 
 	public boolean userCertification(String account, String name) {
 		try {
 			String checkDBUser = " where account = " + account;
-			name = name.replace("\"", ""); // take out ""
 
 			rs = stat.executeQuery(selectSQL + checkDBUser);
 			if (rs.next()) {
@@ -77,9 +74,7 @@ public class UserMySQL {
 
 	public boolean userResetPassword(String account, String password) {
 		try {
-			account = account.replace("\"", ""); // take out ""
-			password = password.replace("\"", ""); // take out ""
-			String updatePassword = "UPDATE users SET password = '" + password + "'  WHERE account = '" + account + "'";
+			String updatePassword = "UPDATE users SET password = '" + password + "'  WHERE account = " + account;
 			rsInt = stat.executeUpdate(updatePassword);
 		} catch (SQLException e) {
 			e.printStackTrace();

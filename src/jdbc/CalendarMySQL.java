@@ -58,10 +58,7 @@ public class CalendarMySQL {
 		} finally {
 			database.close();
 		}
-		if (rsInt == 1)
-			return true;
-		else
-			return false;
+		return (rsInt==1)?true:false;
 	}
 
 	public boolean deleteCost(String account, int id) {
@@ -79,10 +76,7 @@ public class CalendarMySQL {
 		} finally {
 			database.close();
 		}
-		if (rsInt == 1)
-			return true;
-		else
-			return false;
+		return (rsInt==1)?true:false;
 	}
 
 	public boolean updateCost(CostRecord costRecord) {
@@ -111,10 +105,7 @@ public class CalendarMySQL {
 		} finally {
 			database.close();
 		}
-		if (rsInt == 1)
-			return true;
-		else
-			return false;
+		return (rsInt==1)?true:false;
 	}
 
 	public String getCost(String account, int year, int month) {
@@ -185,10 +176,7 @@ public class CalendarMySQL {
 		} finally {
 			database.close();
 		}
-		if (rsInt == 1)
-			return true;
-		else
-			return false;
+		return (rsInt==1)?true:false;
 	}
 
 	public boolean deleteActivity(String account, int id) {
@@ -210,10 +198,7 @@ public class CalendarMySQL {
 		} finally {
 			database.close();
 		}
-		if (rsInt == 1)
-			return true;
-		else
-			return false;
+		return (rsInt==1)?true:false;
 	}
 
 	public boolean updateActivity(ActivityRecord activityRecord) {
@@ -255,10 +240,7 @@ public class CalendarMySQL {
 		} finally {
 			database.close();
 		}
-		if (rsInt == 1)
-			return true;
-		else
-			return false;
+		return (rsInt==1)?true:false;
 	}
 
 	public String getActivity(String account, int year, int month) {
@@ -328,16 +310,19 @@ public class CalendarMySQL {
 			e.printStackTrace();
 		}
 
-		if (rsInt == 1)
-			return true;
-		else
-			return false;
+		return (rsInt==1)?true:false;
 	}
 
 	// =================== picture function ==========================//
 
 	public boolean newPicture(PictureRecord pictureRecord) {
 		try {
+			String timeWhereClause = " WHERE (time = '" + Date.valueOf(pictureRecord.getTime()) + "') " ;
+			String accountWhereClause = " (account = '" + pictureRecord.getAccount() + "')";
+			rs = stat.executeQuery(selectPicture + timeWhereClause + "AND" + accountWhereClause);
+			if (rs.next()) {
+				return false;
+			}
 			// find max id to know what id will this data has
 			int id = 0;
 			rs = stat.executeQuery("select MAX(id) from picture_in_calendar");
@@ -359,10 +344,7 @@ public class CalendarMySQL {
 		} finally {
 			database.close();
 		}
-		if (rsInt == 1)
-			return true;
-		else
-			return false;
+		return (rsInt==1)?true:false;
 	}
 
 	public boolean deletePicture(String account, int id) {
@@ -380,10 +362,7 @@ public class CalendarMySQL {
 		} finally {
 			database.close();
 		}
-		if (rsInt == 1)
-			return true;
-		else
-			return false;
+		return (rsInt==1)?true:false;
 	}
 
 	public boolean updatePicture(PictureRecord pictureRecord) {
@@ -409,10 +388,7 @@ public class CalendarMySQL {
 		} finally {
 			database.close();
 		}
-		if (rsInt == 1)
-			return true;
-		else
-			return false;
+		return (rsInt==1)?true:false;
 	}
 
 	public String getPicture(String account, int year, int month) {

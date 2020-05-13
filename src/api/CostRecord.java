@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import search.AllSalon;
-
 public class CostRecord {
 	int id;
 	String account;

@@ -51,7 +51,6 @@ public class UpdatePasswordServlet extends HttpServlet {
 		UserApi user = new UserApi();
 		try {
 			boolean result = user.checkUser(json);
-
 			if (result == true)
 				response.setStatus(HttpServletResponse.SC_OK);
 			else

@@ -74,9 +74,9 @@ public class UserApi {
 		String oldPassword = jsonobj.get("oldPassword").getAsString();
 		String newPassword = jsonobj.get("newPassword").getAsString();
 		
-		if (!user.userChecking(account, oldPassword).equals(null)) {
-			UserMySQL user1 = new UserMySQL();
-			return user1.userResetPassword(account, newPassword);
+		if (user.userChecking(account, oldPassword) != null) {
+			UserMySQL reset = new UserMySQL();
+			return reset.userResetPassword(account, newPassword);
 		} else {
 			return false;
 		}

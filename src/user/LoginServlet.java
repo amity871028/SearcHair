@@ -42,11 +42,10 @@ public class LoginServlet extends HttpServlet {
 		response.setHeader("Access-Control-Allow-Origin", "*");
 		response.setHeader("Access-Control-Allow-Methods", "POST");
 		// read json
-		/*
+		
 		BufferedReader reader = request.getReader();
 		String json = reader.readLine();
-		reader.close();*/
-		String json = "{'account':'1234@gmail.com', 'password': '12345678'}";
+		reader.close();
 		
 		// pass json to api
 		UserApi user = new UserApi();

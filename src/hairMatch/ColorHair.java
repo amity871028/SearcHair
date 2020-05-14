@@ -15,7 +15,7 @@ public class ColorHair {
 		try {
 			File file = new File(userPath);
 			if (!file.exists())
-				file.mkdir();// 建立資料夾
+				file.mkdir(); // 建立資料夾
 			else
 				first = false;
 		} catch (Exception e) {
@@ -68,7 +68,8 @@ public class ColorHair {
 		String newFileName = fileName + ".png";
 		File newFile = new File(path + "/" + newFileName);
 		ImageIO.write(hairImg, "png", newFile); // 產生合成照片
-		return fileName + ".png";
+		ToImgur toImgur = new ToImgur();
+		return toImgur.getImgur(null, newFile);
 	}
 
 	public static String getUserPictureName(String path) {
@@ -77,4 +78,5 @@ public class ColorHair {
 		filenames = user.list(); // 回傳資料夾內所有檔案的檔名(含副檔名)
 		return filenames[0];
 	}
+
 }

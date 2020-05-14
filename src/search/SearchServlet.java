@@ -39,15 +39,25 @@ public class SearchServlet extends HttpServlet {
 
 		String function = request.getParameter("func");
 		String page = request.getParameter("page");
+		String keyword = request.getParameter("keyword");
+		String[] service = request.getParameterValues("service");
+		String[] priceArr = request.getParameterValues("price");
 		String result = null;
+
+		int[] price = null;
+		if (priceArr != null) { // ¦³¶Ç¤Jprice°}¦C
+			price = new int[2];
+			price[0] = Integer.parseInt(priceArr[0]);
+			price[1] = Integer.parseInt(priceArr[1]);
+		}
 
 		SearchApi search = new SearchApi();
 		if (function.equals(ALL_SALON))
-			result = search.getAllSalon(Integer.parseInt(page));
+			result = search.getAllSalon(Integer.parseInt(page), keyword, service);
 		else if ((function.equals(ALL_STYLIST)))
-			result = search.getAllStylist(Integer.parseInt(page));
+			result = search.getAllStylist(Integer.parseInt(page), keyword, service, price);
 		else if ((function.equals(ALL_STYLIST_WORK)))
-			result = search.getAllStylistWorks(Integer.parseInt(page));
+			result = search.getAllStylistWorks(Integer.parseInt(page), keyword);
 
 		response.getWriter().append(result);
 	}

@@ -263,7 +263,8 @@ public class CalendarMySQL {
 					stat1 = con.createStatement();
 					rs1 = stat1.executeQuery("SELECT notice_time FROM activity_notice WHERE activity_id = " + rs.getInt("id"));
 					if(rs1.next()) {
-						activityRecord.setNoticeTime(rs1.getInt("notice_time"));
+						int minutes = calculateTimeDifference(rs.getTimestamp("start_time"), rs1.getTimestamp("notice_time"));
+						activityRecord.setNoticeTime(minutes);
 					}
 				}
 				else {
@@ -456,6 +457,12 @@ public class CalendarMySQL {
 		}
 		timeArray[1] = df.format(cal.getTime());		
 		return timeArray;
+	}
+	
+	public int calculateTimeDifference(Timestamp d1, Timestamp d2) {
+		long diff = d1.getTime() - d2.getTime();
+		long min = diff / (1000 * 60);
+		return (int)min;
 	}
 }
 

@@ -1,5 +1,5 @@
-const settingAPI = 
-	password: '/api/user/password/update'
+const settingAPI = {
+	password: 'api-user-password-update'
 };
 const PASSWORD = ['old-password', 'new-password', 'confirm-new-password'];
 
@@ -29,15 +29,17 @@ function validatePassword() {
 async function updatePassword() {
   validatePassword();
   document.getElementById('update-password-wrong').innerHTML = '';
-console.log("??");
   if (document.forms['update-password-form'].reportValidity()) {
     const newPassword = document.getElementById('new-password').value;
     if (newPassword.length >= 8) {
+    	console.log("old: " + document.getElementById('old-password').value);
+    	console.log("new: " + newPassword)
       const result = await FetchData.post(settingAPI.password, {
+    	account: localStorage.getItem('account'),
         oldPassword: document.getElementById('old-password').value,
-        newPassword: document.getElementById('new-password').value,
+        newPassword: newPassword,
       });
-
+      console.log(result.status);
       if (result.status === 401) {
         document.getElementById('update-password-wrong').innerHTML = '舊密碼錯誤或是未登入。';
         console.log("?!!!?");

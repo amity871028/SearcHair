@@ -18,7 +18,7 @@ var header = '<!--Navbar--> \
             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink"> \
                 <a class="dropdown-item" href="search-salon.html">店家</a> \
                 <a class="dropdown-item" href="search-stylist.html">設計師</a> \
-                <a class="dropdown-item" href="search-hairstyle.html">髮型</a> \
+                <a class="dropdown-item" href="search-stylist-work.html">髮型</a> \
             </div> \
         </li> \
         <li class="nav-item"> \
@@ -35,21 +35,28 @@ var header = '<!--Navbar--> \
         </li>--> \
     </ul> \
      \
-    <ul class="navbar-nav ml-auto"> \
-        <li class="nav-item"> \
-            <a class="nav-link" href="weather.html">基隆市,  <img src="./static/img/weather/iconfinder_weather-10_809985.png" id="weather-picture"> 23℃</a> \
-        </li> \
-    \
-        <li class="nav-item dropdown"> \
-        <a class="nav-link dropdown-toggle active" href="#"  id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="./static/img/test頭貼.jpg" id="user-photo"> <span id="user-name">林小美</span></a> \
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink"> \
-            <a class="dropdown-item" href="calendar.html">月曆</a> \
-            <a class="dropdown-item" href="favorite.html">我的最愛</a> \
-            <a class="dropdown-item" href="setting.html">設定</a> \
-        </div> \
-    </li> \
-    \
-        <li class="nav-item active"> \
+    <ul class="navbar-nav ml-auto">';
+if(localStorage.getItem("account")){
+	
+	header += '<li class="nav-item dropdown"> \
+	        <a class="nav-link dropdown-toggle active" href="#"  id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><!--<img src="#" id="user-photo">--> <span id="user-name">林小美</span></a> \
+	        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink"> \
+	            <a class="dropdown-item" href="calendar.html">月曆</a> \
+	            <a class="dropdown-item" href="favorite.html">我的最愛</a> \
+	            <a class="dropdown-item" href="setting.html">設定</a> \
+	        </div> \
+    	</li> \
+		\
+		<li class="nav-item active"> \
+	        <a class="nav-link" href="#" id="logout" onclick="logout();">登出</a> \
+	    </li> \
+	</ul> \
+</nav> \
+<!--/.Navbar-->' ;
+		
+ }
+    else{
+    	header+='<li class="nav-item active"> \
             <a class="nav-link" href="#login-modal" data-toggle="modal">登入</a> \
         </li> \
         <li class="nav-item active"> \
@@ -58,6 +65,7 @@ var header = '<!--Navbar--> \
     </ul> \
 </nav> \
 <!--/.Navbar-->';
+    }
 document.write(header);
 document.write('<script src="./static/js/login.js"></script>');
 document.write('<script src="./static/js/register.js"></script>');

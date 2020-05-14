@@ -24,19 +24,25 @@ async function login() {
 			account : document.getElementById('login-user-name').value,
 			password : document.getElementById('login-password').value,
 		});
-		if (result.status === 401) {
+		
+		const resultJson = await result.json();
+		const userName = resultJson.name;
+		//const userName = "amity";
+		if (userName === null) {
 			// show wrong msg
 			document.getElementById('login-wrong').innerText = '帳號或密碼錯誤';
 		} else {
 			// refresh page
-			//window.location.reload();
+			localStorage.setItem("account", document.getElementById('login-user-name').value);
+			localStorage.setItem("name", userName);
+			window.location.reload();
 		}
 	}
 }
 
 async function register() {
 	// clear register-wrong content
-	document.getElementById('register-wrong').innerText = '　';
+	document.getElementById('register-wrong').innerText = '';
 	// validate filed and show hint
 	if (document.forms['register-form'].reportValidity()) {
 		// get input value
@@ -54,6 +60,12 @@ async function register() {
 		}
 	}
 }
+
+function logout(){
+	localStorage.clear();
+	window.location.reload();
+}
+
 function authInit() {
 	// add event listener
 	document.getElementById('login').addEventListener('click', login);
@@ -63,6 +75,8 @@ function authInit() {
 			validatePassword);
 	document.getElementById('register-confirm-password').addEventListener(
 			'keyup', validatePassword);
+	
+	document.getElementById('user-name').innerHTML = localStorage.getItem('name');
 }
 
 window.addEventListener('load', authInit);

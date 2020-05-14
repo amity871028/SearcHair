@@ -12,12 +12,12 @@ public class UserApi {
 
 	private UserMySQL user = new UserMySQL();
 
-	public boolean loginJsonAnalyzing(String jsonObject) {
+	public String loginJsonAnalyzing(String jsonObject) {
 
 		JsonObject jobj = new Gson().fromJson(jsonObject, JsonObject.class);
 
 		String account = jobj.get("account").toString();
-		String password = jobj.get("password").toString();
+		String password = jobj.get("password").getAsString();
 		return user.userChecking(account, password);
 	}
 
@@ -26,7 +26,7 @@ public class UserApi {
 		JsonObject jsonobj = new Gson().fromJson(jsonObject, JsonObject.class);
 
 		String account = jsonobj.get("account").toString();
-		String name = jsonobj.get("name").toString();
+		String name = jsonobj.get("name").getAsString();
 		String password = jsonobj.get("password").toString();
 
 		return user.userInsertion(account, password, name);
@@ -37,7 +37,7 @@ public class UserApi {
 		JsonObject jsonobj = new Gson().fromJson(jsonObject, JsonObject.class);
 
 		String account = jsonobj.get("account").toString();
-		String name = jsonobj.get("name").toString();
+		String name = jsonobj.get("name").getAsString();
 		if (user.userCertification(account, name) == true)
 			return account;
 		else
@@ -67,16 +67,16 @@ public class UserApi {
 		return value;
 	}
 
-	public boolean checkUser(String jsonObject, String userToken) throws Exception {
+	public boolean checkUser(String jsonObject) throws Exception {
 
 		JsonObject jsonobj = new Gson().fromJson(jsonObject, JsonObject.class);
-		String oldPassword = jsonobj.get("oldPassword").toString();
-		String newPassword = jsonobj.get("newPassword").toString();
-		MakeToken token = new MakeToken();
-		String account = token.decrypt(userToken);
-
-		if (user.userChecking(account, oldPassword) == true) {
-			return user.userResetPassword(account, newPassword);
+		String account = jsonobj.get("account").toString();
+		String oldPassword = jsonobj.get("oldPassword").getAsString();
+		String newPassword = jsonobj.get("newPassword").getAsString();
+		
+		if (user.userChecking(account, oldPassword) != null) {
+			UserMySQL reset = new UserMySQL();
+			return reset.userResetPassword(account, newPassword);
 		} else {
 			return false;
 		}

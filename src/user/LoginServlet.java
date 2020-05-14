@@ -8,7 +8,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import api.UserApi;
+import com.google.gson.JsonObject;
+
+import api.UserApi;;
 
 /**
  * Servlet implementation class LoginServlet
@@ -25,6 +27,7 @@ public class LoginServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		doPost(request, response);
 	}
 
 	/**
@@ -39,17 +42,20 @@ public class LoginServlet extends HttpServlet {
 		response.setHeader("Access-Control-Allow-Origin", "*");
 		response.setHeader("Access-Control-Allow-Methods", "POST");
 		// read json
+		
 		BufferedReader reader = request.getReader();
 		String json = reader.readLine();
 		reader.close();
-		System.out.println("json " + json);
+		
 		// pass json to api
 		UserApi user = new UserApi();
-		boolean result = user.loginJsonAnalyzing(json);
-		if (result == true)
-			response.setStatus(HttpServletResponse.SC_OK);
-		else
-			response.setStatus(HttpServletResponse.SC_CONFLICT);
+		String result = user.loginJsonAnalyzing(json);
+		
+		// make json
+		JsonObject arrayObj = new JsonObject();
+        arrayObj.addProperty("name", result);
+        
+		response.getWriter().print(arrayObj);
 	}
 
 }

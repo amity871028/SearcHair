@@ -28,6 +28,7 @@ public class UpdatePasswordServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		doPost(request, response);
 
 	}
 
@@ -46,13 +47,10 @@ public class UpdatePasswordServlet extends HttpServlet {
 		BufferedReader reader = request.getReader();
 		String json = reader.readLine();
 		reader.close();
-		System.out.println(json);
+		
 		UserApi user = new UserApi();
-		String token = user.getValueFromCookie(request.getCookies(), "token");
 		try {
-			boolean result = user.checkUser(json, token);
-			System.out.println(result);
-
+			boolean result = user.checkUser(json);
 			if (result == true)
 				response.setStatus(HttpServletResponse.SC_OK);
 			else

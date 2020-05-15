@@ -17,17 +17,16 @@ public class HairMatchApi {
 	}
 
 	public String getColorHairPicutre(String userFolderRealPath, String hairstyleFolderRealPath, String folder,
-			String picture, String color, String userName) throws IOException {
-		String path = colorHair.createFolder(userFolderRealPath, userName);
-		File colorFile = colorHair.getColorPicture(path, color);
-		return colorHair.getColorHair(hairstyleFolderRealPath, folder, path, picture, colorFile);
+			String picture, String color) throws IOException {
+		File colorFile = colorHair.getColorPicture(userFolderRealPath, color);
+		return colorHair.getColorHair(hairstyleFolderRealPath, folder, userFolderRealPath, picture, colorFile);
 	}
-	
-	public String getJsonToImgur(String jsonObject) throws IOException {
+
+	public String getJsonToImgur(String jsonObject, String userFolderRealPath) throws IOException {
 		JsonObject jobj = new Gson().fromJson(jsonObject, JsonObject.class);
 		String imgData = jobj.get("img").toString();
 		ToImgur toImgur = new ToImgur();
-		return toImgur.getImgur(imgData, null);
+		return toImgur.getImgur(imgData, null, userFolderRealPath);
 	}
-	
+
 }

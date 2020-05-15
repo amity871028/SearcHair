@@ -41,19 +41,18 @@ public class HairMatchServlet extends HttpServlet {
 
 		String function = request.getParameter("func");
 		String type = request.getParameter("type");
-		String userName = request.getParameter("userName");
 		String folder = request.getParameter("folder");
 		String picture = request.getParameter("picture");
 		String color = request.getParameter("color");
 		String result = null;
-		
+
 		ServletContext sc = request.getServletContext();
 		String userFolderRealPath = sc.getRealPath("img/hair-match/user");
 		String hairstyleFolderRealPath = sc.getRealPath("img/hair-match/hairstyle-source");
 
 		HairMatchApi hairMatch = new HairMatchApi();
 		if (function.equals("hairColor")) {
-			String url = hairMatch.getColorHairPicutre(userFolderRealPath, hairstyleFolderRealPath, folder, picture, color, userName);			
+			String url = hairMatch.getColorHairPicutre(userFolderRealPath, hairstyleFolderRealPath, folder, picture, color);
 			Hair hair = new Hair(url);
 			Gson gson = new Gson();
 			result = gson.toJson(hair); // 轉成JSON檔
@@ -64,26 +63,30 @@ public class HairMatchServlet extends HttpServlet {
 		}
 		response.getWriter().append(result);
 	}
-	
+
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=UTF-8");
 		request.setCharacterEncoding("UTF-8");
 		response.setHeader("Access-Control-Allow-Origin", "*");
 		response.setHeader("Access-Control-Allow-Methods", "POST");
-		
+
+		ServletContext sc = request.getServletContext();
+		String userFolderRealPath = sc.getRealPath("img/hair-match/user");
 		BufferedReader reader = request.getReader();
 		String json = reader.readLine();
 		reader.close();
-		
+
 		HairMatchApi hairMatchApi = new HairMatchApi();
-		String result = hairMatchApi.getJsonToImgur(json);
+		String result = hairMatchApi.getJsonToImgur(json, userFolderRealPath);
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty("url", result);
-		
+
 		response.getWriter().print(jsonObject);
 	}
 }

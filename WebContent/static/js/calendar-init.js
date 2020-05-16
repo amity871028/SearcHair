@@ -44,7 +44,11 @@ function refreshDate(){
 		}else{
 			myclass = " class='darkgrey'"; //当该日期在今天之后时，以深灰字体显示
 		}
-		str += "<a href='#'><li"+myclass+">"+i+"</li></a>"; //创建日期节点
+		let my_month_plus_1 = parseInt(my_month) + 1;
+		if(my_month_plus_1 < 10) my_month_plus_1 = "0" + my_month_plus_1;
+		let date = i;
+		if(date < 10) date = "0" + date;
+		str += `<a href='#' id='${my_year}-${my_month_plus_1}-${date}' onclick='updateSideBar(this.id);'><li${myclass}>${i}<br></li></a>`; //创建日期节点
 	}
 	holder.innerHTML = str; //设置日期显示
 	ctitle.innerHTML = month_name[my_month]; //设置英文月份显示

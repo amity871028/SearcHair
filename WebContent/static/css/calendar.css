@@ -59,6 +59,11 @@ tbody tr {
     height: 40px;
 }
 
+#activity-name {
+	display: initial;
+    width: 65%;
+}
+
 #start-time {
     margin: 5px auto;
 }
@@ -66,23 +71,51 @@ tbody tr {
 .color-display {
     width: 7px;
 }
-.red {
-    background-color: red;
+
+.red-color {
+    background-color: #FF9999;
 }
 
-.blue {
-    background-color: blue;
+.orange-color {
+    background-color: #FFCC99;
 }
 
+.yellow-color {
+	background-color: #FFFF99;
+}
+
+.green-color {
+	background-color: #99CC66;
+}
+
+.blue-color {
+    background-color: #99CCFF;
+}
+
+.indigo-color {
+	background-color: #336699;
+}
+
+.purple-color {
+	background-color: #CC99CC;
+}
+
+.color-div {
+	width: 15px;
+    height: 15px;
+    display: inline-block;
+    border-radius: 15%;
+}
 #color-mark {
     width: 60px;
 }
 
-img {
+#hair-photo, #show-new-photo {
     width: 160px;
-    position: relative;
-    left: 70px;
-    margin: 10 auto;
+    display: block;
+    right: 0;
+    left: 0;
+    margin: 8px auto;
 }
 
 p {
@@ -97,19 +130,19 @@ p {
     float: right;
 }
 
-#cost-txt {
+#cost-cost {
     display: initial;
     width: 100px;
     height: 30px;
 }
 
-#description, #photo-description {
+#cost-description, #photo-description {
     display: initial;
-    width: initial;
+    width: 85%;
     vertical-align: top;
 }
 
-#recode-hair-form .form-group {
+.new-photo {
     text-align: center;
 }
 
@@ -121,6 +154,15 @@ p {
 
 .description-form {
     margin: 0px 48px 0px 0px;
+}
+
+#activity, #cost, #hair-condition {
+    height: 66vh;
+    overflow-y: auto;	
+}
+
+#cost-tbody td {
+    line-height: 40px;
 }
 
 /* ---------------------------------------------------

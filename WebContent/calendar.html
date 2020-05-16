@@ -6,6 +6,8 @@
         
         <title>月曆</title>
         <script src="./static/js/navbar.js"></script>
+        <script src="./static/js/lib/fetch-data.js"></script>
+        <script src="./static/js/auth.js"></script>
         <link rel="stylesheet" href="./static/css/all-setting.css">
         <link rel="stylesheet" href="./static/css/calendar.css">
         <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
@@ -13,7 +15,9 @@
         <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
         <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pickadate.js/3.5.6/compressed/picker.js"></script>
-        <link href="../fontawesome-free-5.12.1-web/css/all.css" rel="stylesheet">
+        <link href="./fontawesome-free-5.12.1-web/css/all.css" rel="stylesheet">
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script src="http://html2canvas.hertzen.com/dist/html2canvas.js"></script>
         <script src="./static/js/calendar-init.js"></script>
         <script src="./static/js/calendar.js"></script>
     </head>
@@ -30,7 +34,7 @@
 
                 <a href="#add-modal" data-toggle="modal"><i class="fas fa-plus-circle add" title="新增"></i></a>
                 <div class="sidebar-header">
-                    <h3>2020/2/7</h3>
+                    <h3 id="date-title"></h3>
                     <hr>
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item">
@@ -44,32 +48,22 @@
                         </li>
                       </ul>
                       <div class="tab-content" id="myTabContent">
+                      
                         <div class="tab-pane fade show active" id="activity" role="tabpanel">
-                            <table class="table table-borderless">
-                                <thead>
-                                  <tr>
-                                    <th class="color-display"></th>
-                                    <th scope="col">時間</th>
-                                    <th scope="col">活動</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td class="red"></td>
-                                        <td>早上 08:30<br>下午 13:00</td>
-                                        <td>去亂剪剪頭髮</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="blue"></td>
-                                        <td>下午 13:00<br>下午 14:00</td>
-                                        <td>去小屈買洗髮精</td>
-                                    </tr>
-                                </tbody>
-                              </table>
+							<table class="table table-borderless" id="aaa">
+							    <thead>
+							      <tr>
+							        <th class="color-display"></th>
+							        <th scope="col">時間</th>
+							        <th scope="col">活動</th>
+							      </tr>
+							    </thead>
+							    <tbody id="activity-tbody"></tbody>
+							 </table>
                         </div>
 
                         <div class="tab-pane fade" id="cost" role="tabpanel">
-                            <h5>總花費：1439</h5>
+                            <h5 id="total-cost">總花費：1439</h5>
                             <table class="table table-borderless">
                                 <thead>
                                   <tr>
@@ -78,24 +72,15 @@
                                     <th scope="col">分類</th>
                                   </tr>
                                 </thead>
-                                <tbody>
-                                  <tr>
-                                    <td class="red"></td>
-                                    <td>1200</td>
-                                    <td>美髮-染髮</td>
-                                  </tr>
-                                  <tr>
-                                    <td class="blue"></td>
-                                    <td>239</td>
-                                    <td>商品-洗髮精</td>
-                                  </tr>
-                                </tbody>
-                              </table>
+                                <tbody id="cost-tbody"></tbody>
+                            </table>
                         </div>
 
                         <div class="tab-pane fade" id="hair-condition" role="tabpanel">
-                            <img src="./static/img/test_photo3.png">
-                            <p>染頭髮day1</p>
+                        	<div id="hair-photo-div">
+                            <!-- <img src="img/blank.png" id="hair-photo" alt="還沒有新增照片喔！">
+                            <p id="hair-description"></p> -->
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -161,9 +146,9 @@
                     </div>
                     <div class="modal-body">
                         <div class="list-group">
-                            <a href="#add-activity-modal" class="list-group-item list-group-item-action" data-toggle="modal">新增活動</a>
-                            <a href="#add-cost-modal" class="list-group-item list-group-item-action" data-toggle="modal">記帳</a>
-                            <a href="#record-hair-modal" class="list-group-item list-group-item-action" data-toggle="modal">記錄頭髮</a>
+                            <a href="#add-activity-modal" class="list-group-item list-group-item-action" data-toggle="modal" onclick="clearModal('add');">新增活動</a>
+                            <a href="#add-cost-modal" class="list-group-item list-group-item-action" data-toggle="modal" onclick="clearModal('cost');">記帳</a>
+                            <a href="#record-hair-modal" class="list-group-item list-group-item-action" data-toggle="modal" onclick="clearModal('picture');">記錄頭髮</a>
                         </div>
                     </div>
                 </div>
@@ -187,36 +172,57 @@
                                 <input type="text" class="form-control" id="activity-name" required>
                             </div>
                             <div class="form-group">
-                                時間：<br>
-                                開始：<input type="datetime-local" id="start-time" required><br>
-                                結束：<input type="datetime-local" id="end-time" required>
+					                                時間：<input type="date" id="activity-date" required><br>
+					                                －開始：<input type="time" id="start-time" required><br>
+					                                －結束：<input type="time" id="end-time" required>
+					             <small id="activity-time-wrong" class="form-text wrong-msg"></small>
                             </div>
                             <div class="form-group">
-                                <label for="color-mark" class="col-form-label">顏色：</label>
-                                <select id="color-mark" class="red">
-                                    <option class="red"></option>
-                                    <option class="blue"></option>
-                                </select>
+                                <label for="activity-color-mark" class="col-form-label">顏色：</label>
+                                <label class="radio-inline"><input type="radio" name="activity-color" value="red" checked>
+                                	<div class="red-color color-div"></div>
+                                </label>
+                                <label class="radio-inline"><input type="radio" name="activity-color" value="orange">
+                                	<div class="orange-color color-div"></div>
+                                </label>
+                                <label class="radio-inline"><input type="radio" name="activity-color" value="yellow">
+                                	<div class="yellow-color color-div"></div>
+                                </label>
+                                <label class="radio-inline"><input type="radio" name="activity-color" value="green">
+                                	<div class="green-color color-div"></div>
+                                </label>
+                                <label class="radio-inline"><input type="radio" name="activity-color" value="blue">
+                                	<div class="blue-color color-div"></div>
+                                </label>
+                                <label class="radio-inline"><input type="radio" name="activity-color" value="indigo">
+                                	<div class="indigo-color color-div"></div>
+                                </label>
+                                <label class="radio-inline"><input type="radio" name="activity-color" value="purple"	>
+                                	<div class="purple-color color-div"></div>
+                                </label>
                             </div>
                             <div class="form-group">
-                                <label for="customSwitch1" class="col-form-label">提醒：</label>
+                                <label for="notice-switch" class="col-form-label">提醒：</label>
                                 <div class="custom-control custom-switch">
-                                    <input type="checkbox" class="custom-control-input" id="customSwitch1">
-                                    <label class="custom-control-label" for="customSwitch1">
-                                        <select id="notify">
-                                            <option id="min-10">10分鐘</option>
-                                            <option id="min-20">20分鐘</option>
-                                            <option id="min-30">30分鐘</option>
-                                            <option id="min-40">40分鐘</option>
-                                            <option id="min-50">50分鐘</option>
-                                            <option id="min-60">60分鐘</option>
-                                            <option id="day-1">一天</option>
+                                    <input type="checkbox" class="custom-control-input" id="notice-switch">
+                                    <label class="custom-control-label" for="notice-switch">
+                                        <select id="notice-time" disabled>
+                                            <option>10分鐘</option>
+                                            <option>20分鐘</option>
+                                            <option>30分鐘</option>
+                                            <option>40分鐘</option>
+                                            <option>50分鐘</option>
+                                            <option>60分鐘</option>
+                                            <option>一天</option>
                                         </select>
-                                        前
+                                       	 前
                                     </label>
                                 </div>
                             </div>
-                            <button type="button" class="btn btn-primary" id="add">新增</button>
+                            <button type="button" class="btn btn-primary" id="add-activity-btn">新增</button>
+                            <button type="button" class="btn btn-primary" id="update-activity-btn" style="display: none;">修改</button>
+                            <button type="button" class="btn btn-primary" id="delete-activity-btn" style="display: none;">刪除</button>
+                            <span id="activity-id" style="display: none">-1</span>
                         </form>
 
                     </div>
@@ -234,45 +240,66 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form id="activity-form">
+                        <form id="cost-form">
                             <div class="form-group">
-                                時間： <span id="cost-date">2020年2月7日 週一</span>
+                                	時間：<input type="date" id="cost-date" required>
                             </div>
 
                             <div class="form-group">
-                                類別：
+                                	類別：
                                 <select id="category">
-                                    <option id="hair">美髮</option>
-                                    <option id="product">商品</option>
+                                    <option>美髮</option>
+                                    <option>商品</option>
                                 </select>
                                 <select id="kind">
-                                    <option id="hair-0">洗髮</option>
-                                    <option id="hair-1">染髮</option>
-                                    <option id="hair-2">燙髮</option>
-                                    <option id="hair-3">護髮</option>
-                                    <option id="hair-4">其他</option>
+                                    <option>洗髮</option>
+                                    <option>剪髮</option>
+                                    <option>染髮</option>
+                                    <option>燙髮</option>
+                                    <option>護髮</option>
+                                    <option>其他</option>
                                 </select>
                             </div>
 
                             <div class="form-group">
-                                <label for="cost-txt" class="col-form-label">金額：</label>
-                                <input type="number" id="cost-txt" class="form-control" min="0" required>
+                                <label for="cost-cost" class="col-form-label">金額：</label>
+                                <input type="number" id="cost-cost" class="form-control" min="0" required>
                             </div>
 
                             <div class="form-group">
-                                <label for="description" class="col-form-label">備註：</label>
-                                <textarea id="description" cols="30" rows="2" class="form-control"></textarea>
+                                <label for="cost-description" class="col-form-label">備註：</label>
+                                <textarea id="cost-description" cols="30" rows="2" class="form-control"></textarea>
                             </div>
                             
                             <div class="form-group">
-                                <label for="color-mark" class="col-form-label">顏色：</label>
-                                <select id="color-mark" class="red">
-                                    <option class="red"></option>
-                                    <option class="blue"></option>
-                                </select>
+                                <label for="cost-color-mark" class="col-form-label">顏色：</label>
+                                <label class="radio-inline"><input type="radio" name="cost-color" value="red" checked>
+                                	<div class="red-color color-div"></div>
+                                </label>
+                                <label class="radio-inline"><input type="radio" name="cost-color" value="orange">
+                                	<div class="orange-color color-div"></div>
+                                </label>
+                                <label class="radio-inline"><input type="radio" name="cost-color" value="yellow">
+                                	<div class="yellow-color color-div"></div>
+                                </label>
+                                <label class="radio-inline"><input type="radio" name="cost-color" value="green">
+                                	<div class="green-color color-div"></div>
+                                </label>
+                                <label class="radio-inline"><input type="radio" name="cost-color" value="blue">
+                                	<div class="blue-color color-div"></div>
+                                </label>
+                                <label class="radio-inline"><input type="radio" name="cost-color" value="indigo">
+                                	<div class="indigo-color color-div"></div>
+                                </label>
+                                <label class="radio-inline"><input type="radio" name="cost-color" value="purple"	>
+                                	<div class="purple-color color-div"></div>
+                                </label>
                             </div>
                             
-                            <button type="button" class="btn btn-primary" id="add">新增</button>
+                            <button type="button" class="btn btn-primary" id="add-cost-btn">新增</button>
+                            <button type="button" class="btn btn-primary" id="update-cost-btn" style="display: none;">修改</button>
+                            <button type="button" class="btn btn-primary" id="delete-cost-btn" style="display: none;">刪除</button>
+                        	<span id="cost-id" style="display: none">-1</span>
                         </form>
 
                     </div>
@@ -290,20 +317,26 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form id="recode-hair-form">
+                        <form id="record-hair-form">
                             <div class="form-group">
+                                	時間：<input type="date" id="photo-date" required>
+                            </div>
+                            <div class="form-group new-photo">
                                 <label class="btn btn-primary">
-                                    <input type="file" name="picture" id="new-photo" style="display:none;" accept="image/*" required>
+                                    <input type="file" name="picture" id="new-hair-photo" style="display:none;" accept="image/*" required>
                                     <i class="fas fa-upload"></i> 上傳照片
                                 </label>
                             </div>
-                            <img src="./static/img/test_photo3.png">
+                            <img src="img/blank.png" id="show-new-photo"> <!-- 新增預設照片 -->
                             <div class="form-group description-form">
                                 <label for="photo-description" class="col-form-label">備註：</label>
                                 <textarea id="photo-description" cols="30" rows="2" class="form-control"></textarea>
                             </div>
                             
-                            <button type="button" class="btn btn-primary" id="add">新增</button>
+                            <button type="button" class="btn btn-primary" id="add-picture-btn">新增</button>
+							<button type="button" class="btn btn-primary" id="update-picture-btn" style="display: none;">修改</button>
+							<button type="button" class="btn btn-primary" id="delete-picture-btn" style="display: none;">刪除</button>
+							<span id="picture-id" style="display: none">-1</span>
                         </form>
 
                     </div>

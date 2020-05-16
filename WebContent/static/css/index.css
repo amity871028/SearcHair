@@ -34,7 +34,7 @@ i {
     font-size: 50px;
 }
 
-img {
+.all-link img {
     width: 50px;
 }
 
@@ -42,7 +42,7 @@ span {
     font-size: large;
 }
 
-.btn {
+.all-link .btn {
     width: 150px;
     height: 120px;
     margin: 10px;

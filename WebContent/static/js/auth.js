@@ -76,7 +76,9 @@ function authInit() {
 	document.getElementById('register-confirm-password').addEventListener(
 			'keyup', validatePassword);
 	
-	document.getElementById('user-name').innerHTML = localStorage.getItem('name');
+	if(localStorage.getItem('name')){
+		document.getElementById('user-name').innerHTML = localStorage.getItem('name');
+	}
 }
 
 window.addEventListener('load', authInit);

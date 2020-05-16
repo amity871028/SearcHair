@@ -1,3 +1,8 @@
+
+function delayURL(url, time) {
+  setTimeout(() => { window.location.href = `${url}`; }, time);
+}
+
 $(document).ready(function () {
     $('#dismiss, .overlay').on('click', function () {
         $('#sidebar').removeClass('active');
@@ -21,4 +26,6 @@ $(document).ready(function () {
         var a = this.src;
         this.src = "../static/img/favorite_undo.png";
     });
+    alert("尚未動工");
+    delayURL('./index.html', 200);
 });

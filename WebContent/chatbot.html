@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+        <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+        <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <script src="./static/js/lib/fetch-data.js"></script>
+        <script src="./static/js/chatbot.js"></script>
+        <link rel="stylesheet" href="./static/css/chatbot.css">
+    <title>SearcHair聊天機器人</title>
+
+</head>
+<body>
+    <div class="talk_con" id="talk_con_id">
+        <div class="talk_show" id="words">
+            <div class="atalk"><span id="asay">歡迎來到SearcHair聊天機器人</span></div>
+        </div>
+        <div class="talk_input"  id="talk_input_id">
+            <input type="text" class="talk_word" id="talkwords" placeholder = "請輸入訊息" onkeypress="InputPress()">
+            <input type="button" value="發送" class="talk_sub" id="talksub">
+        </div>
+    </div>
+</body>
+</html>

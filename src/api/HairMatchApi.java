@@ -17,9 +17,10 @@ public class HairMatchApi {
 	}
 
 	public String getColorHairPicutre(String userFolderRealPath, String hairstyleFolderRealPath, String folder,
-			String picture, String color) throws IOException {
-		File colorFile = colorHair.getColorPicture(userFolderRealPath, color);
-		return colorHair.getColorHair(hairstyleFolderRealPath, folder, userFolderRealPath, picture, colorFile);
+			String picture, String color, String userName) throws IOException {
+		String path = colorHair.createFolder(userFolderRealPath, userName);
+		File colorFile = colorHair.getColorPicture(path, color);
+		return colorHair.getColorHair(hairstyleFolderRealPath, folder, path, picture, colorFile);
 	}
 
 	public String getJsonToImgur(String jsonObject, String userFolderRealPath) throws IOException {
@@ -28,5 +29,4 @@ public class HairMatchApi {
 		ToImgur toImgur = new ToImgur();
 		return toImgur.getImgur(imgData, null, userFolderRealPath);
 	}
-
 }

@@ -8,6 +8,21 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
 public class ColorHair {
+	boolean first = true;
+
+	public String createFolder(String path, String name) throws IOException {
+		String userPath = path + "/" + name;
+		try {
+			File file = new File(userPath);
+			if (!file.exists())
+				file.mkdir();// 建立資料夾
+			else
+				first = false;
+		} catch (Exception e) {
+			System.out.println("'" + path + "'此資料夾不存在");
+		}
+		return userPath; // 回傳使用者的資料夾路徑
+	}
 
 	public File getColorPicture(String path, String color) {
 		int red = Integer.valueOf(color.substring(0, 2), 16);
@@ -41,17 +56,26 @@ public class ColorHair {
 		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP, 0.5f)); // 頭髮照片與顏色照片合併
 		g2d.drawImage(colorImg, 0, 0, Width, Height, null);
 		g2d.dispose();
-		colorFile.delete(); // 輸出照片後刪掉顏色照片
 
+		colorFile.delete(); // 輸出照片後刪掉顏色照片
 		String fileName = null;
-		fileName = CodeGenerator.getRandomCode(6); // 隨機產生檔案名稱
+		if (first) // 第一次使用這功能 第一次建立資料夾
+			fileName = CodeGenerator.getRandomCode(6); // 隨機產生一個檔案名稱
+		else { // 已有個人資料夾
+			deleteUserPicture(path); // 刪除資料夾內的照片
+			fileName = CodeGenerator.getRandomCode(6); // 隨機產生一個檔案名稱
+		}
 		String newFileName = fileName + ".png";
 		File newFile = new File(path + "/" + newFileName);
 		ImageIO.write(hairImg, "png", newFile); // 產生合成照片
-		ToImgur toImgur = new ToImgur();
-		String url = toImgur.getImgur(null, newFile, path);
-		newFile.delete(); // 輸出照片後刪掉
-		return url;
+		return fileName + ".png";
 	}
 
+	public static void deleteUserPicture(String path) {
+		File user = new File(path);
+		String[] filenames;
+		filenames = user.list(); // 回傳資料夾內所有檔案的檔名(含副檔名)
+		File noFile = new File(path + "/" + filenames[0]);
+		noFile.delete(); // 輸出照片後刪掉顏色照片
+	}
 }

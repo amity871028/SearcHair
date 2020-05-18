@@ -17,7 +17,7 @@ public class ToImgur {
 	public static String getImgur(String data, File newFile, String path) throws IOException {
 
 		String fileName = null;
-		fileName = CodeGenerator.getRandomCode(6); // 隨機產生檔案名稱
+		fileName = CodeGenerator.getRandomCode(6); //隨機產生檔案名稱
 		String newFileName = fileName + ".png";
 		File outputfile = new File(path + "/" + newFileName);
 		if (data != null) {
@@ -27,7 +27,7 @@ public class ToImgur {
 			ImageIO.write(img, "png", outputfile);
 		}
 		if (newFile != null)
-			copyFileUsingFileChannels(newFile, outputfile); // 把newFile複製到outputfile
+			copyFileUsingFileChannels(newFile, outputfile); //把newFile複製到outputfile
 
 		RequestBody request = RequestBody.create(MediaType.parse("image/*"), outputfile);
 		Call<ImageResponse> call = imgurApi.postImage(request);

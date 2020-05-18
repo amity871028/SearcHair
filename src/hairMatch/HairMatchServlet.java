@@ -41,6 +41,7 @@ public class HairMatchServlet extends HttpServlet {
 
 		String function = request.getParameter("func");
 		String type = request.getParameter("type");
+		String userName = request.getParameter("userName");
 		String folder = request.getParameter("folder");
 		String picture = request.getParameter("picture");
 		String color = request.getParameter("color");
@@ -52,7 +53,8 @@ public class HairMatchServlet extends HttpServlet {
 
 		HairMatchApi hairMatch = new HairMatchApi();
 		if (function.equals("hairColor")) {
-			String url = hairMatch.getColorHairPicutre(userFolderRealPath, hairstyleFolderRealPath, folder, picture, color);
+			String fileName = hairMatch.getColorHairPicutre(userFolderRealPath, hairstyleFolderRealPath, folder, picture, color, userName);
+			String url = UrlHandler.getBaseUrl(request) + "/img/hair-match/user/" + userName + "/" + fileName;
 			Hair hair = new Hair(url);
 			Gson gson = new Gson();
 			result = gson.toJson(hair); // 轉成JSON檔

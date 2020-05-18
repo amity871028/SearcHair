@@ -1,5 +1,6 @@
 package hairMatch;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 
 import javax.servlet.ServletContext;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import api.HairMatchApi;
 
@@ -44,7 +46,7 @@ public class HairMatchServlet extends HttpServlet {
 		String picture = request.getParameter("picture");
 		String color = request.getParameter("color");
 		String result = null;
-		
+
 		ServletContext sc = request.getServletContext();
 		String userFolderRealPath = sc.getRealPath("img/hair-match/user");
 		String hairstyleFolderRealPath = sc.getRealPath("img/hair-match/hairstyle-source");
@@ -61,9 +63,7 @@ public class HairMatchServlet extends HttpServlet {
 			String url = UrlHandler.getBaseUrl(request) + "/img/hair-match/hairstyle-source/" + type;
 			result = hairMatch.getAllHairstyles(url, hairstyleFolderRealPath, type);
 		}
-
 		response.getWriter().append(result);
-
 	}
 
 	/**
@@ -72,7 +72,23 @@ public class HairMatchServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		doGet(request, response);
-	}
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html;charset=UTF-8");
+		request.setCharacterEncoding("UTF-8");
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		response.setHeader("Access-Control-Allow-Methods", "POST");
 
+		ServletContext sc = request.getServletContext();
+		String userFolderRealPath = sc.getRealPath("img/hair-match/user");
+		BufferedReader reader = request.getReader();
+		String json = reader.readLine();
+		reader.close();
+
+		HairMatchApi hairMatchApi = new HairMatchApi();
+		String result = hairMatchApi.getJsonToImgur(json, userFolderRealPath);
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty("url", result);
+
+		response.getWriter().print(jsonObject);
+	}
 }

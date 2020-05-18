@@ -62,8 +62,8 @@ public class ColorHair {
 		if (first) // 第一次使用這功能 第一次建立資料夾
 			fileName = CodeGenerator.getRandomCode(6); // 隨機產生一個檔案名稱
 		else { // 已有個人資料夾
-			fileName = getUserPictureName(path); // 取得資料夾內檔案名稱
-			fileName = fileName.substring(0, 6); // 留前六個字元 去掉.png字串
+			deleteUserPicture(path); // 刪除資料夾內的照片
+			fileName = CodeGenerator.getRandomCode(6); // 隨機產生一個檔案名稱
 		}
 		String newFileName = fileName + ".png";
 		File newFile = new File(path + "/" + newFileName);
@@ -71,10 +71,11 @@ public class ColorHair {
 		return fileName + ".png";
 	}
 
-	public static String getUserPictureName(String path) {
+	public static void deleteUserPicture(String path) {
 		File user = new File(path);
 		String[] filenames;
 		filenames = user.list(); // 回傳資料夾內所有檔案的檔名(含副檔名)
-		return filenames[0];
+		File noFile = new File(path + "/" + filenames[0]);
+		noFile.delete(); // 輸出照片後刪掉顏色照片
 	}
 }

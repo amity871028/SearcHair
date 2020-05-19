@@ -1,5 +1,15 @@
+html{
+	position:fixed;	
+	height:100%;
+	width:100%;
+}
+    
 body {
     overflow: hidden;
+}
+
+::-webkit-scrollbar {/*隱藏滾輪*/
+	overflow: hidden;
 }
 
 #ocntent {
@@ -16,9 +26,18 @@ body {
     top: 50%;
 }
 
+#content p {
+	position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 61%;
+}
+
 .icon {
     position: absolute;
     top: 60px;
+    list-style-type:none;
+    z-index: 15;
 }
 
 #frame {
@@ -43,10 +62,11 @@ body {
     z-index: 1;
 }
 
-#ok-btn {
+.hint-setting {
     position: absolute;
-    top: 100px;
-    left: 10px;
+    top: 120px;
+    left: 38px;
+    z-index: 10;
 }
 
 @media only screen and (min-width: 0px) and (max-width: 575px){ 

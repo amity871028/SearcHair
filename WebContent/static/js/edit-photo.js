@@ -1,42 +1,73 @@
-
-const TYPE_DATA = {}; // {type1:{"id":[], "category":"item"}}
-
 const hairMatchAPI = {
-	hairstyleAPI: 'getAllhairstyle',
-	hairColorAPI: 'hairColor'
+	hairstyleAPI: 'api-hairMatch?func=hairstyle',
+	hairColorAPI: 'api-hairMatch?func=hairColor',
+	hairstoreAPI: 'api-hairMatch'
+	
 };
 
-/*async function getAllHairstyle(){
-	const result = await FetchData.get(hairMatchAPI.hairstyleAPI);
+async function getHairstyle(type){
+	const result = await FetchData.get(`${hairMatchAPI.hairstyleAPI}&type=${type}`);
     const allHairstyle = await result.json();
-    
-    let totalType = 0;
-    allHairstyle.forEach((type, idx) => {
-      TYPE_DATA[`type${idx + 1}`] = { id: [], category: type.category };
-      type.content.forEach((i) => {
-        TYPE_DATA[`type${idx + 1}`].id.push(i._id);
-        ID_TO_NAME[i._id] = i.name;
-      });
-      totalType = idx + 1;
-    });
+    window.urlPrefix = allHairstyle.urlPrefix;
+    const hairstyleImg = document.getElementById('hairstyle-img');
+    hairstyleImg.innerHTML = "";
+    let tmp = "";
+    for(i in allHairstyle.photos){
+    	let hairstyleId = allHairstyle.photos[i].split('.')[0];
+    	tmp += `<a href="#" id="${hairstyleId}" onclick="addToPhoto(this)"><img src="${urlPrefix}/${allHairstyle.photos[i]}"></a>`;
+    }
+    hairstyleImg.innerHTML = tmp;
+}
 
-}*/
+async function changeHairColor(){
+	const color = document.getElementById('color_name').value.replace('#', '');
+	
+    const addedHair = document.getElementById('hairstylePos');
+    const folder = window.folder;
+    const picture = window.picture;
+    
+    //check whether user selects hairstyle
+    if(!folder || !picture){
+    	alert("請先選擇髮型！");
+    }
+    else{
+		const result = await FetchData.get(`${hairMatchAPI.hairColorAPI}&userName=a&folder=${folder}&picture=${picture}&color=${color}`);
+	    const newColor = await result.json();
+    	addedHair.src = newColor.url;	   
+	    
+    }
+}
 
 function displayPhoto(uri){
 	document.getElementById('stored-img').src = uri;
 }
 
-function downloadIamge(){
+async function downloadIamge(){
 	var frame = document.getElementById("frame");
 	document.getElementById('face-frame').src = "";
-	html2canvas(document.getElementById("frame")).then(canvas => {
-		canvas.setAttribute('crossOrigin', "anonymous");
-		let uri = canvas.toDataURL("./images");
-		saveFile(uri);
-		displayPhoto(uri);
+	let canvas = await html2canvas(document.getElementById("frame"));
+	canvas.setAttribute('crossOrigin', "anonymous");
+	let uri = canvas.toDataURL("./images");
+	saveFile(uri);
+	displayPhoto(uri);
+	console.log(uri);
+
+	// to prevent facebook's link haven't generated yet 
+    document.getElementById('loadingDiv').style.display = 'block';
+    document.getElementById('loadingImg').style.display = 'block';
+    
+	const result = await FetchData.post(`${hairMatchAPI.hairstoreAPI}`,{
+		img: uri,
 	});
-	document.getElementById('face-frame').src = "./static//img/frame.png";
+	const resultJson = await result.json();
+	console.log(resultJson.url);
+	document.getElementById('fb-link').href = `https://www.facebook.com/sharer/sharer.php?u=${resultJson.url}`;;
+	document.getElementById('face-frame').src = "img/frame.png";
 	localStorage.removeItem('user-img');
+	
+
+    document.getElementById('loadingDiv').style.display = 'none';
+    document.getElementById('loadingImg').style.display = 'none';
 }
 
 function saveFile(data){
@@ -49,22 +80,37 @@ function saveFile(data){
 	   save_link.dispatchEvent(event);
 }
 
-function addToPhoto(){
+function addToPhoto(e){
+	//delete origin hairstyle photo
+	if(document.getElementById('hairstylePos')){
+		const addedPhoto = document.getElementById('hairstylePos');
+		addedPhoto.parentNode.removeChild(addedPhoto);
+	}
+	const urlPrefixSplit = window.urlPrefix.split('/');
+    window.folder = urlPrefixSplit[urlPrefixSplit.length - 1];
+    window.picture = `${e.id}.png`;
+
 	var hairstyle = document.createElement('img');
-	hairstyle.src="./static/img/test髮型2.png";
-	hairstyle.setAttribute('class', 'hairstylePos');
+	hairstyle.src=`${urlPrefix}/${e.id}.png`;
+	
+	// to resolve that imgs' size are different  
+	if(e.id.match("long")){
+		hairstyle.setAttribute('class', 'hairstyleLongPos');
+	}
+	else if(e.id.match("short")){
+		hairstyle.setAttribute('class', 'hairstyleShortPos');
+	}
+	else {
+		hairstyle.setAttribute('class', 'hairstyleBoyPos');
+	}
+	
 	hairstyle.setAttribute('id', 'hairstylePos');
 	document.getElementById('frame').appendChild(hairstyle);
 	$("#hairstylePos").draggable();
 }
-
-function testHairstyleAdd(){
-	document.getElementById('test').addEventListener('click', addToPhoto);
-}
-
 	
 function zoom(func){
-  var editedHairstyle = document.getElementsByClassName('hairstylePos')[0];
+  var editedHairstyle = document.getElementById('hairstylePos');
   let afterWidth;
   if(func == 'plus') afterWidth = editedHairstyle.width + 20;
   else afterWidth = editedHairstyle.width - 20;
@@ -95,18 +141,22 @@ function sidebarSetting(){
 function init(){
     sidebarSetting();
     //favoriteSetting();
-    //getAllHairstyle();
+    getHairstyle('girl-long'); //initial hairstyle type
     document.getElementById('user-edited-photo').src = localStorage.getItem('user-img');
 
     document.getElementById('plus-btn').addEventListener('click', function(){zoom('plus')});
     document.getElementById('minus-btn').addEventListener('click', function(){zoom('minus')});
     
+    document.getElementById('hairstyle-type').addEventListener('click', function(){
+    	let type = this.options[this.selectedIndex].id;
+    	getHairstyle(type);
+    });
+    
     var store_btn = document.getElementById('store-photo');
     store_btn.addEventListener('click', downloadIamge);
 
     $('#colorpicker').farbtastic('#color_name');
-    
-    testHairstyleAdd();
+    document.getElementById('colorpicker').addEventListener('click', changeHairColor);
 }
 
 window.addEventListener('load', init);

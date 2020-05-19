@@ -25,22 +25,21 @@
                 <input type="file" name="picture" id="upload-photo" style="display:none;" accept="image/*">
                 <i class="fas fa-image"></i> 上傳照片
             </label>
+            <p>請上傳正臉照</p>
         </div>
         <div id="face-align">
             <ul class="icon">
-                <li><a href="#" id="plus-btn"><i class="fas fa-plus"></i></a></li>
-                <li><a href="#" id="minus-btn"><i class="fas fa-minus"></i></a></li>
+                <li><a href="#" id="plus-btn"><i class="fas fa-plus"></i> 放大照片</a></li>
+                <li><a href="#" id="minus-btn"><i class="fas fa-minus"></i> 縮小照片</a></li>
             </ul>
             <div id="frame">
-                <img src="./static//img/face_frame.png" id="face-frame">
+                <img src="img/face_frame.png" id="face-frame">
                 <img src="" id="edited-photo">
             </div>
-            <input type="button" id="ok-btn" value="確定">
-        </div>
-        <fieldset>
-            <legend>圖檔</legend>
-            <div>
+            <div class="hint-setting">
+	            <p>請將正臉對準於圓框中</p>
+	            <input type="button" class="btn btn-primary" id="ok-btn" value="確定">
             </div>
-        </fieldset>
+        </div>
     </body>
 </html>

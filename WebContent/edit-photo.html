@@ -6,6 +6,8 @@
         
         <title>hair match</title>
         <script src="./static/js/navbar.js"></script>
+        <script src="./static/js/lib/fetch-data.js"></script>
+        <script src="./static/js/auth.js"></script>
         <link rel="stylesheet" href="./static/css/all-setting.css">
         <link rel="stylesheet" href="./static/css/edit-photo.css">
         <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
@@ -23,6 +25,8 @@
     </head>
 
     <body>
+	    <div id="loadingDiv"></div>
+		<img src="img/loading.gif" id='loadingImg'>
         <div class="Splitter"> </div>
         <div class="wrapper">
             <!-- Sidebar  -->
@@ -48,56 +52,47 @@
                       </ul>
                       <div class="tab-content" id="myTabContent">
                         <div class="tab-pane fade show active" id="hairstyle" role="tabpanel">
-                            <select id="type">
-                                <option>全部</option>
-                                <option>女生長髮</option>
-                                <option>女生短髮</option>
-                                <option>男生短髮</option>
+                            <select id="hairstyle-type">
+                                <option id="girl-long">女生長髮</option>
+                                <option id="girl-short">女生短髮</option>
+                                <option id="boy-short">男生短髮</option>
                             </select>
                             <br>
-                            <a href="#"><img src="./static/img/test髮型.png"></a>
-                            <a href="#"><img src="./static/img/test髮型2.png" id="test"></a>
-                            <img src="./static/img/test髮型3.png">
-                            <img src="./static/img/test髮型4.png">
-                            <img src="./static/img/test髮型5.png">
-                            <img src="./static/img/test髮型6.png">
-                            <img src="./static/img/test髮型.png">
-                            <img src="./static/img/test_photo2.png">
-                            <img src="./static/img/test_photo2.png">
-                            
+                            <div id="hairstyle-img"></div>
                         </div>
 
                         <div class="tab-pane fade" id="hair-color" role="tabpanel">
                             <div id="colorpicker"></div>
-		                    <form><input type="text" id="color_name" name="color_name" style="width:70px;" value="#123456" maxlength="7"/></form>
+		                    <form><input type="text" id="color_name" name="color_name" style="display: none;" value="#123456" maxlength="7"/></form>
 	
                         </div>
                         
+                        <!-- face match -->
                         <!--
                         <div class="tab-pane fade" id="face-match" role="tabpanel">
                             <br>
                             <div class="img-div">
-                                <a href="#"><img class="favorite" src="./static/img/favorite_undo.png" alt="favorite"></a> 
+                                <a href="#"><img class="favorite" src="img/favorite_undo.png" alt="favorite"></a> 
                                 <a href="#work-modal" data-toggle="modal">
-                                    <img class="rounded" src="./static/img/test_photo3.png" alt="Card image cap">
+                                    <img class="rounded" src="img/test_photo3.png" alt="Card image cap">
                                 </a>
                             </div>
                             <div class="img-div">
-                                <a href="#"><img class="favorite" src="./static/img/favorite_undo.png" alt="favorite"></a> 
+                                <a href="#"><img class="favorite" src="img/favorite_undo.png" alt="favorite"></a> 
                                 <a href="#work-modal" data-toggle="modal">
-                                    <img class="rounded" src="./static/img/test_photo3.png" alt="Card image cap">
+                                    <img class="rounded" src="img/test_photo3.png" alt="Card image cap">
                                 </a>
                             </div>
                             <div class="img-div">
-                                <a href="#"><img class="favorite" src="./static/img/favorite_undo.png" alt="favorite"></a> 
+                                <a href="#"><img class="favorite" src="img/favorite_undo.png" alt="favorite"></a> 
                                 <a href="#work-modal" data-toggle="modal">
-                                    <img class="rounded" src="./static/img/test_photo3.png" alt="Card image cap">
+                                    <img class="rounded" src="img/test_photo3.png" alt="Card image cap">
                                 </a>
                             </div>
                             <div class="img-div">
-                                <a href="#"><img class="favorite" src="./static/img/favorite_undo.png" alt="favorite"></a> 
+                                <a href="#"><img class="favorite" src="img/favorite_undo.png" alt="favorite"></a> 
                                 <a href="#work-modal" data-toggle="modal">
-                                    <img class="rounded" src="./static/img/test_photo3.png" alt="Card image cap">
+                                    <img class="rounded" src="img/test_photo3.png" alt="Card image cap">
                                 </a>
                             </div>
                         </div>
@@ -120,7 +115,7 @@
                 <a href="#store-modal" class="btn btn-primary" id="store-photo" data-toggle="modal">儲存&上傳</a>
                 <br>
                 <div id="frame">
-	                <img src="./static//img/frame.png" id="face-frame">
+	                <img src="img/frame.png" id="face-frame">
 	                <img src="" id="user-edited-photo" alt="你沒有上傳照片喔！">
                 </div>
                 <ul class="icon">
@@ -140,9 +135,9 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <img src="./static/img/test_photo2.png" id="stored-img">
+                        <img src="#" id="stored-img">
                         <h4>儲存成功！</h4>
-                    	分享到～<a href="#"><img src="./static/img/facebook.png" id="fb-icon"></a><a href="#"><img src="./static//img/instagram.png" id="ig-icon"></a>
+                    	分享到～<a href="#" id="fb-link" target="_blank"><img src="img/facebook.png" id="fb-icon"></a>
                     </div>
                     <div class="modal-footer">
                         <a href="hair-match.html" class="btn btn-primary" id="back-btn">返回hair-match首頁</a>

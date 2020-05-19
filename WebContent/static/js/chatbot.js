@@ -12,12 +12,14 @@ function randomNumber(length){
 		return Math.random()-0.5;
 	})
 	arr.length = length;//改寫長度
+	console.log(arr);
 	return arr;
 }
 
-async function InputPress() {
+async function inputPress() {
 	if (event.keyCode == 13) { 
 		chatRoom();
+		document.getElementById('talkwords').value = "";
 	}	
 } 
 
@@ -29,23 +31,31 @@ async function chatRoom(){
 	} else{
 		userMessage = '<div class="btalk"><span>' + TalkWords.value +'</span></div>' ;  
 		Words.innerHTML += userMessage;
-		if (TalkWords.value == "hi" || TalkWords.value == "hello") {
+		if (TalkWords.value == "hi" || TalkWords.value == "hello" || TalkWords.value == "你好") {
 			botMessage = '<div class="atalk"><span id="asay">'+ TalkWords.value +'</span></div>';
 			Words.innerHTML += botMessage;
 			
 		} else {
-			toChat2();
+			toChat();
 		}
 	} 
 }
 
-async function toChat2(){
+async function toChat(){
  var cardLength = 6;
  var url = "http://localhost:8080/SearcHair/ChatbotServlet"; 
  var input = document.getElementById('talkwords').value.split(" ");
- if(input.length < 2){
-	 botMessage = '<div class="atalk"><span id="asay">請問您是要找設計師還是店家呢？</span></div>';
-	Words.innerHTML += botMessage;
+ if(input.length < 2 || input[1] == ""){
+	 if(input[0] == "店家") {
+		 botMessage = '<div class="atalk"><span id="asay">請輸入「店家 關鍵字」</span></div>';
+		 Words.innerHTML += botMessage;
+	 } else if (input[0] == "設計師") {
+		 botMessage = '<div class="atalk"><span id="asay">請輸入「設計師 關鍵字」</span></div>';
+		 Words.innerHTML += botMessage;
+	 } else {
+		botMessage = '<div class="atalk"><span id="asay">請問您是要找設計師還是店家呢？</span></div>';
+		Words.innerHTML += botMessage;
+	 }
 	return;
 }
  
@@ -72,7 +82,7 @@ else {
 		cardLength = resultJson.length;
 	}
 	if(resultJson[0].func == "salon") {
-		const number = randomNumber(cardLength);
+		const number = randomNumber(resultJson.length);
 		for (let i = 0; i < cardLength; i += 1) {
 		    out = `<div class="card">
 		                  <div class="card-body">
@@ -92,7 +102,7 @@ else {
 		}
 	}
 	else {
-		const number = randomNumber(cardLength);
+		const number = randomNumber(resultJson.length);
 		for(let i = 0; i < cardLength; i+= 1) {
 		    out = `<div class="card">
 		                  <div class="card-body">

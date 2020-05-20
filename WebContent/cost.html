@@ -6,22 +6,25 @@
         
         <title>月曆-記帳當月總覽</title>
         <script src="./static/js/navbar.js"></script>
+        <script src="./static/js/lib/fetch-data.js"></script>
+        <script src="./static/js/auth.js"></script>
         <link rel="stylesheet" href="./static/css/all-setting.css">
         <link rel="stylesheet" href="./static/css/cost.css">
         <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
         <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
         <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
         <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
-        <script src="./static/js/cost.js"></script>
         <script src="./static/js/month-init.js"></script>
+        <script src="./static/js/cost.js"></script>
+                
     </head>
 
     <body>
         <div class="Splitter"> </div>
         
-        <a href="calendar.html" id="back"><img src="./static/img/back.png"> 返回上一頁</a>   
+        <a href="calendar.html" id="back"><img src="img/back.png"> 返回上一頁</a>   
         <h4>記帳當月總覽</h4>    
-        <a href="record-chart.html" class="btn btn-outline-primary" id="chart-btn">記帳圖表</a>
+        <a href="record-chart.html?" class="btn btn-outline-primary" id="chart-btn">記帳圖表</a>
         <div class="calendar">
             <div class="title">
                 <h1 class="green" id="calendar-title">Month</h1>
@@ -31,39 +34,11 @@
                     <a href="#" id="next">&#10095;</a>
                 </div>
             </div>
-            
-
+            <br>
+			<h5>總花費：$<span id="total-cost"></span></h5>
+			
             <table class="table table-hover">
-                <tbody>
-                    <tr>
-                        <td class="date">3</td>
-                        <td class="blue"></td>
-                        <td class="money">$1200</td>
-                        <td class="type">美髮-染髮</td>
-                        <td class="description">去亂剪染的(小Q設計師)</td>
-                    </tr>
-                    <tr>
-                        <td class="date">3</td>
-                        <td class="blue"></td>
-                        <td class="money">$239</td>
-                        <td class="type">商品-洗髮精</td>
-                        <td class="description">花王洗髮精</td>
-                    </tr>
-                    <tr>
-                        <td class="date">19</td>
-                        <td class="blue"></td>
-                        <td class="money">$200</td>
-                        <td class="type">xx-xxx</td>
-                        <td class="description">xxxxxxxxxx</td>
-                    </tr>
-                    <tr>
-                        <td class="date">28</td>
-                        <td class="red"></td>
-                        <td class="money">$xxx</td>
-                        <td class="type">xx-xxx</td>
-                        <td class="description">xxxxxxxxxx</td>
-                    </tr>
-                  </tbody>
+                <tbody id="cost-tbody"></tbody>
               </table>
         </div>
         

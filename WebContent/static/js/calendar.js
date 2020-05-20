@@ -18,28 +18,30 @@ const productCategory = ["洗髮類", "潤髮類", "護髮類", "其他"];
 const account = localStorage.getItem('account');
 
 async function getAction(){
-	let date = nowTimeFormal;
-	const selected = document.getElementById(date);
-	const selectedLi = selected.getElementsByTagName('li')[0];
-	selectedLi.innerHTML = `${date.split('-')[2]}<br>`;
-	document.getElementById('date-title').innerHTML = date;
-	let result = await FetchData.get(`${calendarAPI.getAllAction}func=activity&account=${account}&year=${year}&month=${month}`);
+	//get year & month in title
+	let currentYear = document.getElementById('calendar-year').innerHTML;
+	let monthString = document.getElementById('calendar-title').innerHTML;
+	let currentMonth = month_name.indexOf(monthString) + 1;
+	document.getElementById('date-title').innerHTML = nowTimeFormal;
+	
+	let result = await FetchData.get(`${calendarAPI.getAllAction}func=activity&account=${account}&year=${currentYear}&month=${currentMonth}`);
 	const activityResult = await result.json();
-	result = await FetchData.get(`${calendarAPI.getAllAction}func=cost&account=${account}&year=${year}&month=${month}`);
+	result = await FetchData.get(`${calendarAPI.getAllAction}func=cost&account=${account}&year=${currentYear}&month=${currentMonth}`);
 	const costResult = await result.json();
-	result = await FetchData.get(`${calendarAPI.getAllAction}func=picture&account=${account}&year=${year}&month=${month}`);
+	result = await FetchData.get(`${calendarAPI.getAllAction}func=picture&account=${account}&year=${currentYear}&month=${currentMonth}`);
 	const pictureResult = await result.json();
 	
 	const activityTbody = document.getElementById('activity-tbody');
 	let tmp = "";
 	activityResult.forEach(activity => {
+		//update date's icon
 		const currentDate = activity.startTime.split('T')[0];
 		const currentLi = document.getElementById(currentDate).getElementsByTagName('li')[0];
 		if(!currentLi.innerHTML.match("活動")){
 			currentLi.innerHTML += `<i class="fas fa-clipboard-list" title="活動"></i>`;
 		}
-		
-		if(currentDate == date){
+		//update sidebar
+		if(currentDate == nowTimeFormal){
 			let startTime = activity.startTime.split('T')[1].substring(0, 5);
 			let endTime = activity.endTime.split('T')[1].substring(0, 5);
 			if(parseInt(startTime.split(':')[0]) < 12){
@@ -68,12 +70,14 @@ async function getAction(){
 	let tmpCost = 0;
 	tmp = "";
 	costResult.forEach(cost => {
+		//update date's icon
 		const currentDate = cost.time;
 		const currentLi = document.getElementById(currentDate).getElementsByTagName('li')[0];
 		if(!currentLi.innerHTML.match("花費")){
 			currentLi.innerHTML += `<i class="fas fa-search-dollar" title="花費"></i>`;
 		}
-		if(currentDate == date){
+		//update sidebar
+		if(currentDate == nowTimeFormal){
 			tmp += `<tr id="${cost.id}" onclick="updateCost(${cost.id}, '${cost.time}', '${cost.category}', '${cost.kind}', ${cost.cost}, '${cost.description}','${cost.color}')">
 						<td class="${cost.color}-color"></td>
 						<td>${cost.cost}</td>
@@ -87,31 +91,34 @@ async function getAction(){
 	
 	//const hairPhoto = document.getElementById('hair-photo');
 	pictureResult.forEach(picture =>{
+		//update date's icon
 		const currentDate = picture.time;
 		const currentLi = document.getElementById(currentDate).getElementsByTagName('li')[0];
 		currentLi.innerHTML += `<i class="fas fa-user" title="頭髮狀況"></i>`;
-		if(currentDate == date){
+		//update sidebar
+		if(currentDate == nowTimeFormal){
 			const photoDiv = document.getElementById('hair-photo-div');
 			photoDiv.innerHTML = "";
 			tmp = `<a href="#" id="${picture.id}" onclick="updatePicture(${picture.id}, '${picture.picture}', '${picture.description}', '${picture.time}');">
 					<img src="${picture.picture}" id="hair-photo" alt="還沒有新增照片喔！">
                    	<p id="hair-description">${picture.description}</p></a>`;
-			//document.getElementById('hair-photo-link');
-			//document.getElementById('hair-photo').src = picture.picture;
-			//document.getElementById('hair-description').innerHTML = picture.description;
 			photoDiv.innerHTML = tmp;
 		}
 	});
 }
 
 async function updateSideBar(date){
+	let currentYear = document.getElementById('calendar-year').innerHTML;
+	let monthString = document.getElementById('calendar-title').innerHTML;
+	let currentMonth = month_name.indexOf(monthString) + 1;
+	
 	const selected = document.getElementById(date);
 	document.getElementById('date-title').innerHTML = date;
-	let result = await FetchData.get(`${calendarAPI.getAllAction}func=activity&account=${account}&year=${year}&month=${month}`);
+	let result = await FetchData.get(`${calendarAPI.getAllAction}func=activity&account=${account}&year=${currentYear}&month=${currentMonth}`);
 	const activityResult = await result.json();
-	result = await FetchData.get(`${calendarAPI.getAllAction}func=cost&account=${account}&year=${year}&month=${month}`);
+	result = await FetchData.get(`${calendarAPI.getAllAction}func=cost&account=${account}&year=${currentYear}&month=${currentMonth}`);
 	const costResult = await result.json();
-	result = await FetchData.get(`${calendarAPI.getAllAction}func=picture&account=${account}&year=${year}&month=${month}`);
+	result = await FetchData.get(`${calendarAPI.getAllAction}func=picture&account=${account}&year=${currentYear}&month=${currentMonth}`);
 	const pictureResult = await result.json();
 	
 	const activityTbody = document.getElementById('activity-tbody');
@@ -149,7 +156,6 @@ async function updateSideBar(date){
 	tmp = "";
 	costResult.forEach(cost => {
 		const currentDate = cost.time;
-		
 		if(currentDate == date){
 			tmp += `<tr id="${cost.id}" onclick="updateCost(${cost.id}, '${cost.time}', '${cost.category}', '${cost.kind}', ${cost.cost}, '${cost.description}','${cost.color}')">
 						<td class="${cost.color}-color"></td>
@@ -171,13 +177,13 @@ async function updateSideBar(date){
 					<img src="${picture.picture}" id="hair-photo" alt="還沒有新增照片喔！">
                    	<p id="hair-description">${picture.description}</p></a>`;
 		}
-		photoDiv.innerHTML = tmp;
+		
 	});
+	photoDiv.innerHTML = tmp;
 }
 
 function updateActivity(id, name, startTime, endTime, color, noticeTime) {
-	noticeTime = 30;
-	console.log("noticeTime = " + noticeTime);
+	document.getElementById('activity-title').innerHTML = "修改活動";
 	document.getElementById('activity-name').value = name;
 	document.getElementById('activity-date').value = startTime.split('T')[0];
 	document.getElementById('start-time').value = startTime.split('T')[1].substring(0, 5);
@@ -186,8 +192,12 @@ function updateActivity(id, name, startTime, endTime, color, noticeTime) {
 	if(noticeTime != -1){
 		document.getElementById('notice-switch').checked = true;
 		$("#notice-time").attr('disabled', false);
-		$("#notice-time").find(`option:contains(${noticeTime})`).attr('selected',true);
-		
+		$("#notice-time").val(noticeTime);
+	}
+	else {
+		document.getElementById('notice-switch').checked = false;
+		$("#notice-time").val(10);
+		$("#notice-time").attr('disabled', true);
 	}
 	document.getElementById('add-activity-btn').setAttribute('style', 'display: none;');
 	document.getElementById('update-activity-btn').setAttribute('style', 'display: initial;');
@@ -198,6 +208,7 @@ function updateActivity(id, name, startTime, endTime, color, noticeTime) {
 }
 
 function updateCost(id, time, category, kind, cost, description, color){
+	document.getElementById('cost-title').innerHTML = "修改記帳";
 	document.getElementById('cost-date').value = time;
 	$("#category").find(`option:contains(${category})`).attr('selected',true);
 	updateOption();
@@ -216,6 +227,7 @@ function updateCost(id, time, category, kind, cost, description, color){
 }
 
 function updatePicture(id, picture, description, time){
+	document.getElementById('picture-title').innerHTML = "修改紀錄頭髮";
 	document.getElementById('photo-date').value = time;
 	document.getElementById('show-new-photo').src = picture;
 	document.getElementById('photo-description').value = description;
@@ -279,7 +291,6 @@ async function postActivity(){
 
 async function postCost(){
 	const idSpan = document.getElementById('cost-id');
-	console.log(idSpan.innerHTML);
 	if (document.forms['cost-form'].reportValidity()) {
 		const activityColorRadio = document.getElementsByName('cost-color');
 		let color = "";
@@ -323,19 +334,28 @@ async function postPicture(){
 		const newPhoto = document.getElementById('new-hair-photo').value;	
 		// start post
 		if(idSpan.innerHTML == -1){
-			const result = await FetchData.post(calendarAPI.newAction, {
-				func: "picture",
-				account: account,
-				picture: window.pictureBase64,
-				description: document.getElementById('photo-description').value,
-				time: document.getElementById('photo-date').value,
-			});
-			
-			if(result.status == 409){
-				alert("你已經新增過今天的照片囉！若想修改照片請到側邊攔照片點選修改喔～");
+			if(window.pictureBase64 == "" || !window.pictureBase64){
+				alert("請新增照片！");
+			}
+			else{
+				const result = await FetchData.post(calendarAPI.newAction, {
+					func: "picture",
+					account: account,
+					picture: window.pictureBase64,
+					description: document.getElementById('photo-description').value,
+					time: document.getElementById('photo-date').value,
+				});
+				window.pictureBase64 = "";
+				
+				if(result.status == 409){
+					alert("你已經新增過今天的照片囉！若想修改照片請到側邊攔照片點選修改喔～");
+				}
 			}
 		}
 		else {
+			if(window.pictureBase64 == "" || !window.pictureBase64){
+				window.pictureBase64 = document.getElementById('show-new-photo').src;
+			}
 			const result = await FetchData.post(calendarAPI.updateAction, {
 				func: "picture",
 				id: idSpan.innerHTML,
@@ -344,6 +364,7 @@ async function postPicture(){
 				description: document.getElementById('photo-description').value,
 				time: document.getElementById('photo-date').value,
 			});
+			window.pictureBase64 = "";
 			idSpan.innerHTML = -1;
 		}
 		window.location.reload();
@@ -377,6 +398,7 @@ function readURL(input) {
 	  reader.onload = function loadPicture(e) {
 	    document.getElementById('show-new-photo').setAttribute('src', e.target.result);
 		  window.pictureBase64 = e.target.result;
+		  console.log(e.target.result);
 	  };
 	  reader.readAsDataURL(input.files[0]);
 	}
@@ -392,7 +414,6 @@ function sidebarSetting(){
 }
 
 async function deleteAction(func){
-	console.log(func);
 	const idSpan = document.getElementById(`${func}-id`);
 	const result = await FetchData.post(calendarAPI.deleteAction, {
 		func: func,
@@ -412,8 +433,8 @@ function initialDate(){
 }
 
 function clearModal(action){
-	console.log('clear');
-	if(action == 'add'){
+	if(action == 'activity'){
+		document.getElementById('activity-title').innerHTML = "新增活動";
 		document.getElementById('activity-name').value = "";
 		document.getElementById('activity-date').value = nowTimeFormal;
 		document.getElementById('start-time').value = "00:00";
@@ -426,6 +447,7 @@ function clearModal(action){
 		document.getElementById('delete-activity-btn').setAttribute('style', 'display: none;');
 	}
 	else if(action == 'cost'){
+		document.getElementById('cost-title').innerHTML = "新增記帳";
 		document.getElementById('cost-date').value = nowTimeFormal;
 		$("#category").find(`option:contains(美髮)`).attr('selected',true);
 		updateOption();
@@ -437,6 +459,7 @@ function clearModal(action){
 		document.getElementById('delete-cost-btn').setAttribute('style', 'display: none;');
 	}
 	else {
+		document.getElementById('picture-title').innerHTML = "新增紀錄頭髮";
 		document.getElementById('photo-date').value = nowTimeFormal;
 		document.getElementById('show-new-photo').src = "img/blank.png";
 		document.getElementById('photo-description').value = "";
@@ -445,16 +468,21 @@ function clearModal(action){
 		document.getElementById('delete-picture-btn').setAttribute('style', 'display: none;');
 
 	}
-		
 	document.getElementById(`${action}-id`).innerHTML = -1;
+}
 
+function delayURL(url, time) {
+  setTimeout(() => { window.location.href = `${url}`; }, time);
 }
 
 function init(){
-	
+	// to block illegal users
+	if(account == null){
+		alert("無法瀏覽此頁面！請登入後再查看！");
+	    delayURL('./index.html', 200);
+	}
 	initialDate();
 	getAction();
-	//updateSideBar();
 	sidebarSetting();
 
 	document.getElementById('add-activity-btn').addEventListener('click', postActivity);
@@ -475,8 +503,9 @@ function init(){
 	document.getElementById('category').addEventListener('change', updateOption);
 	document.getElementById('new-hair-photo').addEventListener('change',  function read() { readURL(this); })
 
+	document.getElementById('next').addEventListener('click', getAction);
+	document.getElementById('prev').addEventListener('click', getAction);
 
-	//document.getElementById('add-cost-modal').addEventListener('show', clearModal('add', nowTimeFormal));
 }
 
 window.addEventListener('load', init);

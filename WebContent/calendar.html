@@ -146,7 +146,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="list-group">
-                            <a href="#add-activity-modal" class="list-group-item list-group-item-action" data-toggle="modal" onclick="clearModal('add');">新增活動</a>
+                            <a href="#add-activity-modal" class="list-group-item list-group-item-action" data-toggle="modal" onclick="clearModal('activity');">新增活動</a>
                             <a href="#add-cost-modal" class="list-group-item list-group-item-action" data-toggle="modal" onclick="clearModal('cost');">記帳</a>
                             <a href="#record-hair-modal" class="list-group-item list-group-item-action" data-toggle="modal" onclick="clearModal('picture');">記錄頭髮</a>
                         </div>
@@ -160,7 +160,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">新增活動</h5>
+                        <h5 class="modal-title" id="activity-title">新增活動</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                         </button>
@@ -207,13 +207,13 @@
                                     <input type="checkbox" class="custom-control-input" id="notice-switch">
                                     <label class="custom-control-label" for="notice-switch">
                                         <select id="notice-time" disabled>
-                                            <option>10分鐘</option>
-                                            <option>20分鐘</option>
-                                            <option>30分鐘</option>
-                                            <option>40分鐘</option>
-                                            <option>50分鐘</option>
-                                            <option>60分鐘</option>
-                                            <option>一天</option>
+                                            <option value="10">10分鐘</option>
+                                            <option value="20">20分鐘</option>
+                                            <option value="30">30分鐘</option>
+                                            <option value="40">40分鐘</option>
+                                            <option value="50">50分鐘</option>
+                                            <option value="60">60分鐘</option>
+                                            <option value="1440">一天</option>
                                         </select>
                                        	 前
                                     </label>
@@ -234,7 +234,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">記帳</h5>
+                        <h5 class="modal-title" id="cost-title">記帳</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                         </button>
@@ -311,7 +311,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">記錄頭髮</h5>
+                        <h5 class="modal-title" id="picture-title">紀錄頭髮</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                         </button>
@@ -323,7 +323,7 @@
                             </div>
                             <div class="form-group new-photo">
                                 <label class="btn btn-primary">
-                                    <input type="file" name="picture" id="new-hair-photo" style="display:none;" accept="image/*" required>
+                                    <input type="file" name="picture" id="new-hair-photo" style="display:none;" accept="image/*">
                                     <i class="fas fa-upload"></i> 上傳照片
                                 </label>
                             </div>

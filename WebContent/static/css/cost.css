@@ -38,15 +38,6 @@ h4 {
 .color-display {
     width: 7px;
 }
-.red {
-    background-color: red;
-    width: 5px;
-}
-
-.blue {
-    background-color: blue;
-    width: 5px;
-}
 
 #color-mark {
     width: 60px;
@@ -121,6 +112,39 @@ tr {
     width: 300px;
     padding: 10px !important;
 }
+
+.red-color {
+    background-color: #FF9999;
+}
+
+.orange-color {
+    background-color: #FFCC99;
+}
+
+.yellow-color {
+	background-color: #FFFF99;
+}
+
+.green-color {
+	background-color: #99CC66;
+}
+
+.blue-color {
+    background-color: #99CCFF;
+}
+
+.indigo-color {
+	background-color: #336699;
+}
+
+.purple-color {
+	background-color: #CC99CC;
+}
+
+.red-color, .orange-color, .yellow-color, .green-color, .blue-color, .indigo-color, .purple-color {
+	width: 5px;
+}
+
 @media only screen and (min-width: 0px) and (max-width: 575px){ 
     h4 {
         margin-top: 15px !important;

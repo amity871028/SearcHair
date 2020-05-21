@@ -56,18 +56,15 @@ public class ResetPasswordServlet extends HttpServlet {
 		response.setContentType("text/html;charset=UTF-8");
 		response.setHeader("Access-Control-Allow-Origin", "*");
 		response.setHeader("Access-Control-Allow-Methods", "POST");
-		// read json
+		// read json send from front end
 		BufferedReader reader = request.getReader();
 		String json = reader.readLine();
 		reader.close();
-		System.out.println(json);
 		UserApi user = new UserApi();
 		String token = user.getValueFromCookie(request.getCookies(), "token");
-		System.out.println(token);
 
 		try {
 			boolean result = user.resetPasswordJsonAnalyzing(json, token);
-			System.out.println(result);
 			if (result == true)
 				response.setStatus(HttpServletResponse.SC_OK);
 			else

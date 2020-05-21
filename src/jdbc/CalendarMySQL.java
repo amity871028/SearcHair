@@ -63,10 +63,11 @@ public class CalendarMySQL {
 
 	public boolean deleteCost(String account, int id) {
 		try {
+			// get user account
 			rs = stat.executeQuery("SELECT account FROM cost WHERE id = " + id);
 			if (rs.next()) {
 				String checkAccount = rs.getString("account");
-				if (checkAccount.equals(account))
+				if (checkAccount.equals(account)) // Confirm if the user is himself
 					rsInt = stat.executeUpdate("DELETE FROM cost WHERE id = " + id);
 				else
 					return false;
@@ -112,10 +113,11 @@ public class CalendarMySQL {
 		String[] timeArray = getPeriod(year, month);
 		ArrayList<CostRecord> allCost = new ArrayList<CostRecord>();
 		try {
+			
+			// get all cost for specific month
 			String getTime = " WHERE (time between '" + timeArray[0] + "' and '" + timeArray[1] + "')";
 			String getAccount = "(account = '" + account + "')";
 			rs = stat.executeQuery(selectCost + getTime + "AND " + getAccount);
-			// select * from cost where time between '2019-08-01' and '2019-08-31'
 
 			while (rs.next()) {
 				CostRecord costRecord = new CostRecord();
@@ -148,9 +150,11 @@ public class CalendarMySQL {
 			if (rs.next()) {
 				id = rs.getInt(1) + 1;
 			}
-			// insert data
+			// convert time type 
 			Timestamp startTime = time2Timestamp(activityRecord.getStartTime());
 			Timestamp endTime = time2Timestamp(activityRecord.getEndTime());
+			
+			// insert data
 			PreparedStatement pstmt = con.prepareStatement(insertActivitySQL);
 			pstmt.setInt(1, id);
 			pstmt.setString(2, activityRecord.getAccount());
@@ -214,8 +218,12 @@ public class CalendarMySQL {
 				// using delete and insert instead of update each attribute
 				deleteActivityNotice(activityRecord.getAccount(), activityRecord.getId());
 				rsInt = stat.executeUpdate("DELETE FROM activity WHERE id = " + activityRecord.getId());
+				
+				// convert time type
 				Timestamp startTime = time2Timestamp(activityRecord.getStartTime());
 				Timestamp endTime = time2Timestamp(activityRecord.getEndTime());
+				
+				// update
 				PreparedStatement pstmt = con.prepareStatement(insertActivitySQL);
 				pstmt.setInt(1, activityRecord.getId());
 				pstmt.setString(2, activityRecord.getAccount());
@@ -223,14 +231,17 @@ public class CalendarMySQL {
 				pstmt.setTimestamp(4, startTime);
 				pstmt.setTimestamp(5, endTime);
 				pstmt.setString(6, activityRecord.getColor());
-				if (activityRecord.getNoticeTime() > 0) {
+				
+				// set activity notice
+				if (activityRecord.getNoticeTime() > 0) { // if NoticeTime > 0 then add reminding
 					pstmt.setBoolean(7, true);
 					rsInt = pstmt.executeUpdate();
+					// add notice time
 					result = newActivityNotice(activityRecord.getAccount(), activityRecord.getId(),
 							startTime, activityRecord.getNoticeTime());
 					if (result == false)
 						return false;
-				} else {
+				} else {  // if NoticeTime < 0 then delete reminding
 					pstmt.setBoolean(7, false);
 					rsInt = pstmt.executeUpdate();
 				}
@@ -245,6 +256,7 @@ public class CalendarMySQL {
 
 	public String getActivity(String account, int year, int month) {
 		String[] timeArray = getPeriod(year, month);
+		// get all activity for specific month
 		ArrayList<ActivityRecord> allActivity = new ArrayList<ActivityRecord>();
 		try {
 			String getTime = " where (start_time between '" + timeArray[0] + "' and '" + timeArray[1] + "')";
@@ -257,12 +269,14 @@ public class CalendarMySQL {
 				activityRecord.setStartTime(timestamp2Time(rs.getString("start_time")));
 				activityRecord.setEndTime(timestamp2Time(rs.getString("end_time")));
 				activityRecord.setColor(rs.getString("color"));
+				// get activity notice time
 				if(rs.getString("notice").equals("1")) {
 					Statement stat1 = null;
 					ResultSet rs1 = null;
 					stat1 = con.createStatement();
 					rs1 = stat1.executeQuery("SELECT notice_time FROM activity_notice WHERE activity_id = " + rs.getInt("id"));
 					if(rs1.next()) {
+						// convert timestamp into minutes
 						int minutes = calculateTimeDifference(rs.getTimestamp("start_time"), rs1.getTimestamp("notice_time"));
 						activityRecord.setNoticeTime(minutes);
 					}
@@ -322,6 +336,8 @@ public class CalendarMySQL {
 			String accountWhereClause = " (account = '" + pictureRecord.getAccount() + "')";
 			rs = stat.executeQuery(selectPicture + timeWhereClause + "AND" + accountWhereClause);
 			if (rs.next()) {
+				/* if user added picture at that day, return false
+				   user can add just one picture on a day*/
 				return false;
 			}
 			// find max id to know what id will this data has
@@ -427,6 +443,7 @@ public class CalendarMySQL {
 		return Timestamp.valueOf(temp);
 	}
 	
+	// convert minutes to timestamp
 	public Timestamp calculateNoticeTime(Timestamp startTime, int noticeTime) {
 		 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
 		 java.util.Date d = null;
@@ -438,6 +455,7 @@ public class CalendarMySQL {
 		return Timestamp.valueOf(newTime);
 	}
 
+	
 	public String[] getPeriod(int year, int month) {
 		int[] monthHas31Days = {1, 3, 5, 7, 8, 10, 12};
 		String[] timeArray = new String[2];
@@ -459,6 +477,7 @@ public class CalendarMySQL {
 		return timeArray;
 	}
 	
+	// convert timestamp to minutes
 	public int calculateTimeDifference(Timestamp d1, Timestamp d2) {
 		long diff = d1.getTime() - d2.getTime();
 		long min = diff / (1000 * 60);

@@ -42,7 +42,7 @@ public class RegisterServlet extends HttpServlet {
 		response.setContentType("text/html;charset=UTF-8");
 		response.setHeader("Access-Control-Allow-Origin", "*");
 		response.setHeader("Access-Control-Allow-Methods", "POST");
-		// read json
+		// read json send from front end
 		BufferedReader reader = request.getReader();
 		String json = reader.readLine();
 		reader.close();

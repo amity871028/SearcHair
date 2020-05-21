@@ -51,9 +51,4 @@ public class SendMail {
 
 		Transport.send(message);
 	}
-
-	public static void main(String[] args) throws Exception {
-		SendMail.sendMail("suara1201fxt@gmail.com");
-
-	}
 }

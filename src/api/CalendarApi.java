@@ -9,10 +9,10 @@ public class CalendarApi {
 
 	private CalendarMySQL calendar = new CalendarMySQL();
 
-	// =================== to know what action will do ======================//
-
+	// =================== decide what api will be call ======================//
+	
+	// new action part
 	public boolean newJsonAnalyzing(String jsonObject) {
-		
 		JsonObject jobj = new Gson().fromJson(jsonObject, JsonObject.class);
 		String function = jobj.get("func").getAsString();
 		if (function.equals("cost"))
@@ -25,7 +25,8 @@ public class CalendarApi {
 			return false;
 
 	}
-
+	
+	// delete action part
 	public boolean deleteJsonAnalyzing(String jsonObject) {
 
 		JsonObject jobj = new Gson().fromJson(jsonObject, JsonObject.class);
@@ -41,6 +42,7 @@ public class CalendarApi {
 
 	}
 
+	// update action part
 	public boolean updateJsonAnalyzing(String jsonObject) {
 
 		JsonObject jobj = new Gson().fromJson(jsonObject, JsonObject.class);
@@ -56,6 +58,7 @@ public class CalendarApi {
 
 	}
 	
+	// get action part
 	public String getJsonAnalyzing(String function, String account, int year, int month) {
 		if (function.equals("cost"))
 			return calendar.getCost(account, year, month);
@@ -67,7 +70,7 @@ public class CalendarApi {
 			return null;
 	}
 
-	// =================== cost function ======================//
+	// =================== new, delete, update in cost  ======================//
 
 	public boolean costNewJsonAnalyzing(String jsonObject) {
 
@@ -95,7 +98,7 @@ public class CalendarApi {
 		return calendar.deleteCost(account, Integer.parseInt(id));
 	}
 
-	// =================== activity function ======================//
+	// =================== new, delete, update in activity  ======================//
 
 	public boolean activityNewJsonAnalyzing(String jsonObject) {
 		
@@ -123,7 +126,7 @@ public class CalendarApi {
 		return calendar.deleteActivity(account, Integer.parseInt(id));
 	}
 
-	// =================== picture function ======================//
+	// =================== new, delete, update in picture  ======================//
 
 	public boolean pictureNewJsonAnalyzing(String jsonObject) {
 

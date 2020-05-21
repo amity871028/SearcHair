@@ -14,7 +14,7 @@ public class CostRecord {
 	int cost;
 	String description;
 	String color;
-	
+
 	public void setId(int id) {
 		this.id = id;
 	}
@@ -38,20 +38,20 @@ public class CostRecord {
 	public void setCost(int cost) {
 		this.cost = cost;
 	}
-	
+
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
+
 	public void setColor(String color) {
 		this.color = color;
 	}
-	
+
 	// get
 	public int getId() {
 		return id;
 	}
-	
+
 	public String getAccount() {
 		return account;
 	}
@@ -71,15 +71,15 @@ public class CostRecord {
 	public int getCost() {
 		return cost;
 	}
-	
+
 	public String getDescription() {
 		return description;
 	}
-	
+
 	public String getColor() {
 		return color;
 	}
-	
+
 	public static String convertToJson(ArrayList<CostRecord> allCostData) {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		String jsonStr = gson.toJson(allCostData);

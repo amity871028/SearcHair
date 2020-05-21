@@ -6,7 +6,7 @@ import javax.crypto.Cipher;
 
 public class MakeToken {
 
-	public final static String KEY = "ItisImpor";
+	public final static String KEY = "test";
 
 	private static Cipher mEncryptCipher = null;
 	private static Cipher mDecryptCipher = null;
@@ -74,21 +74,6 @@ public class MakeToken {
 			sb.append(Integer.toString(intTmp, 16));
 		}
 		return sb.toString();
-	}
-
-	public static void main(String[] args) {
-		try {
-
-			System.out.println("加密前：");
-			MakeToken des = new MakeToken();
-			String password = des.encrypt("suara1201fxt@gmail.com");
-			System.out.println("加密后：" + password);
-			password = des.decrypt(password);
-			System.out.println("解密密后：" + password);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 }

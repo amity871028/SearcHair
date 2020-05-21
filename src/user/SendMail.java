@@ -25,10 +25,8 @@ public class SendMail {
 		String from = "searchair109@gmail";
 		String subject = "SearcHair 帳號重設密碼通知";
 
-		String content = "此為系統發出的通知，請勿直接回覆，感謝配合！\n" + 
-						 "我們收到您發出重設密碼的通知，若沒有，請無視這封信。\n" + 
-						 "若需要重設密碼，請點以下連結：\n"
-						 + resetPasswordLink(sendTo);
+		String content = "此為系統發出的通知，請勿直接回覆，感謝配合！\n" + "我們收到您發出重設密碼的通知，若沒有，請無視這封信。\n" + "若需要重設密碼，請點以下連結：\n"
+				+ resetPasswordLink(sendTo);
 
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
@@ -50,10 +48,5 @@ public class SendMail {
 		System.out.println(content);
 
 		Transport.send(message);
-	}
-
-	public static void main(String[] args) throws Exception {
-		SendMail.sendMail("suara1201fxt@gmail.com");
-
 	}
 }

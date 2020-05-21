@@ -9,10 +9,10 @@ public class CalendarApi {
 
 	private CalendarMySQL calendar = new CalendarMySQL();
 
-	// =================== to know what action will do ======================//
+	// =================== decide what api will be call ======================//
 
+	// new action part
 	public boolean newJsonAnalyzing(String jsonObject) {
-		
 		JsonObject jobj = new Gson().fromJson(jsonObject, JsonObject.class);
 		String function = jobj.get("func").getAsString();
 		if (function.equals("cost"))
@@ -26,6 +26,7 @@ public class CalendarApi {
 
 	}
 
+	// delete action part
 	public boolean deleteJsonAnalyzing(String jsonObject) {
 
 		JsonObject jobj = new Gson().fromJson(jsonObject, JsonObject.class);
@@ -41,6 +42,7 @@ public class CalendarApi {
 
 	}
 
+	// update action part
 	public boolean updateJsonAnalyzing(String jsonObject) {
 
 		JsonObject jobj = new Gson().fromJson(jsonObject, JsonObject.class);
@@ -55,7 +57,8 @@ public class CalendarApi {
 			return false;
 
 	}
-	
+
+	// get action part
 	public String getJsonAnalyzing(String function, String account, int year, int month) {
 		if (function.equals("cost"))
 			return calendar.getCost(account, year, month);
@@ -67,13 +70,13 @@ public class CalendarApi {
 			return null;
 	}
 
-	// =================== cost function ======================//
+	// =================== new, delete, update in cost ======================//
 
 	public boolean costNewJsonAnalyzing(String jsonObject) {
 
 		JsonObject jobj = new Gson().fromJson(jsonObject, JsonObject.class);
 		CostRecord costRecord = new Gson().fromJson(jobj, CostRecord.class);
-		
+
 		return calendar.newCost(costRecord);
 	}
 
@@ -81,7 +84,7 @@ public class CalendarApi {
 
 		JsonObject jobj = new Gson().fromJson(jsonObject, JsonObject.class);
 		CostRecord costRecord = new Gson().fromJson(jobj, CostRecord.class);
-		
+
 		return calendar.updateCost(costRecord);
 	}
 
@@ -95,10 +98,10 @@ public class CalendarApi {
 		return calendar.deleteCost(account, Integer.parseInt(id));
 	}
 
-	// =================== activity function ======================//
+	// =================== new, delete, update in activity ======================//
 
 	public boolean activityNewJsonAnalyzing(String jsonObject) {
-		
+
 		JsonObject jobj = new Gson().fromJson(jsonObject, JsonObject.class);
 		ActivityRecord activityRecord = new Gson().fromJson(jobj, ActivityRecord.class);
 
@@ -123,12 +126,12 @@ public class CalendarApi {
 		return calendar.deleteActivity(account, Integer.parseInt(id));
 	}
 
-	// =================== picture function ======================//
+	// =================== new, delete, update in picture ======================//
 
 	public boolean pictureNewJsonAnalyzing(String jsonObject) {
 
 		JsonObject jobj = new Gson().fromJson(jsonObject, JsonObject.class);
-		PictureRecord pictureRecord  = new Gson().fromJson(jobj, PictureRecord.class);
+		PictureRecord pictureRecord = new Gson().fromJson(jobj, PictureRecord.class);
 
 		return calendar.newPicture(pictureRecord);
 	}
@@ -136,7 +139,7 @@ public class CalendarApi {
 	public boolean pictureUpdateJsonAnalyzing(String jsonObject) {
 
 		JsonObject jobj = new Gson().fromJson(jsonObject, JsonObject.class);
-		PictureRecord pictureRecord  = new Gson().fromJson(jobj, PictureRecord.class);
+		PictureRecord pictureRecord = new Gson().fromJson(jobj, PictureRecord.class);
 
 		return calendar.updatePicture(pictureRecord);
 	}

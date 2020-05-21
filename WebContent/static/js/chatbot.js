@@ -33,10 +33,10 @@ async function chatRoom(){
 	} else{
 		userMessage = '<div class="btalk"><span>' + TalkWords.value +'</span></div>' ;  
 		Words.innerHTML += userMessage;
-		if (TalkWords.value == "hi" || TalkWords.value == "hello" || TalkWords.value == "你好") {
+		if (TalkWords.value.toLowerCase() == "hi" || TalkWords.value.toLowerCase() == "hello" || TalkWords.value == "你好") {
 			botMessage = `<div class="atalk">
 								<img class="chatbot-icon" src="img/chatbot.jpg">
-								<span id="asay">${TalkWords.value}</span>							
+								<span class="asay">${TalkWords.value}</span>							
 						  </div>`;
 			Words.innerHTML += botMessage;
 			
@@ -56,17 +56,22 @@ async function toChat(){
 	 if(input[0] == "店家") {
 		 botMessage = `<div class="atalk">
 			 				<img class="chatbot-icon" src="img/chatbot.jpg">
-			 				<span id="asay">請輸入「店家 關鍵字」！</span>
+			 				<span class="asay">請輸入「店家 關鍵字」！</span>
 			 		  </div>`;
 	 } else if (input[0] == "設計師") {
 		 botMessage = `<div class="atalk">
 			 				<img class="chatbot-icon" src="img/chatbot.jpg">
-			 				<span id="asay">請輸入「設計師 關鍵字」！</span>	
+			 				<span class="asay">請輸入「設計師 關鍵字」！</span>	
 			 		   </div>`;
-	 } else {
+	 } else if (input[0] == "詢問") {
+		 botMessage = `<div class="atalk">
+				<img class="chatbot-icon" src="img/chatbot.jpg">
+				<span class="asay">請輸入「詢問 關鍵字」！</span>	
+		   </div>`;
+	 }else {
 		botMessage = `<div class="atalk">
 							<img class="chatbot-icon" src="img/chatbot.jpg">
-							<span id="asay">蝦米？請您再輸入一次！</span>
+							<span class="asay">蝦米？請您再輸入一次！</span>
 					  </div>`;
 	 }
 	Words.innerHTML += botMessage;
@@ -88,14 +93,14 @@ const resultJson = await result.json();
 if(resultJson.length == 0) {
 	botMessage = `<div class="atalk">
 						<img class="chatbot-icon" src="img/chatbot.jpg">
-						<span id="asay">找不到相關資訊QAQ</span>
+						<span class="asay">找不到相關資訊QAQ</span>
 				  </div>`;
 	Words.innerHTML += botMessage;
 }
 else {
 	botMessage = `<div class="atalk">
 						<img class="chatbot-icon" src="img/chatbot.jpg">
-						<span id="asay">以下是我找到的資訊 > < </span>
+						<span class="asay">以下是我找到的資訊 > < </span>
 				  </div>`;
 	Words.innerHTML += botMessage;
 	let out = null;

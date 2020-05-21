@@ -1,29 +1,38 @@
-
-.calendar > a,a:link,a:visited{
-    color: black;
-    text-decoration: none !important;
-}
-.calendar > a:hover{
-    color: black !important;
-    text-decoration: none;
+.calendar>a, a:link, a:visited {
+	color: black;
+	text-decoration: none !important;
 }
 
-.Splitter{
-    min-height: 80px;
+.calendar>a:hover {
+	color: black !important;
+	text-decoration: none;
+}
+
+.Splitter {
+	min-height: 80px;
 }
 
 #back {
-    position: relative;
-    left: 10px;
+	position: relative;
+	left: 10px;
 }
 
-a > img{
-    width: 20;
-    vertical-align:middle;
+a>img {
+	width: 20;
+	vertical-align: middle;
 }
 
 #cost-list {
-    position: relative;
-    top: 40px;
-    left: 180px;
+	position: absolute;
+	top: 150px;
+	left: 180px;
+	width: 200px;
+}
+
+.chart-container {
+	position: absolute;
+	height: 40vh;
+	width: 80vw;
+	top: 100;
+	left: 100px;
 }

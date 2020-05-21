@@ -179,6 +179,14 @@ h4 {
     margin: 5px;
 }
 
+#colorpicker {
+	display: initial;
+}
+
+#color-value{
+	display: none;
+}
+
 @media only screen and (min-width: 0px) and (max-width: 575px){ 
     #sidebar {
         width: 285px;
@@ -225,6 +233,16 @@ h4 {
         right: 10px;
         top: 110px;
     }
+    
+    #colorpicker {
+    	display: none;
+    }
+    
+	#color-value {
+		display: initial;
+		width: 50px;
+		height: 50px;
+	}
 }
 
 @media only screen and (min-width: 574px) and (max-width: 873px){ 

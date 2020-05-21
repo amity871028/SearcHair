@@ -1,0 +1,45 @@
+.Splitter {
+	min-height: 70px;
+}
+
+body {
+	text-align: center !important;
+}
+.table {
+    width: 600px !important;
+    margin-top: 30px;
+    display: inline-block;
+    position: absolute;
+    right: 0;
+    left: 0;
+    margin: 20 auto;
+}
+
+table td, table th {
+    padding: 0 !important;
+    vertical-align: middle !important;
+}
+
+tr {
+    border: 2px lightgrey solid;
+}
+
+.date {
+    text-align: center;
+    line-height: 63px;
+    width: 65px;
+}
+
+.time {
+    width: 85px;
+    text-align: center;
+}
+
+.activity-name {
+    width: 250px;
+    padding: 10px !important;
+}
+
+.notice-time {
+    width: 80px;
+}

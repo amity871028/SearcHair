@@ -2,6 +2,7 @@ const costAPI = "api-calendar?func=cost";
 const account = localStorage.getItem('account');
 
 var url = location.href;
+var categoryPosition = url.match("category=").index + 9;
 var yearPosition = url.match("year=").index + 5;
 var monthPosition = url.match("month=").index + 6;
 var year = url.substring(yearPosition, monthPosition-7);

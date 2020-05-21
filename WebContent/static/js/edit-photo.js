@@ -19,9 +19,10 @@ async function getHairstyle(type){
     hairstyleImg.innerHTML = tmp;
 }
 
-async function changeHairColor(){
-	const color = document.getElementById('color_name').value.replace('#', '');
-	
+async function changeHairColor(device){
+	let color = "";
+	if(device == "pc") color = document.getElementById('color_name').value.replace('#', '');
+	else color = document.getElementById('color-value').value.replace('#', '');
     const addedHair = document.getElementById('hairstylePos');
     const folder = window.folder;
     const picture = window.picture;
@@ -154,9 +155,10 @@ function init(){
     
     var store_btn = document.getElementById('store-photo');
     store_btn.addEventListener('click', downloadIamge);
-
+    
     $('#colorpicker').farbtastic('#color_name');
-    document.getElementById('colorpicker').addEventListener('click', changeHairColor);
+    document.getElementById('colorpicker').addEventListener('click', function(){changeHairColor("pc");});
+    document.getElementById('color-value').addEventListener('change', function(){changeHairColor("mobile");});
 }
 
 window.addEventListener('load', init);

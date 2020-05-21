@@ -1,0 +1,64 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        
+        <title>設計師資訊</title>
+        <script src="./static/js/navbar.js"></script>
+        <script src="./static/js/lib/fetch-data.js"></script>
+        <script src="./static/js/auth.js"></script>
+        <link rel="stylesheet" href="./static/css/all-setting.css">
+        <link rel="stylesheet" href="./static/css/stylist-detail.css">
+        <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+        <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+        <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <link href="./fontawesome-free-5.12.1-web/css/all.css" rel="stylesheet">
+        <script src="./static/js/stylist-detail.js"></script>
+    </head>
+
+    <body>
+        <div class="Splitter"> </div>
+        <div class="wrapper">
+            <!-- Sidebar  -->
+            <nav id="sidebar">
+                <div id="dismiss">
+                    <i class="fas fa-arrow-left"></i>
+                </div>
+                <div class="sidebar-header">
+                    <h3>設計師資訊</h3>
+                    <hr>
+                </div>
+                <div class="card" id="stylist-card"></div>
+            </nav>
+    
+            <!-- Page Content  -->
+            <div id="content">
+                <br>
+                <div class="container-fluid">
+                    <button type="button" id="sidebarCollapse" class="btn btn-info">
+                        <i class="fas fa-align-left"></i>
+                    </button>
+                </div>
+                <br>
+                <h3>設計師資訊：</h3>
+                <hr>
+                <img src="img/user.png"><span id="stylist-name"></span><br>
+                <img src="img/home.png"><a href="#" id="salon-link"><span id="salon"></span></a><br>
+                <img src="img/position.png"><a href="#" id="address-link"><span id="salon-address"></span></a><br>
+
+                <br>
+                <h3>服務項目：</h3>
+                <hr>
+                <div class="row" id="service-cards"></div>
+                <br>
+                
+                <h3>作品：</h3>
+                <hr>
+                <div id="work-cards"></div>
+            </div>
+        </div>
+		
+    </body>
+</html>

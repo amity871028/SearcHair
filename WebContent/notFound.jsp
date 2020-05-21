@@ -14,7 +14,7 @@
 
 <body>
     <div class="Splitter"> </div>
-	<h1>Oop！錯誤畫面！</h1>
+	<h1>Oops！錯誤畫面！</h1>
 	<h1>即將幫你導回至主畫面</h1>
 </body>
 

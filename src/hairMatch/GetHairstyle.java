@@ -18,7 +18,7 @@ public class GetHairstyle {
 				photos.add(filenames[i]);
 			}
 		} catch (Exception e) {
-			System.out.println("此資料夾不存在");
+			System.out.println("This folder does not exist");
 		}
 		HairStyle hairStyle = new HairStyle(url, photos);
 		Gson gson = new Gson();

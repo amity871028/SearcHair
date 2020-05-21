@@ -19,37 +19,38 @@ public class SearchMySQL {
 
 	public String searchSalon(int page, String keyword, String[] service) {
 		int salonID, stylistID;
-		int num = 1; // 計算有幾筆資料
+		int num = 1; // count salon
 		String ans = null;
 		ArrayList<AllSalon> AllSalon_List = new ArrayList<AllSalon>();
 
 		String serviceCondition = "(";
 		String other = "";
-		int flag = 0; // 計算有沒有勾選非"其他"的服務項目
+		int flag = 0; // count services
 
 		if (service != null) {
 			for (int i = 0; i < service.length; i++) {
-				if (service[i].contains("髮")) {// 如果字串中有"髮"
-					service[i] = service[i].replaceAll("髮", ""); // 忽略"髮"字
+				if (service[i].contains("髮")) {
+					service[i] = service[i].replaceAll("髮", ""); // ignore "髮"
 					serviceCondition += "name like '%" + service[i] + "%'" + " or ";
 					flag++;
 				}
-				if (service[i].contains("其他")) // 如果字串中包含"其他"
+				if (service[i].contains("其他"))
 					other = "其他";
 			}
-			if (flag != 0) // 使用者有勾選非"其他"的服務項目
-				serviceCondition = serviceCondition.substring(0, serviceCondition.length() - 4) + ")"; // 去掉" or "
-			if (service.length == 1 && other.equals("其他")) // 只勾選了"其他"
+			if (flag != 0) // select services
+				serviceCondition = serviceCondition.substring(0, serviceCondition.length() - 4) + ")";
+			if (service.length == 1 && other.equals("其他")) // only select "Other"
 				serviceCondition = "name not like '%洗%' and name not like '%剪%' and name not like '%染%' and name not like '%燙%' and name not like '%護%'";
-			else if (service.length > 1 && other.equals("其他")) // 勾選了別的服務+其他
-				serviceCondition += " and name not like '%洗%' and name not like '%剪%' and name not like '%染%' and name not like '%燙%' and name not like '%護%'"; // '洗|剪|染|燙|護')";
+			else if (service.length > 1 && other.equals("其他")) // select services and "Other"
+				serviceCondition += " and name not like '%洗%' and name not like '%剪%' and name not like '%染%' and name not like '%燙%' and name not like '%護%'";
 		}
 		try {
 			stat = con.createStatement();
 			if (keyword == null)
 				rs = stat.executeQuery("select * from salon");
 			else
-				rs = stat.executeQuery("select * from salon where name like '%" + keyword + "%' or address like '%" + keyword + "%'");
+				rs = stat.executeQuery(
+						"select * from salon where name like '%" + keyword + "%' or address like '%" + keyword + "%'");
 
 			while (rs.next()) {
 				AllSalon allSalon = new AllSalon();
@@ -65,36 +66,45 @@ public class SearchMySQL {
 				ResultSet RS = null;
 				ST = con.createStatement();
 				RS = ST.executeQuery("select id from stylist where salon=" + salonID);
-				while (RS.next()) { // 搜尋某店家裡的所有設計師
+				while (RS.next()) { // search for all stylists in a salon
 					stylistID = RS.getInt("id");
 
 					Statement stt = null;
 					ResultSet rst = null;
 					stt = con.createStatement();
-					if (service == null) // service陣列為空(使用者無勾選服務項目)
+					if (service == null) // service array is null
 						rst = stt.executeQuery("select name from service where stylist=" + stylistID);
 					else
-						rst = stt.executeQuery("select name from service where stylist=" + stylistID + " and " + serviceCondition);
-					while (rst.next()) // 搜尋某設計師有提供的服務
+						rst = stt.executeQuery(
+								"select name from service where stylist=" + stylistID + " and " + serviceCondition);
+					while (rst.next()) // search services provided by stylist
 						all_Service_List.add(rst.getString("name"));
 				}
 
-				int count = 0; // 計算店家提供的服務項目有幾個符合使用者所選
-				if(service!=null) {
-					for (int i = 0; i < service.length; i++) { // serviceArray.length 使用者勾選了幾個服務項目
+				int count = 0; // count salon service match the user's select service
+				if (service != null) {
+					for (int i = 0; i < service.length; i++) {
 						for (String str : all_Service_List) {
-							if (str.contains(service[i])) { // 如果使用者要的服務項目設計師有提供
+							if (str.contains(service[i])) {
 								count++;
-								break; // 找下一個使用者想要的服務項目
+								break;
 							}
 						}
 					}
 				}
-				if(other.equals("其他")) //使用者有選"其他" 
+				if (other.equals("其他"))
 					count++;
-				if (all_Service_List.size() != 0||(all_Service_List.size()==0&&service==null)) { // all_Service_List陣列不為空 輸出
-					if (service!=null&&count >= service.length) {
-						LinkedHashSet<String> set = new LinkedHashSet<String>(all_Service_List); // 刪除重複的值(service)
+				if (all_Service_List.size() != 0 || (all_Service_List.size() == 0 && service == null)) {
+					if (service != null && count >= service.length) {
+						LinkedHashSet<String> set = new LinkedHashSet<String>(all_Service_List); // delete duplicate services
+						ArrayList<String> service_List = new ArrayList<String>(set);
+						allSalon.setService(service_List);
+						if (num <= page * 99 && num > (page - 1) * 99) {
+							AllSalon_List.add(allSalon);
+						}
+						num++;
+					} else if (service == null) {
+						LinkedHashSet<String> set = new LinkedHashSet<String>(all_Service_List); // delete duplicate services
 						ArrayList<String> service_List = new ArrayList<String>(set);
 						allSalon.setService(service_List);
 						if (num <= page * 99 && num > (page - 1) * 99) {
@@ -102,19 +112,10 @@ public class SearchMySQL {
 						}
 						num++;
 					}
-					else if(service==null){
-						LinkedHashSet<String> set = new LinkedHashSet<String>(all_Service_List); // 刪除重複的值(service)
-						ArrayList<String> service_List = new ArrayList<String>(set);
-						allSalon.setService(service_List);
-						if (num <= page * 99 && num > (page - 1) * 99) {
-							AllSalon_List.add(allSalon);
-						}
-						num++;
-					}
-					
+
 				}
 			}
-			LinkedHashSet<AllSalon> set = new LinkedHashSet<AllSalon>(AllSalon_List); // 刪除重複符合條件的店家
+			LinkedHashSet<AllSalon> set = new LinkedHashSet<AllSalon>(AllSalon_List); // delete duplicate services
 			ArrayList<AllSalon> output_List = new ArrayList<AllSalon>(set);
 			AllSalon output = new AllSalon();
 			ans = output.convertToJson(output_List);
@@ -128,29 +129,29 @@ public class SearchMySQL {
 
 	public String searchStylist(int page, String keyword, String[] serviceArray, int[] price) {
 		int stylistID, salonID;
-		int num = 1; // 計算有幾筆資料
+		int num = 1; // // count stylist
 		String ans = null;
 		ArrayList<AllStylist> AllStylist_List = new ArrayList<AllStylist>();
 
 		String serviceCondition = "";
 		String other = "";
-		int flag = 0; // 計算有沒有勾選非"其他"的服務項目
+		int flag = 0; // count services
 		if (serviceArray != null) {
 			serviceCondition = "(";
 			for (int i = 0; i < serviceArray.length; i++) {
-				if (serviceArray[i].contains("髮")) {// 如果字串中有"髮"
-					serviceArray[i] = serviceArray[i].replaceAll("髮", ""); // 忽略"髮"字
+				if (serviceArray[i].contains("髮")) {
+					serviceArray[i] = serviceArray[i].replaceAll("髮", ""); // ignore "髮"
 					serviceCondition += "name like '%" + serviceArray[i] + "%'" + " or ";
 					flag++;
 				}
-				if (serviceArray[i].contains("其他")) // 如果字串中包含"其他"
+				if (serviceArray[i].contains("其他"))
 					other = "其他";
 			}
-			if (flag != 0) // 使用者有勾選非"其他"的服務項目
-				serviceCondition = serviceCondition.substring(0, serviceCondition.length() - 4) + ")"; // 去掉" or "
-			if (serviceArray.length == 1 && other.equals("其他")) // 只勾選了"其他"
+			if (flag != 0) // select services
+				serviceCondition = serviceCondition.substring(0, serviceCondition.length() - 4) + ")";
+			if (serviceArray.length == 1 && other.equals("其他")) // only select "Other"
 				serviceCondition = "name not like '%洗%' and name not like '%剪%' and name not like '%染%' and name not like '%燙%' and name not like '%護%'";
-			else if (serviceArray.length > 1 && other.equals("其他")) // 勾選了別的服務+其他
+			else if (serviceArray.length > 1 && other.equals("其他")) // select services and "Other"
 				serviceCondition += " and name not like '%洗%' and name not like '%剪%' and name not like '%染%' and name not like '%燙%' and name not like '%護%'";
 		}
 		try {
@@ -181,23 +182,23 @@ public class SearchMySQL {
 				Statement stt = null;
 				ResultSet rst = null;
 				stt = con.createStatement();
-				if (price == null && serviceArray == null) // 沒有輸入價格區間且沒有選擇服務項目
+				if (price == null && serviceArray == null)
 					rst = stt.executeQuery("select * from service where stylist=" + stylistID);
-				else if (price != null && serviceArray == null) // 有選擇價格區間 沒選擇服務項目
+				else if (price != null && serviceArray == null)
 					rst = stt.executeQuery("select * from service where stylist=" + stylistID + " and max_price<"
 							+ price[1] + " and min_price<" + price[1] + " and min_price>" + price[0] + " and max_price>"
 							+ price[0]);
-				else if (price == null && serviceArray != null) // 沒選擇價格區間 有選擇服務項目
+				else if (price == null && serviceArray != null)
 					rst = stt.executeQuery(
 							"select * from service where stylist=" + stylistID + " and " + serviceCondition);
-				else // 有選擇價格區間 有選擇服務項目
+				else
 					rst = stt.executeQuery("select * from service where stylist=" + stylistID + " and max_price<"
 							+ price[1] + " and min_price<" + price[1] + " and min_price>" + price[0] + " and max_price>"
 							+ price[0] + " and " + serviceCondition);
 				ArrayList<Service> Service_List = new ArrayList<Service>();
 				ArrayList<String> Service_Name_List = new ArrayList<String>();
 
-				while (rst.next()) { // 搜尋設計師有提供的服務
+				while (rst.next()) { // search services provided by stylist
 					Service service = new Service();
 					service.setName(rst.getString("name"));
 					service.setMinPrice(rst.getInt("min_price"));
@@ -208,28 +209,27 @@ public class SearchMySQL {
 					Service_List.add(service);
 				}
 
-				int count = 0; // 計算設計師提供的服務項目有幾個符合使用者所選
-				if(serviceArray!=null) {
-					for (int i = 0; i < serviceArray.length; i++) { // serviceArray.length 使用者勾選了幾個服務項目
+				int count = 0; // count service by stylist providing match the user's select
+				if (serviceArray != null) {
+					for (int i = 0; i < serviceArray.length; i++) {
 						for (String str : Service_Name_List) {
-							if (str.contains(serviceArray[i])) { // 如果使用者要的服務項目設計師有提供
+							if (str.contains(serviceArray[i])) {
 								count++;
-								break; // 找下一個使用者想要的服務項目
+								break;
 							}
 						}
 					}
 				}
-				if(other.equals("其他")) //使用者有選"其他" 
+				if (other.equals("其他"))
 					count++;
-				if (Service_List.size() != 0||(Service_List.size()==0&&serviceArray==null)) { // service陣列不為空 輸出
-					if (serviceArray!=null&&count >= serviceArray.length) {
-							allStylist.setService(Service_List);
-							if (num <= page * 99 && num > (page - 1) * 99) {
-								AllStylist_List.add(allStylist);
-							}
-							num++;
-					}
-					else if(serviceArray==null) {
+				if (Service_List.size() != 0 || (Service_List.size() == 0 && serviceArray == null)) {
+					if (serviceArray != null && count >= serviceArray.length) {
+						allStylist.setService(Service_List);
+						if (num <= page * 99 && num > (page - 1) * 99) {
+							AllStylist_List.add(allStylist);
+						}
+						num++;
+					} else if (serviceArray == null) {
 						allStylist.setService(Service_List);
 						if (num <= page * 99 && num > (page - 1) * 99) {
 							AllStylist_List.add(allStylist);
@@ -250,11 +250,11 @@ public class SearchMySQL {
 
 	public String searchStylistWorks(int page, String keyword) {
 		int stylistID;
-		int num = 1; // 計算有幾筆資料
+		int num = 1; // count stylistWorks
 		String ans = null;
 		ArrayList<AllStylistWorks> allStylistWorksList = new ArrayList<AllStylistWorks>();
-		if (keyword != null && keyword.contains("髮")) // 如果字串中有"髮"
-			keyword = keyword.replaceAll("髮", ""); // 忽略"髮"字
+		if (keyword != null && keyword.contains("髮"))
+			keyword = keyword.replaceAll("髮", ""); // ignore "髮"
 		try {
 			stat = con.createStatement();
 			if (keyword == null)
@@ -268,7 +268,7 @@ public class SearchMySQL {
 				allStylistWorks.setPicture(rs.getString("picture"));
 				allStylistWorks.setDescription(rs.getString("description"));
 				allStylistWorks.setHashtag(rs.getString("hashtag"));
-				
+
 				Statement ST = null;
 				ResultSet RS = null;
 				ST = con.createStatement();
@@ -292,7 +292,7 @@ public class SearchMySQL {
 		return ans;
 	}
 
-	public String searchOneSalon(int num) {
+	public String searchOneSalon(int num) { // num = salon's ID
 		int id = num;
 		int count = 0;
 		String ans = null;
@@ -313,7 +313,7 @@ public class SearchMySQL {
 				ResultSet RS = null;
 				ST = con.createStatement();
 				String stylist = "select * from stylist where salon=" + num;
-				RS = ST.executeQuery(stylist); // 找出某店家的所有設計師
+				RS = ST.executeQuery(stylist); // search for all stylists in a salon
 				while (RS.next()) {
 					ArrayList<Work> Work_List = new ArrayList<Work>();
 					StylistInfo stylistInfo = new StylistInfo();
@@ -327,7 +327,7 @@ public class SearchMySQL {
 					Statement stt = null;
 					ResultSet rst = null;
 					stt = con.createStatement();
-					rst = stt.executeQuery("select * from stylist_works where stylist=" + id); // 找出某設計師的所有作品
+					rst = stt.executeQuery("select * from stylist_works where stylist=" + id); // search for all stylist works of the stylist
 					while (rst.next()) {
 						work.setID(rst.getInt("id"));
 						work.setPicture(rst.getString("picture"));
@@ -353,7 +353,7 @@ public class SearchMySQL {
 		return ans;
 	}
 
-	public String searchOneStylist(int num) { // num為要找的設計師id號碼
+	public String searchOneStylist(int num) { // num = stylist's ID
 		int salonID;
 		String ans = null;
 		Stylist stylist = new Stylist();
@@ -395,7 +395,7 @@ public class SearchMySQL {
 				Statement stt = null;
 				ResultSet rst = null;
 				stt = con.createStatement();
-				rst = stt.executeQuery("select * from stylist_works where stylist=" + num); // 找出某設計師的所有作品
+				rst = stt.executeQuery("select * from stylist_works where stylist=" + num); // search for all stylist works of the stylist
 				while (rst.next()) {
 					Work work = new Work();
 					work.setID(rst.getInt("id"));

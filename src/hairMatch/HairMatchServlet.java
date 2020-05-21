@@ -57,7 +57,7 @@ public class HairMatchServlet extends HttpServlet {
 			String url = UrlHandler.getBaseUrl(request) + "/img/hair-match/user/" + userName + "/" + fileName;
 			Hair hair = new Hair(url);
 			Gson gson = new Gson();
-			result = gson.toJson(hair); // 轉成JSON檔
+			result = gson.toJson(hair); // convert to JSON file
 		}
 		if (function.equals("hairstyle")) {
 			String url = UrlHandler.getBaseUrl(request) + "/img/hair-match/hairstyle-source/" + type;

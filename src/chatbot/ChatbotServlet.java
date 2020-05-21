@@ -49,5 +49,4 @@ public class ChatbotServlet extends HttpServlet {
 		
 		response.getWriter().append(result);
 	}
-
 }

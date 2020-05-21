@@ -10,6 +10,7 @@ import jdbc.ChatbotMySQL;
 public class ChatbotApi {
 	
 	public String jsonAnalyize(String jsonObject) {
+		
 		JsonObject jobj = new Gson().fromJson(jsonObject, JsonObject.class);
 		ChatbotMySQL chatBot = new ChatbotMySQL();
 		String function = jobj.get("func").getAsString();
@@ -19,6 +20,8 @@ public class ChatbotApi {
 			return chatBot.getSalon(keyword);
 		} else if (function.equals("設計師")) {
 			return chatBot.getStylist(keyword);
+		} else if (function.equals("詢問")){
+			return chatBot.getAnswer(keyword);
 		} else {
 			return "[]";
 		}		

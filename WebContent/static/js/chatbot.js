@@ -14,7 +14,6 @@ function randomNumber(length){
 		return Math.random()-0.5;
 	})
 	arr.length = length;
-	console.log(arr);
 	return arr;
 }
 

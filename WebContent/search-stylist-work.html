@@ -4,19 +4,19 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         
-        <title>搜尋店家</title>
+        <title>搜尋髮型</title>
         <script src="./static/js/navbar.js"></script>
         <script src="./static/js/lib/fetch-data.js"></script>
         <script src="./static/js/auth.js"></script>
         <link rel="stylesheet" href="./static/css/all-setting.css">
-        <link rel="stylesheet" href="./static/css/search-salon.css">
+        <link rel="stylesheet" href="./static/css/search-stylist-work.css">
         <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
         <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
         <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
         <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
         <link href="./fontawesome-free-5.12.1-web/css/all.css" rel="stylesheet">
-        <script src="./static/js/search-salon.js"></script>
-		<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
+        <script src="./static/js/search-stylist-work.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
     </head>
 
     <body>
@@ -29,30 +29,13 @@
                     <i class="fas fa-arrow-left"></i>
                 </div>
                 <div class="sidebar-header">
-                    <h3>搜尋店家</h3>
+                    <h3>搜尋髮型</h3>
                     <hr>
                 </div>
                 <div class="mb-4">
-                    <input class="form-control" type="search" placeholder="輸入店家名稱或位址" aria-label="Search" id="search">
+                    <input class="form-control" type="search" placeholder="輸入關鍵字" aria-label="Search" id="search">
                     <button class="btn btn-success my-2 my-sm-0" type="submit" id="search-btn">Search</button>
                 </div>
-                
-                <!-- <p>附近店家：</p>
-                <form>
-                    <label class="radio-inline"><input type="radio" name="optradio" checked>5公里內</label>
-                    <label class="radio-inline"><input type="radio" name="optradio">10公里內</label>
-                    <label class="radio-inline"><input type="radio" name="optradio">20公里內</label>
-                    <label class="radio-inline"><input type="radio" name="optradio">不限</label>
-                </form> -->
-                <p>服務項目：</p>
-                <form>
-                    <label class="checkbox-inline"><input type="checkbox" name="service" value="type0">洗髮</label>
-                    <label class="checkbox-inline"><input type="checkbox" name="service" value="type1">剪髮</label>
-                    <label class="checkbox-inline"><input type="checkbox" name="service" value="type2">染髮</label>
-                    <label class="checkbox-inline"><input type="checkbox" name="service" value="type3">燙髮</label>
-                    <label class="checkbox-inline"><input type="checkbox" name="service" value="type4">護髮</label>
-                    <label class="checkbox-inline"><input type="checkbox" name="service" value="type5">其他</label>
-                </form>
             </nav>
     
             <!-- Page Content  -->
@@ -63,12 +46,9 @@
                     </button>
                 </div>
                 <br>
-                <div class="row align-items-center" id = "salon-cards"></div>
+                <div class="row align-items-center" id="work-cards"></div>
                 <button type="button" class="btn btn-outline-success btn-block" id="show-more-btn" value="0">顯示更多</button>
-			</div>
+            </div>  
         </div>
-        
-        <div id="chatbot"><i class="fas fa-times-circle"></i></div>
-
     </body>
 </html>

@@ -45,7 +45,7 @@ public class SearchServlet extends HttpServlet {
 		String result = null;
 
 		int[] price = null;
-		if (priceArr != null) { // ¦³¶Ç¤Jprice°}¦C
+		if (priceArr != null) { //have price condition
 			price = new int[2];
 			price[0] = Integer.parseInt(priceArr[0]);
 			price[1] = Integer.parseInt(priceArr[1]);

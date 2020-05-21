@@ -15,13 +15,13 @@ public class ColorHair {
 		try {
 			File file = new File(userPath);
 			if (!file.exists())
-				file.mkdir();// 建立資料夾
+				file.mkdir(); // create a folder
 			else
 				first = false;
 		} catch (Exception e) {
-			System.out.println("'" + path + "'此資料夾不存在");
+			System.out.println("'" + path + "'This folder does not exist");
 		}
-		return userPath; // 回傳使用者的資料夾路徑
+		return userPath; // return user's folder path
 	}
 
 	public File getColorPicture(String path, String color) {
@@ -53,29 +53,29 @@ public class ColorHair {
 		Graphics2D g2d = hairImg.createGraphics();
 		int Width = colorImg.getWidth();
 		int Height = colorImg.getHeight();
-		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP, 0.5f)); // 頭髮照片與顏色照片合併
+		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP, 0.5f)); // hair picture merged with color picture
 		g2d.drawImage(colorImg, 0, 0, Width, Height, null);
 		g2d.dispose();
 
-		colorFile.delete(); // 輸出照片後刪掉顏色照片
+		colorFile.delete(); // delete color picture
 		String fileName = null;
-		if (first) // 第一次使用這功能 第一次建立資料夾
-			fileName = CodeGenerator.getRandomCode(6); // 隨機產生一個檔案名稱
-		else { // 已有個人資料夾
-			deleteUserPicture(path); // 刪除資料夾內的照片
-			fileName = CodeGenerator.getRandomCode(6); // 隨機產生一個檔案名稱
+		if (first) // Create folder for the first time
+			fileName = CodeGenerator.getRandomCode(6); // generate a random file name
+		else { // already have a personal folder
+			deleteUserPicture(path); // delete picture in the folder
+			fileName = CodeGenerator.getRandomCode(6); // generate a random file name
 		}
 		String newFileName = fileName + ".png";
 		File newFile = new File(path + "/" + newFileName);
-		ImageIO.write(hairImg, "png", newFile); // 產生合成照片
+		ImageIO.write(hairImg, "png", newFile);
 		return fileName + ".png";
 	}
 
 	public static void deleteUserPicture(String path) {
 		File user = new File(path);
 		String[] filenames;
-		filenames = user.list(); // 回傳資料夾內所有檔案的檔名(含副檔名)
+		filenames = user.list(); // return the file name in the folder
 		File noFile = new File(path + "/" + filenames[0]);
-		noFile.delete(); // 輸出照片後刪掉顏色照片
+		noFile.delete(); // delete picture
 	}
 }

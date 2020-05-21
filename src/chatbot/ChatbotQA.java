@@ -10,11 +10,11 @@ public class ChatbotQA {
 	int priority = 0;
 	String question, answer, answerWeb;
 	String func = "question";
-	
+
 	public void setID(int id) {
 		this.id = id;
 	}
-	
+
 	public void setPriority(int priority) {
 		this.priority = priority;
 	}
@@ -26,15 +26,15 @@ public class ChatbotQA {
 	public void setAnswerWeb(String answerWeb) {
 		this.answerWeb = answerWeb;
 	}
-	
+
 	public void setQuestion(String question) {
 		this.question = question;
 	}
-	
+
 	public int getID() {
 		return id;
 	}
-	
+
 	public int getPriority() {
 		return priority;
 	}
@@ -46,11 +46,10 @@ public class ChatbotQA {
 	public String getAnswerWeb() {
 		return answerWeb;
 	}
-	
+
 	public String getQuestion() {
 		return question;
 	}
-
 
 	public static String convertToJson(ArrayList<ChatbotQA> Item) {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();

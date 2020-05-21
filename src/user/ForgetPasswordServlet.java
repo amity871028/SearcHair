@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import api.UserApi;
+
 /**
  * Servlet implementation class ForgetPasswordServlet
  */
@@ -47,7 +48,6 @@ public class ForgetPasswordServlet extends HttpServlet {
 		String json = reader.readLine();
 		reader.close();
 
-		
 		UserApi user = new UserApi();
 		String result = user.forgetPasswordJsonAnalyzing(json); // this result will be user account
 		try {

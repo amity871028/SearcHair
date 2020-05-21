@@ -1,17 +1,19 @@
-var Words;
-var TalkWords;
-var TalkSub;
+let Words;
+let TalkWords;
+let TalkSub;
 
 
 function randomNumber(length){
-	var arr = [];
-	for(let i = 0;i < length; i += 1){//一個從0到100的陣列
+	let arr = [];
+	for(let i = 0;i < length; i += 1){
 			arr.push(i);
 	}
-	arr.sort(function(){//隨機打亂這個陣列
+	
+	// shuffle array
+	arr.sort(function(){
 		return Math.random()-0.5;
 	})
-	arr.length = length;//改寫長度
+	arr.length = length;
 	console.log(arr);
 	return arr;
 }
@@ -24,7 +26,7 @@ async function inputPress() {
 } 
 
 async function chatRoom(){
-	var botMessage = "";
+	let botMessage = "";
 	if(TalkWords.value == ""){
 		alert("請輸入訊息");
 		return;
@@ -33,8 +35,8 @@ async function chatRoom(){
 		Words.innerHTML += userMessage;
 		if (TalkWords.value == "hi" || TalkWords.value == "hello" || TalkWords.value == "你好") {
 			botMessage = `<div class="atalk">
-								<img class="chatbot-picture" src="img/chatbot.jpg">
-								<span id="asay">'+ TalkWords.value +'</span>							
+								<img class="chatbot-icon" src="img/chatbot.jpg">
+								<span id="asay">${TalkWords.value}</span>							
 						  </div>`;
 			Words.innerHTML += botMessage;
 			
@@ -45,37 +47,38 @@ async function chatRoom(){
 }
 
 async function toChat(){
- var cardLength = 6;
- var url = "http://localhost:8080/SearcHair/ChatbotServlet"; 
- var input = document.getElementById('talkwords').value.split(" ");
+ let cardLength = 6;
+ let url = "http://localhost:8080/SearcHair/ChatbotServlet"; 
+// split user input
+ let input = document.getElementById('talkwords').value.split(" "); 
+ // input [0] is what to ask , input[1] to input[input.length] are keyword
  if(input.length < 2 || input[1] == ""){
 	 if(input[0] == "店家") {
 		 botMessage = `<div class="atalk">
 			 				<img class="chatbot-icon" src="img/chatbot.jpg">
-			 				<span id="asay">請輸入「店家 關鍵字」</span>
+			 				<span id="asay">請輸入「店家 關鍵字」！</span>
 			 		  </div>`;
-		 Words.innerHTML += botMessage;
 	 } else if (input[0] == "設計師") {
 		 botMessage = `<div class="atalk">
 			 				<img class="chatbot-icon" src="img/chatbot.jpg">
-			 				<span id="asay">請輸入「設計師 關鍵字」</span>	
+			 				<span id="asay">請輸入「設計師 關鍵字」！</span>	
 			 		   </div>`;
-		 Words.innerHTML += botMessage;
 	 } else {
 		botMessage = `<div class="atalk">
 							<img class="chatbot-icon" src="img/chatbot.jpg">
-							<span id="asay">我看不懂，請您在重新輸入一次</span>
+							<span id="asay">蝦米？請您再輸入一次！</span>
 					  </div>`;
-		Words.innerHTML += botMessage;
 	 }
+	Words.innerHTML += botMessage;
 	return;
 }
  
+ // make keyword value to string
  let keywordValue = "";
  for(let i = 1; i < input.length; i+=1){
 	 keywordValue += input[i] + " ";
  }
- const result = await
+const result = await
 FetchData.post(url, {
 	func : input[0],
 	keyword : keywordValue.substring(0,keywordValue.length-1)
@@ -85,14 +88,14 @@ const resultJson = await result.json();
 if(resultJson.length == 0) {
 	botMessage = `<div class="atalk">
 						<img class="chatbot-icon" src="img/chatbot.jpg">
-						<span id="asay">找不到相關資訊</span>
+						<span id="asay">找不到相關資訊QAQ</span>
 				  </div>`;
 	Words.innerHTML += botMessage;
 }
 else {
 	botMessage = `<div class="atalk">
 						<img class="chatbot-icon" src="img/chatbot.jpg">
-						<span id="asay">以下是我找到的資訊</span>
+						<span id="asay">以下是我找到的資訊 > < </span>
 				  </div>`;
 	Words.innerHTML += botMessage;
 	let out = null;
@@ -134,15 +137,12 @@ else {
 		}
 	}
 	else {
-		// const number = randomNumber(resultJson.length);
-		//for(let i = 0; i < 1; i+= 1) {
-		    out = `<div class="card">
-		    			<p class="card-text">問題:<br> ${resultJson[0].question}</p>
-	                    <p class="card-text">建議:<br> ${resultJson[0].answer}</p>
-	                    來源網址:<br><a href="${resultJson[0].answerWeb}" target="_blank">${resultJson[0].answerWeb}</a>
-		           </div>`;
-		    Words.innerHTML = Words.innerHTML + out;
-		//}
+	    out = `<div class="card">
+	    			<p class="card-text">問題:<br> ${resultJson[0].question}</p>
+                    <p class="card-text">建議:<br> ${resultJson[0].answer}</p>
+                    來源網址:<br><a href="${resultJson[0].answerWeb}" target="_blank">${resultJson[0].answerWeb}</a>
+	           </div>`;
+	    Words.innerHTML = Words.innerHTML + out;
 	}
 }
 } 

@@ -41,20 +41,20 @@ public class LoginServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setHeader("Access-Control-Allow-Origin", "*");
 		response.setHeader("Access-Control-Allow-Methods", "POST");
-		
+
 		// read json send from front end
 		BufferedReader reader = request.getReader();
 		String json = reader.readLine();
 		reader.close();
-		
+
 		// pass json to api
 		UserApi user = new UserApi();
 		String result = user.loginJsonAnalyzing(json);
-		
+
 		// make json
 		JsonObject arrayObj = new JsonObject();
-        arrayObj.addProperty("name", result);
-        
+		arrayObj.addProperty("name", result);
+
 		response.getWriter().print(arrayObj);
 	}
 

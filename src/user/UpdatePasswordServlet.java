@@ -47,7 +47,7 @@ public class UpdatePasswordServlet extends HttpServlet {
 		BufferedReader reader = request.getReader();
 		String json = reader.readLine();
 		reader.close();
-		
+
 		UserApi user = new UserApi();
 		try {
 			boolean result = user.checkUser(json);

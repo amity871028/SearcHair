@@ -46,7 +46,7 @@ public class UserApi {
 		else
 			return "fail";
 	}
-	
+
 	// reset password
 	public boolean resetPasswordJsonAnalyzing(String jsonObject, String userToken) throws Exception {
 
@@ -78,7 +78,7 @@ public class UserApi {
 		String account = jsonobj.get("account").toString();
 		String oldPassword = jsonobj.get("oldPassword").getAsString();
 		String newPassword = jsonobj.get("newPassword").getAsString();
-		
+
 		if (user.userChecking(account, oldPassword) != null) {
 			UserMySQL reset = new UserMySQL();
 			return reset.userResetPassword(account, newPassword);

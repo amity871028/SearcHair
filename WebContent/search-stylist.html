@@ -6,14 +6,17 @@
         
         <title>搜尋設計師</title>
         <script src="./static/js/navbar.js"></script>
+        <script src="./static/js/lib/fetch-data.js"></script>
+        <script src="./static/js/auth.js"></script>
         <link rel="stylesheet" href="./static/css/all-setting.css">
         <link rel="stylesheet" href="./static/css/search-stylist.css">
         <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
         <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
         <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
         <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
-        <link href="../fontawesome-free-5.12.1-web/css/all.css" rel="stylesheet">
+        <link href="./fontawesome-free-5.12.1-web/css/all.css" rel="stylesheet">
         <script src="./static/js/search-stylist.js"></script>
+ 		<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>    
     </head>
 
     <body>
@@ -30,33 +33,39 @@
                     <hr>
                 </div>
                 <div class="mb-4">
-                    <input class="form-control" type="text" placeholder="輸入設計師名稱" aria-label="Search">
-                    <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
+                    <input class="form-control" type="search" placeholder="輸入設計師名稱" aria-label="Search" id="search">
+                    <button class="btn btn-success my-2 my-sm-0" type="submit" id="search-btn">Search</button>
                 </div>
-                <p>附近店家：</p>
+                <!-- <p>附近店家：</p>
                 <form>
                     <label class="radio-inline"><input type="radio" name="optradio" checked>5公里內</label>
                     <label class="radio-inline"><input type="radio" name="optradio">10公里內</label>
                     <label class="radio-inline"><input type="radio" name="optradio">20公里內</label>
                     <label class="radio-inline"><input type="radio" name="optradio">不限</label>
-                </form>
+                </form> -->
                 <p>服務項目：</p>
                 <form>
-                    <label class="checkbox-inline"><input type="checkbox" value="">洗髮</label>
-                    <label class="checkbox-inline"><input type="checkbox" value="">剪髮</label>
-                    <label class="checkbox-inline"><input type="checkbox" value="">染髮</label>
-                    <label class="checkbox-inline"><input type="checkbox" value="">燙髮</label>
-                    <label class="checkbox-inline"><input type="checkbox" value="">護髮</label>
-                    <label class="checkbox-inline"><input type="checkbox" value="">其他</label>
+                    <label class="checkbox-inline"><input type="checkbox" name="service" value="type0">洗髮</label>
+                    <label class="checkbox-inline"><input type="checkbox" name="service" value="type1">剪髮</label>
+                    <label class="checkbox-inline"><input type="checkbox" name="service" value="type2">染髮</label>
+                    <label class="checkbox-inline"><input type="checkbox" name="service" value="type3">燙髮</label>
+                    <label class="checkbox-inline"><input type="checkbox" name="service" value="type4">護髮</label>
+                    <label class="checkbox-inline"><input type="checkbox" name="service" value="type5">其他</label>
                 </form>
                 <p>價格區間</p>
-                <form>
-                    <label class="radio-inline"><input type="radio" name="optradio" checked>不限</label>
-                    <label class="radio-inline"><input type="radio" name="optradio">0~200元</label>
-                    <label class="radio-inline"><input type="radio" name="optradio">200~500元</label>
-                    <label class="radio-inline"><input type="radio" name="optradio">500~1000元</label>
-                    <label class="radio-inline"><input type="radio" name="optradio">1000元以上</label>
-                </form>
+                <!-- <form> -->
+                <div class="mb-4">
+                	<input type="number" id="min-price" class="form-control" min="0" value="0" disabled>到
+                	<input type="number" id="max-price" class="form-control" min="0" value="5000" disabled>	
+                	<button class="btn btn-success my-2 my-sm-0" type="submit" id="search-price-btn" disabled>search</button>
+                </div>	
+                <!-- 	<br>
+                    <label class="radio-inline"><input type="radio" name="price" value="price0" checked>不限</label>
+                    <label class="radio-inline"><input type="radio" name="price" value="price1" disabled>0~200元</label>
+                    <label class="radio-inline"><input type="radio" name="price" value="price2" disabled>200~500元</label>
+                    <label class="radio-inline"><input type="radio" name="price" value="price3" disabled>500~1000元</label>
+                    <label class="radio-inline"><input type="radio" name="price" value="price4" disabled>1000元以上</label>
+                </form> -->
             </nav>
     
             <div class="Splitter"> </div>
@@ -69,51 +78,8 @@
                     </button>
                 </div>
                 <br>
-                <div class="row align-items-center">
-                        <div class="col-lg-4 col-md-6 mb-3">
-                            <div class="card">
-                                <a href="#"><img class="favorite" src="./static/img/favorite_undo.png" alt="favorite"></a> 
-                                <a href="stylist-intro.html">
-                                    <img class="card-img-top" src="./static/img/test_photo.png" alt="Card image cap">
-                                    <div class="card-body">
-                                        <p class="card-text">xxx(美髮設計師)</p>
-                                        <p class="card-text">xxx美髮店</p>
-                                        <p class="card-text">台北市xx區xxxxxx</p>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    <div class="col-lg-4 col-md-6 mb-3">
-                        <div class="card">
-                            <img class="card-img-top" src="./static/img/test_photo.png" alt="Card image cap">
-                            <div class="card-body">
-                                <p class="card-text">xxx(美髮設計師)</p>
-                                <p class="card-text">xxx美髮店</p>
-                                <p class="card-text">台北市xx區xxxxxx</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 mb-3">
-                        <div class="card">
-                            <img class="card-img-top" src="./static/img/test_photo.png" alt="Card image cap">
-                            <div class="card-body">
-                                <p class="card-text">xxx(美髮設計師)</p>
-                                <p class="card-text">xxx美髮店</p>
-                                <p class="card-text">台北市xx區xxxxxx</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 mb-3">
-                        <div class="card">
-                            <img class="card-img-top" src="./static/img/test_photo.png" alt="Card image cap">
-                            <div class="card-body">
-                                <p class="card-text">xxx(美髮設計師)</p>
-                                <p class="card-text">xxx美髮店</p>
-                                <p class="card-text">台北市xx區xxxxxx</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <div class="row align-items-center" id="stylist-cards"></div>
+            	<button type="button" class="btn btn-outline-success btn-block" id="show-more-btn" value="0">顯示更多</button>
             </div>
             
         </div>

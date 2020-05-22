@@ -10,20 +10,6 @@ a:hover{
 .Splitter{
     min-height: 56px;
 }
-/*
-.all-link {
-    display: flex;
-}
-
-.all-link a {
-    width:200px;
-    height:200px;
-    background-color:#beebe9 !important;
-    border-radius:50%;
-    text-align: center;
-    line-height: 200px;
-}
-*/
 
 .all-link {
     text-align: center;

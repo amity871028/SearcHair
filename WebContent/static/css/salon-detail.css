@@ -1,0 +1,297 @@
+.Splitter {
+	min-height: 50px;
+}
+
+content>a, a:link, a:visited {
+	color: black !important;
+	text-decoration: none !important;
+}
+
+content>a:hover {
+	color: black !important;
+	text-decoration: none;
+}
+/* ---------------------------------------------------
+    SIDEBAR STYLE
+----------------------------------------------------- */
+.wrapper {
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+#sidebar {
+	position: fixed;
+	left: 0;
+	width: 310px;
+	height: -webkit-fill-available;
+	background: #beebe9;
+	color: black;
+	padding: 10px;
+	box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
+}
+
+#sidebarCollapse {
+	display: none;
+}
+
+#salon-card {
+	position: absolute;
+	width: 75%;
+	right: 0;
+	left: 0;
+	margin: auto;
+}
+
+/* ---------------------------------------------------
+    CONTENT STYLE
+----------------------------------------------------- */
+#content {
+	width: 100%;
+	margin-left: 310px;
+	padding: 20px;
+	min-height: 100vh;
+}
+
+#dismiss {
+	visibility: hidden;
+}
+
+#sidebar>a>img {
+	width: 7%;
+	vertical-align: middle;
+}
+
+#content>img {
+	width: 18px;
+	vertical-align: middle;
+	margin: 5px;
+}
+
+#content .card-body img {
+	width: 160px;
+	height: 160px;
+	overflow: hidden;
+	margin: 5px;
+}
+
+.card {
+	margin: 5px;
+}
+
+.to-center {
+	text-align: center;
+	width: auto;
+	height: auto;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+}
+
+.to-row {
+	display: flex;
+	flex-direction: row;
+}
+
+#work-modal .card-img {
+	width: 70% !important;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+}
+
+.work-content {
+	height: 360px;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+/* The work below, CSSBox, is released under the Creative Commons
+   Attribution-ShareAlike 4.0 license and is available on
+   https://github.com/TheLastProject/CSSBox. You are not required to add
+   additional credit to your website, just leave the above text in this file */
+.padding-40 {
+	padding: 40px;
+}
+
+.col-md-6 .card-img {
+	width: 90% !important;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+}
+
+.work-content {
+	height: 360px;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+#hashtag span {
+	margin: 2px;
+}
+
+img.cssbox_thumb {
+	width: 200px;
+}
+
+div.cssbox {
+	display: initial;
+	margin: 8px;
+	box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
+}
+
+span.cssbox_full {
+	z-index: 999;
+	position: fixed;
+	height: 100%;
+	width: 100%;
+	background-color: rgba(0, 0, 0, 0.8);
+	top: 0;
+	left: 0;
+	opacity: 0;
+	pointer-events: none;
+	cursor: default;
+	transition: opacity 0.5s linear;
+}
+
+span.cssbox_full .row {
+	border-radius: 5px;
+	width: 600px;
+	position: fixed;
+	background-color: white;
+	margin: 0;
+	padding: 0;
+	max-height: 90%;
+	max-width: 90%;
+	top: 50%;
+	left: 50%;
+	margin-right: -50%;
+	transform: translate(-50%, -50%);
+	box-shadow: 0 0 20px black;
+}
+
+a.cssbox_close, a.cssbox_prev, a.cssbox_next {
+	z-index: 999;
+	position: fixed;
+	text-decoration: none;
+	visibility: hidden;
+	color: white;
+	font-size: 36px;
+}
+
+a.cssbox_close {
+	top: 9%;
+	right: 10%
+}
+
+a.cssbox_close::after {
+	content: '\00d7';
+}
+
+a.cssbox_prev, a.cssbox_next {
+	top: 50%;
+	transform: translate(0%, -50%);
+}
+
+a.cssbox_prev {
+	left: 5%;
+}
+
+a.cssbox_next {
+	right: 5%;
+}
+
+a:target ~ a.cssbox_close, a:target ~ a.cssbox_prev, a:target ~ a.cssbox_next
+	{
+	visibility: visible;
+}
+
+a:target>img.cssbox_thumb+span.cssbox_full {
+	visibility: visible;
+	opacity: 1;
+	pointer-events: initial;
+}
+/* This is the end of CSSBox */
+table {
+	width: 100%;
+}
+
+.stylist-photo {
+	width: 180px !important;
+}
+
+th {
+	text-align: center !important;
+}
+
+td {
+	padding: 10px;
+}
+
+tr {
+	border: 1px gray solid;
+}
+
+.stylist-photo-td {
+	text-align: center;
+	border-right: 1px gray solid;
+}
+
+.blank {
+	width: 200px;
+}
+
+@media only screen and (min-width: 0px) and (max-width: 575px) {
+	#sidebar {
+		width: 250px;
+		top: 56px;
+		left: -260px;
+		height: 100vh;
+		z-index: 999;
+		transition: all 0.3s;
+		overflow-y: scroll;
+		box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
+	}
+	#sidebar.active {
+		left: 0;
+	}
+	#sidebarCollapse {
+		display: block;
+	}
+	#salon-card {
+		position: initial;
+		width: initial;
+	}
+	#content {
+		margin-left: 0;
+	}
+	#dismiss {
+		visibility: visible;
+		width: 35px;
+		height: 35px;
+		position: absolute;
+		top: 60px;
+		right: 10px;
+		cursor: pointer;
+		-webkit-transition: all 0.3s;
+		-o-transition: all 0.3s;
+		transition: all 0.3s;
+	}
+	#dismiss:hover {
+		background: #fff;
+		color: #7386D5;
+	}
+	.card-size {
+		width: 90%;
+	}
+}

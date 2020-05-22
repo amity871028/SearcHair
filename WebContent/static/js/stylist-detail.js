@@ -118,7 +118,7 @@ async function getstylistDetail(){
 	              <span class="cssbox_full">
 	                <div class="row">
 	                  <div class="col-md-6 padding-40">
-	                    <img src="${work.picture}" class="card-img" alt="work's photo" id="stylist-work-photo">
+	                    <img src="${work.picture}" class="card-img" alt="work's photo">
 	                  </div>
 	                  <div class="col-md-6 padding-40">
 	                      <div class="work-content">

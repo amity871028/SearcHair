@@ -17,7 +17,6 @@ public class UserMySQL {
 		try {
 			String insertdbSQL = "insert into users (account, password, name) VALUES (" + account + ", " + password
 					+ ", " + name + ")";
-			System.out.println(insertdbSQL);
 			rsInt = stat.executeUpdate(insertdbSQL);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -76,6 +75,21 @@ public class UserMySQL {
 		try {
 			String updatePassword = "UPDATE users SET password = '" + password + "'  WHERE account = " + account;
 			rsInt = stat.executeUpdate(updatePassword);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			database.close();
+		}
+		if (rsInt == 1)
+			return true;
+		else
+			return false;
+	}
+	
+	public boolean userSetRemind(String account, int remindFrequency) {
+		try {
+			String updateRemind = "UPDATE users SET remind_frequency = " + remindFrequency + " WHERE account = " + account;
+			rsInt = stat.executeUpdate(updateRemind);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {

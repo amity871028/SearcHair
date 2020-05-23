@@ -86,4 +86,13 @@ public class UserApi {
 			return false;
 		}
 	}
+	
+	public boolean setRemindFrequency(String jsonObject){
+
+		JsonObject jsonobj = new Gson().fromJson(jsonObject, JsonObject.class);
+		String account = jsonobj.get("account").toString();
+		int remindFrequency = jsonobj.get("remindFrequency").getAsInt();
+		return user.userSetRemind(account, remindFrequency);
+
+	}
 }

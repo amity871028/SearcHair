@@ -28,6 +28,10 @@
 		<servlet-class>user.UpdatePasswordServlet</servlet-class>
 	</servlet>
 	<servlet>
+		<servlet-name>SetRemindFrequency</servlet-name>
+		<servlet-class>user.SetRemindFrequency</servlet-class>
+	</servlet>
+	<servlet>
 		<servlet-name>SearchServlet</servlet-name>
 		<servlet-class>search.SearchServlet</servlet-class>
 	</servlet>
@@ -54,59 +58,63 @@
 	<servlet>
 		<servlet-name>HairMatchServlet</servlet-name>
 		<servlet-class>hairMatch.HairMatchServlet</servlet-class>
-  </servlet>
-  <servlet>
-    <servlet-name>ChatbotServlet</servlet-name>
-    <servlet-class>chatbot.ChatbotServlet</servlet-class>
-  </servlet>
-  
- 
-<servlet-mapping>
-        <servlet-name>LoginServlet</servlet-name>
-        <url-pattern>/api-user-login</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-        <servlet-name>RegisterServlet</servlet-name>
-        <url-pattern>/api-user-register</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-        <servlet-name>ForgetPasswordServlet</servlet-name>
-        <url-pattern>/api-user-password-forget</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-        <servlet-name>ResetPasswordServlet</servlet-name>
-        <url-pattern>/api-user-password-reset</url-pattern>
-  </servlet-mapping>
-   <servlet-mapping>
-        <servlet-name>UpdatePasswordServlet</servlet-name>
-        <url-pattern>/api-user-password-update</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-        <servlet-name>SearchServlet</servlet-name>
-        <url-pattern>/api-search</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-        <servlet-name>SearchOneServlet</servlet-name>
-        <url-pattern>/api-search-detail</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-        <servlet-name>CalendarNewServlet</servlet-name>
-        <url-pattern>/api-calendar-new</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-        <servlet-name>CalendarDeleteServlet</servlet-name>
-        <url-pattern>/api-calendar-delete</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-        <servlet-name>CalendarUpdateServlet</servlet-name>
-        <url-pattern>/api-calendar-update</url-pattern>
-  </servlet-mapping>
-   <servlet-mapping>
-        <servlet-name>CalendarGetServlet</servlet-name>
-        <url-pattern>/api-calendar</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-	<servlet-name>HairMatchServlet</servlet-name>
+	</servlet>
+	<servlet>
+		<servlet-name>ChatbotServlet</servlet-name>
+		<servlet-class>chatbot.ChatbotServlet</servlet-class>
+	</servlet>
+
+
+	<servlet-mapping>
+		<servlet-name>LoginServlet</servlet-name>
+		<url-pattern>/api-user-login</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>RegisterServlet</servlet-name>
+		<url-pattern>/api-user-register</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ForgetPasswordServlet</servlet-name>
+		<url-pattern>/api-user-password-forget</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ResetPasswordServlet</servlet-name>
+		<url-pattern>/api-user-password-reset</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>UpdatePasswordServlet</servlet-name>
+		<url-pattern>/api-user-password-update</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>SetRemindFrequency</servlet-name>
+		<url-pattern>/api-user-remind</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>SearchServlet</servlet-name>
+		<url-pattern>/api-search</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>SearchOneServlet</servlet-name>
+		<url-pattern>/api-search-detail</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>CalendarNewServlet</servlet-name>
+		<url-pattern>/api-calendar-new</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>CalendarDeleteServlet</servlet-name>
+		<url-pattern>/api-calendar-delete</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>CalendarUpdateServlet</servlet-name>
+		<url-pattern>/api-calendar-update</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>CalendarGetServlet</servlet-name>
+		<url-pattern>/api-calendar</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>HairMatchServlet</servlet-name>
 		<url-pattern>/api-hairMatch</url-pattern>
 	</servlet-mapping>
 

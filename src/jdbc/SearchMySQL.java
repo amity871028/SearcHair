@@ -315,9 +315,9 @@ public class SearchMySQL {
 				String stylist = "select * from stylist where salon=" + num;
 				RS = ST.executeQuery(stylist); // search for all stylists in a salon
 				while (RS.next()) {
+					count = 0;
 					ArrayList<Work> Work_List = new ArrayList<Work>();
 					StylistInfo stylistInfo = new StylistInfo();
-					Work work = new Work();
 					id = RS.getInt("id");
 					stylistInfo.setID(RS.getInt("id"));
 					stylistInfo.setName(RS.getString("name"));
@@ -329,6 +329,7 @@ public class SearchMySQL {
 					stt = con.createStatement();
 					rst = stt.executeQuery("select * from stylist_works where stylist=" + id); // search for all stylist works of the stylist
 					while (rst.next()) {
+						Work work = new Work();
 						work.setID(rst.getInt("id"));
 						work.setPicture(rst.getString("picture"));
 						work.setDescription(rst.getString("description"));

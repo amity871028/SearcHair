@@ -48,6 +48,7 @@ h3 {
 }
 
 table {
+	width: 94% !important;
     margin: 10px;
 }
 
@@ -57,6 +58,7 @@ table td, table th {
 
 tbody tr {
     height: 40px;
+    border: 1.5px black solid;
 }
 
 #activity-name {
@@ -70,6 +72,10 @@ tbody tr {
 
 .color-display {
     width: 7px;
+}
+
+.time {	
+    width: 100px !important;
 }
 
 .red-color {

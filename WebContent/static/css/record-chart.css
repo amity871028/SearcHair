@@ -1,3 +1,13 @@
+
+    
+body {
+    overflow: hidden;
+}
+
+::-webkit-scrollbar { /*hidden scrollbar*/
+	overflow: hidden
+}
+
 .calendar>a, a:link, a:visited {
 	color: black;
 	text-decoration: none !important;
@@ -30,9 +40,8 @@ a>img {
 }
 
 .chart-container {
-	position: absolute;
-	height: 40vh;
-	width: 80vw;
-	top: 100;
-	left: 100px;
+	position: relative;
+	height: 800px;
+	width: 800px;
+	left: 220px;
 }

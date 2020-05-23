@@ -57,8 +57,8 @@ async function getAction(){
 				endTime = "下午" + endTime;
 			}
 			tmp += `<tr id="${activity.id}" onclick="updateActivity(${activity.id}, '${activity.activityName}', '${activity.startTime}', '${activity.endTime}', '${activity.color}', ${activity.noticeTime})">
-						<td class="${activity.color}-color"></td>
-						<td>${startTime}<br>${endTime}</td>
+						<td class="${activity.color}-color color-display"></td>
+						<td class="time">${startTime}<br>${endTime}</td>
 						<td>${activity.activityName}</td>
 					</tr></a>`;
 		}
@@ -142,8 +142,8 @@ async function updateSideBar(date){
 				endTime = "下午" + endTime;
 			}
 			tmp += `<tr id="${activity.id}" onclick="updateActivity(${activity.id}, '${activity.activityName}', '${activity.startTime}', '${activity.endTime}', '${activity.color}', ${activity.noticeTime})">
-				<td class="${activity.color}-color"></td>
-				<td>${startTime}<br>${endTime}</td>
+				<td class="${activity.color}-color color-display"></td>
+				<td class="time">${startTime}<br>${endTime}</td>
 				<td>${activity.activityName}</td>
 			</tr></a>`;
 		}

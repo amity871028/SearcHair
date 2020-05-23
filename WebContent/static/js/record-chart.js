@@ -1,29 +1,47 @@
 const costAPI = "api-calendar?func=cost";
 const account = localStorage.getItem('account');
 
-var url = location.href;
-var yearPosition = url.match("year=").index + 5;
-var monthPosition = url.match("month=").index + 6;
-var year = url.substring(yearPosition, monthPosition-7);
-var month = url.substring(monthPosition);
+let url = location.href;
+let yearPosition = url.match("year=").index + 5;
+let monthPosition = url.match("month=").index + 6;
+let year = url.substring(yearPosition, monthPosition-7);
+let month = url.substring(monthPosition);
 
 function drawCanvas(hardressTotal, productTotal){
-	var ctx = document.getElementById("chart").getContext('2d');
-	var myChart = new Chart(ctx, {
-	    type: 'pie',
-	    data: {
-	        labels: ["美髮", "商品"],
-	        datasets: [{            
-	            data: [hardressTotal, productTotal],
-	            backgroundColor: [
-	                'rgba(255, 99, 132)',
-	                'rgba(54, 162, 235)',
-	            ],
-	            borderWidth: 1
-	        }]
-	    },
-	    options: {onClick: graphClickEvent}
-	});
+	let ctx = document.getElementById("chart").getContext('2d');
+	if(hardressTotal == 0 && productTotal == 0){
+		let myChart = new Chart(ctx, {
+		    type: 'pie',
+		    data: {
+		        labels: ["無花費"],
+		        datasets: [{            
+		            data: [1],
+		            backgroundColor: [
+		                '#a8d8ea'
+		            ],
+		            borderWidth: 1
+		        }]
+		    },
+		    options: {}
+		});
+	}
+	else {
+		let myChart = new Chart(ctx, {
+		    type: 'pie',
+		    data: {
+		        labels: ["美髮", "商品"],
+		        datasets: [{            
+		            data: [hardressTotal, productTotal],
+		            backgroundColor: [
+		                '#a8d8ea',
+		                '#fcbad3'
+		            ],
+		            borderWidth: 1
+		        }]
+		    },
+		    options: {onClick: graphClickEvent}
+		});
+	}
 }
 
 function graphClickEvent(event, array){

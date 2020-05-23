@@ -43,6 +43,7 @@ if(localStorage.getItem("account")){
 	        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink"> \
 	            <a class="dropdown-item" href="calendar.html">月曆</a> \
 	            <a class="dropdown-item" href="favorite.html">我的最愛</a> \
+				<a class="dropdown-item" href="push.html">推播通知</a> \
 	            <a class="dropdown-item" href="setting.html">設定</a> \
 	        </div> \
     	</li> \

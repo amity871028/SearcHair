@@ -1,65 +1,72 @@
 const costAPI = "api-calendar?func=cost";
 const account = localStorage.getItem('account');
+categorySet = ["美髮", "商品"]
+kindSet = {
+		category0: ["洗髮", "剪髮", "染髮", "燙髮", "護髮", "其他"],
+		category1: ["洗髮類", "潤髮類", "護髮類", "其他"]
+}
 
-var url = location.href;
-var categoryPosition = url.match("category=").index + 9;
-var yearPosition = url.match("year=").index + 5;
-var monthPosition = url.match("month=").index + 6;
-var year = url.substring(yearPosition, monthPosition-7);
-var month = url.substring(monthPosition);
+let url = location.href;
+let categoryPosition = url.match("category=").index + 9;
+let yearPosition = url.match("year=").index + 5;
+let monthPosition = url.match("month=").index + 6;
+let category = url.substring(categoryPosition, categoryPosition+1)
+let year = url.substring(yearPosition, monthPosition-7);
+let month = url.substring(monthPosition);
 
-function drawCanvas(hardressTotal, productTotal){
-	var ctx = document.getElementById("chart").getContext('2d');
-	var myChart = new Chart(ctx, {
+function drawCanvas(kindTotal){
+	let length = kindTotal.length;
+	let allKind = kindSet[`category${category}`];
+	let ctx = document.getElementById("chart").getContext('2d');
+	let myChart = new Chart(ctx, {
 	    type: 'pie',
 	    data: {
-	        labels: ["美髮", "商品"],
+	        labels: allKind,
 	        datasets: [{            
-	            data: [hardressTotal, productTotal],
+	            data: kindTotal,
 	            backgroundColor: [
-	                'rgba(255, 99, 132)',
-	                'rgba(54, 162, 235)',
+	                '#a8d8ea',
+	                '#aa96da',
+	                '#fcbad3',
+	                '#ffffd2',
+	                '#FED3A9',
+	                '#8FF9BF'
 	            ],
 	            borderWidth: 1
 	        }]
 	    },
-	    options: {onClick: graphClickEvent}
+	    options: {}
 	});
 }
 
-function graphClickEvent(event, array){
-	let category = array[0]._index;
-	window.location = `record-chart-detail.html?category=${category}&year=${year}&month=${month}`;
-}
 async function getcost(){
 
 	document.getElementById('date').innerHTML = `${year}年${month}月`;
 	const result = await FetchData.get(`${costAPI}&account=${account}&year=${year}&month=${month}`);
 	let costResult = await result.json();
-
 	const totalCost = document.getElementById('total-cost');
-	const hairdressCost = document.getElementById('hairdress-cost');
-	const productCost = document.getElementById('product-cost');
+	//const hairdressCost = document.getElementById('hairdress-cost');
+	//const productCost = document.getElementById('product-cost');
 	let tmp = "";
 	let total = 0;
-	let hairdressTotal = 0;
-	let productTotal = 0;
-	
+	let kindTotal = [0, 0, 0, 0, 0, 0];
 	costResult.forEach(cost => {
-		total += cost.cost;
-		if(cost.category == "美髮"){
-			hairdressTotal += cost.cost;
+		console.log(cost);
+		if(cost.category == categorySet[category]){
+			total += cost.cost;
+			const allKind = kindSet[`category${category}`];
+			for(let i = 0; i < allKind.length; i++){
+				if(cost.kind == allKind[i]){
+					kindTotal[i] += cost.cost;
+					break;
+				}
+			}
 		}
-		else {
-			productTotal += cost.cost;
-		}
-		
 	});
-	totalCost.innerHTML = hairdressTotal + productTotal;
-	hairdressCost.innerHTML = hairdressTotal;
-	productCost.innerHTML = productTotal;
 	
-	drawCanvas(hairdressTotal, productTotal);
+	console.log(kindTotal);
+	
+	drawCanvas(kindTotal);
 }
 function delayURL(url, time) {
 	  setTimeout(() => { window.location.href = `${url}`; }, time);
@@ -71,6 +78,8 @@ function init(){
 	    delayURL('./index.html', 200);
 	}
 	getcost();
+	
+	document.getElementById('back').href = `record-chart.html?year=${year}&month=${month}`;
 	
 }
 

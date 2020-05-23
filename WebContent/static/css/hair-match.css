@@ -8,8 +8,8 @@ body {
     overflow: hidden;
 }
 
-::-webkit-scrollbar {/*隱藏滾輪*/
-	overflow: hidden;
+::-webkit-scrollbar { /*hidden scrollbar*/
+	overflow: hidden
 }
 
 #ocntent {
@@ -35,7 +35,7 @@ body {
 
 .icon {
     position: absolute;
-    top: 60px;
+    top: 80px;
     list-style-type:none;
     z-index: 15;
 }
@@ -64,7 +64,7 @@ body {
 
 .hint-setting {
     position: absolute;
-    top: 120px;
+    top: 140px;
     left: 38px;
     z-index: 10;
 }

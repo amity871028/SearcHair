@@ -1,5 +1,6 @@
 const settingAPI = {
-	password: 'api-user-password-update'
+	password: 'api-user-password-update',
+	remind: 'api-user-remind'
 };
 const PASSWORD = ['old-password', 'new-password', 'confirm-new-password'];
 
@@ -32,27 +33,43 @@ async function updatePassword() {
   if (document.forms['update-password-form'].reportValidity()) {
     const newPassword = document.getElementById('new-password').value;
     if (newPassword.length >= 8) {
-    	console.log("old: " + document.getElementById('old-password').value);
-    	console.log("new: " + newPassword)
       const result = await FetchData.post(settingAPI.password, {
     	account: localStorage.getItem('account'),
         oldPassword: document.getElementById('old-password').value,
         newPassword: newPassword,
       });
-      console.log(result.status);
       if (result.status === 401) {
         document.getElementById('update-password-wrong').innerHTML = '舊密碼錯誤或是未登入。';
-        console.log("?!!!?");
       } else if (result.status === 200) {
         $('#update-password-modal').modal('hide');
         $('#update-success-modal').modal('show');
-        console.log("?????");
         PASSWORD.forEach((element) => { // clear password field
           document.getElementById(element).value = '';
         });
       }
     }
   }
+}
+
+async function updateRemindFrequency(){
+	const frequency = document.getElementById('day');
+	const noticeSwitch = document.getElementById('notice-switch');
+	if(noticeSwitch.checked == true && frequency.value == ""){
+		alert("請輸入天數！");
+	}
+	else if(frequency.value <= 0){
+		alert("天數輸入不對！請重新輸入");
+	}
+	else {
+		let remindFrequency = 0;
+		if(noticeSwitch.checked == false) remindFrequency = -1;
+		else remindFrequency = frequency.value;
+		const result = await FetchData.post(settingAPI.remind, {
+			account: localStorage.getItem('account'),
+	    	remindFrequency: parseInt(remindFrequency),
+		});
+		alert('更新成功！');
+	}
 }
 
 
@@ -71,6 +88,13 @@ function sidebarSetting(){
 function init(){
     sidebarSetting();
     document.getElementById('update-btn').addEventListener('click', updatePassword);
+    
+    document.getElementById('notice-switch').addEventListener('change', function(){
+    	const frequency = document.getElementById('day');
+    	if(this.checked == true) frequency.disabled = false;
+    	else frequency.disabled = true;
+    });
+    document.getElementById('update-notice-btn').addEventListener('click', updateRemindFrequency);
 }
 
 window.addEventListener('load', init);

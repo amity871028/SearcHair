@@ -151,6 +151,21 @@ else {
 }
 } 
 
+function displayChatbot(){
+	const chatbot = document.getElementById('talk-con-id');
+	const chatbotBtn = document.getElementsByClassName('chatbot-btn')[0];
+	if(chatbot.getAttribute('style')=='display: none;'){
+		chatbot.setAttribute('style', 'display: initial;');
+		chatbotBtn.innerHTML = `<i class="fas fa-times close-icon"></i>`;
+	}
+	else {
+		chatbot.setAttribute('style', 'display: none;');
+		chatbotBtn.innerHTML = `<i class="far fa-comment-dots show-icon"></i>`;
+	}
+	
+	// chatbot.setAttribute('style', 'display: initial;');
+}
+
 window.onload = function(){  
 	Words = document.getElementById("words"); 
 	TalkWords = document.getElementById("talkwords");

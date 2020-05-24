@@ -1,4 +1,3 @@
-const stylistWorkDetailAPI = 'api-search-detail?func=stylist_works&id=';
 const salonDetailAPI = 'api-search-detail?func=salon';
 
 async function getSalonDetail(){
@@ -40,7 +39,7 @@ async function getSalonDetail(){
 					<a href="stylist-detail.html?id=${stylist.id}">
 						<img src="${stylist.picture}" class="card-img stylist-photo" alt="...">
 					</a></td>`;
-        
+        console.log(stylist);
         for(let i = 0; i < stylist.works.length; i++){
             let work = stylist.works[i];
             let prevWork = stylist.works[stylist.works.length - 1];

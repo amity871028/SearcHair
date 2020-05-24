@@ -3,6 +3,7 @@ const settingAPI = {
 	remind: 'api-user-remind'
 };
 const PASSWORD = ['old-password', 'new-password', 'confirm-new-password'];
+const account = localStorage.getItem('account');
 
 /* ----check the fields of the password---- */
 function validatePassword() {
@@ -34,7 +35,7 @@ async function updatePassword() {
     const newPassword = document.getElementById('new-password').value;
     if (newPassword.length >= 8) {
       const result = await FetchData.post(settingAPI.password, {
-    	account: localStorage.getItem('account'),
+    	account: account,
         oldPassword: document.getElementById('old-password').value,
         newPassword: newPassword,
       });
@@ -65,7 +66,7 @@ async function updateRemindFrequency(){
 		if(noticeSwitch.checked == false) remindFrequency = -1;
 		else remindFrequency = frequency.value;
 		const result = await FetchData.post(settingAPI.remind, {
-			account: localStorage.getItem('account'),
+			account: account,
 	    	remindFrequency: parseInt(remindFrequency),
 		});
 		alert('更新成功！');

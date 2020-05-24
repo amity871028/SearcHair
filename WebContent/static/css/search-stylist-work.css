@@ -1,3 +1,13 @@
+content>a, a:link, a:visited {
+	color: black !important;
+	text-decoration: none !important;
+}
+
+content>a:hover {
+	color: black !important;
+	text-decoration: none;
+}
+
 .Splitter {
 	min-height: 50px;
 }
@@ -58,20 +68,6 @@
 	display: none !important;
 }
 
-/* ---------------------------------------------------
-    works modal STYLE
------------------------------------------------------ */
-.row-setting {
-	height: 100%;
-}
-
-.card-setting {
-	height: 450px;
-} 
-
-.carousel-control-setting {
-	width: 8% !important;
-}
 
 /* The work below, CSSBox, is released under the Creative Commons
    Attribution-ShareAlike 4.0 license and is available on
@@ -149,8 +145,8 @@ a.cssbox_next {
   position: fixed;
   text-decoration: none;
   visibility: hidden;
-  color: white;
-  font-size: 36px;
+  color: white !important;
+  font-size: 40px;
 }
 
 a.cssbox_close {

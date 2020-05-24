@@ -185,8 +185,8 @@ a.cssbox_close, a.cssbox_prev, a.cssbox_next {
 	position: fixed;
 	text-decoration: none;
 	visibility: hidden;
-	color: white;
-	font-size: 36px;
+	color: white !important;
+	font-size: 40px;
 }
 
 a.cssbox_close {

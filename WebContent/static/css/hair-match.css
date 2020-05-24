@@ -1,3 +1,13 @@
+content>a, a:link, a:visited {
+	color: black !important;
+	text-decoration: none !important;
+}
+
+content>a:hover {
+	color: black !important;
+	text-decoration: none;
+}
+
 html{
 	position:fixed;	
 	height:100%;

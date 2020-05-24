@@ -38,6 +38,11 @@
 	margin: 50px auto 0;
 	background: #f9f9f9;
 	border-radius: 10px;
+    position: fixed;
+    right: 80px;
+    bottom: 52px;
+	box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
+    z-index: 10000;
 }
 
 .talk-show {
@@ -116,15 +121,50 @@
 	display: inline-block;
 }
 
-img {
+.card img {
 	display: block;
 	width: 80%;
 	height: auto;
 	margin: auto;
 }
 
-.card {
+#words .card {
 	width: 100%;
 	height: auto;
 	float: left;
+}
+
+.chatbot-btn {
+    position: fixed;
+    right: 30px;
+    bottom: 30px;
+	width: 60px;
+	height: 60px;
+	background-color: #d9ddeb;
+	border-radius: 50%;
+	box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
+	z-index: 10000;
+}
+
+.show-icon {
+	position: absolute;
+    left: 11px;
+    top: 10px;
+    font-size: 40px;
+}
+
+.close-icon {
+	position: absolute;
+    left: 17px;
+    top: 11px;
+    font-size: 40px;
+}
+
+@media screen and (min-width: 0px) and (max-width: 575px) {
+	.talk-con {
+	    position: absolute;
+	    right: 0;
+	    left: 0;
+	    bottom: 68px;
+	}
 }

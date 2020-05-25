@@ -30,6 +30,7 @@ public class CalendarMySQL {
 	private String insertActivityNoticeSQL = "INSERT INTO activity_notice VALUES (?, ?, ?)";
 	private String selectCost = "SELECT * FROM cost";
 	private String selectActivity = "SELECT * FROM activity";
+	private String selectActivityNotice = "SELECT * FROM activity_notice";
 	private String selectPicture = "SELECT * FROM picture_in_calendar";
 
 	// =================== cost function ==========================//
@@ -235,6 +236,7 @@ public class CalendarMySQL {
 					pstmt.setBoolean(7, true);
 					rsInt = pstmt.executeUpdate();
 					// add notice time
+
 					result = newActivityNotice(activityRecord.getAccount(), activityRecord.getId(), startTime,
 							activityRecord.getNoticeTime());
 					if (result == false)
@@ -293,6 +295,39 @@ public class CalendarMySQL {
 		return ActivityRecord.convertToJson(allActivity);
 	}
 
+	public String getActivityNotice(String account) {
+		ArrayList<ActivityRecord> allActivity = new ArrayList<ActivityRecord>();
+		try {
+			String getNoticeActivity = " where account = '" + account + "'";
+			rs = stat.executeQuery(selectActivity + getNoticeActivity);
+			while (rs.next()) {
+				ActivityRecord activityRecord = new ActivityRecord();
+				activityRecord.setId(rs.getInt("id"));
+				activityRecord.setActivityName(rs.getString("activity_name"));
+				activityRecord.setStartTime(timestamp2Time(rs.getString("start_time")));
+				activityRecord.setEndTime(timestamp2Time(rs.getString("end_time")));
+
+				Statement stat1 = null;
+				ResultSet rs1 = null;
+				stat1 = con.createStatement();
+				rs1 = stat1.executeQuery(selectActivityNotice + " WHERE activity_id = " + rs.getInt("id"));
+				if (rs1.next()) {
+					// get activity notice time
+					String time = timestamp2Time(rs1.getString("notice_time"));
+					activityRecord.setNoticeTimestamp(time);
+				} else {
+					activityRecord.setNoticeTimestamp("null");
+				}
+				allActivity.add(activityRecord);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			database.close();
+		}
+		return ActivityRecord.convertToJson(allActivity);
+	}
+
 	// =================== activity notice function ==========================//
 
 	public boolean newActivityNotice(String account, int activityId, Timestamp startTime, int noticeTime) {
@@ -317,7 +352,7 @@ public class CalendarMySQL {
 
 	public boolean deleteActivityNotice(String account, int activityId) {
 		try {
-			// insert data
+			rsInt = stat.executeUpdate("UPDATE activity SET notice = 0 WHERE id = " + activityId);
 			rsInt = stat.executeUpdate("DELETE FROM activity_notice WHERE activity_id = " + activityId);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -460,6 +495,7 @@ public class CalendarMySQL {
 		String[] timeArray = new String[2];
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		Calendar cal = Calendar.getInstance();
+
 		cal.set(year, month - 1, 1);
 		timeArray[0] = df.format(cal.getTime());
 
@@ -473,6 +509,7 @@ public class CalendarMySQL {
 			cal.set(year, month - 1, 30);
 		}
 		timeArray[1] = df.format(cal.getTime());
+
 		return timeArray;
 	}
 

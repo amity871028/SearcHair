@@ -45,13 +45,19 @@ public class CalendarGetServlet extends HttpServlet {
 
 		String function = request.getParameter("func");
 		String account = request.getParameter("account");
-		int year = Integer.parseInt(request.getParameter("year"));
-		int month = Integer.parseInt(request.getParameter("month"));
+		String year = request.getParameter("year");
+		String month = request.getParameter("month");
+		
+		if(year == null) {
+			year = "0";
+		}
+		if(month == null) {
+			month = "0";
+		}
 		String result = null;
-
+		
 		CalendarApi calendarApi = new CalendarApi();
-
-		result = calendarApi.getJsonAnalyzing(function, account, year, month);
+		result = calendarApi.getJsonAnalyzing(function, account, Integer.parseInt(year), Integer.parseInt(month));
 
 		response.getWriter().append(result);
 	}

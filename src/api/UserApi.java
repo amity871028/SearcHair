@@ -28,7 +28,7 @@ public class UserApi {
 		JsonObject jsonobj = new Gson().fromJson(jsonObject, JsonObject.class);
 
 		String account = jsonobj.get("account").toString();
-		String name = jsonobj.get("name").getAsString();
+		String name = jsonobj.get("name").toString();
 		String password = jsonobj.get("password").toString();
 
 		return user.userInsertion(account, password, name);

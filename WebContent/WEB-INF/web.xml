@@ -7,6 +7,7 @@
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
+	
 	<servlet>
 		<servlet-name>LoginServlet</servlet-name>
 		<servlet-class>user.LoginServlet</servlet-class>
@@ -63,7 +64,10 @@
 		<servlet-name>ChatbotServlet</servlet-name>
 		<servlet-class>chatbot.ChatbotServlet</servlet-class>
 	</servlet>
-
+	<servlet>
+		<servlet-name>FavoriteServlet</servlet-name>
+		<servlet-class>favorite.FavoriteServlet</servlet-class>
+	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>LoginServlet</servlet-name>
@@ -116,6 +120,10 @@
 	<servlet-mapping>
 		<servlet-name>HairMatchServlet</servlet-name>
 		<url-pattern>/api-hairMatch</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>FavoriteServlet</servlet-name>
+		<url-pattern>/api-favorite-new</url-pattern>
 	</servlet-mapping>
 
 	<error-page>

@@ -315,8 +315,9 @@ public class CalendarMySQL {
 					// get activity notice time
 					String time = timestamp2Time(rs1.getString("notice_time"));
 					activityRecord.setNoticeTimestamp(time);
-				} else {
-					activityRecord.setNoticeTimestamp("null");
+					int minutes = calculateTimeDifference(rs.getTimestamp("start_time"),
+							rs1.getTimestamp("notice_time"));
+					activityRecord.setNoticeTime(minutes);
 				}
 				allActivity.add(activityRecord);
 			}

@@ -69,7 +69,7 @@ public class CalendarApi {
 		if (function.equals("cost"))
 			return calendar.getCost(account, year, month);
 		else if (function.equals("activity")) {
-			if (year == 0 & month == 0) {
+			if (year == 0 && month == 0) {
 				return calendar.getActivityNotice(account);
 			} else {
 				return calendar.getActivity(account, year, month);

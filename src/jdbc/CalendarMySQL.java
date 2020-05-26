@@ -298,7 +298,7 @@ public class CalendarMySQL {
 	public String getActivityNotice(String account) {
 		ArrayList<ActivityRecord> allActivity = new ArrayList<ActivityRecord>();
 		try {
-			String getNoticeActivity = " where account = '" + account + "'";
+			String getNoticeActivity = " where account = '" + account + "'" + " AND notice = 1";
 			rs = stat.executeQuery(selectActivity + getNoticeActivity);
 			while (rs.next()) {
 				ActivityRecord activityRecord = new ActivityRecord();

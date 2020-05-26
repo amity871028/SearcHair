@@ -5,17 +5,15 @@ import java.io.IOException;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
-import jdbc.AddFavorite;
+import jdbc.FavoriteMySQL;
 
 public class FavoriteApi {
-	AddFavorite favorite = new AddFavorite();
+	FavoriteMySQL favorite = new FavoriteMySQL();
 
 	public boolean checkSalon(String jsonObject) throws IOException {
 		JsonObject jobj = new Gson().fromJson(jsonObject, JsonObject.class);
-		String function = jobj.get("func").toString();
-		function = function.substring(1, function.length() - 1); // 刪掉前後的"字元
-		String account = jobj.get("account").toString();
-		account = account.substring(1, account.length() - 1); // 刪掉前後的"字元
+		String function = jobj.get("func").getAsString();
+		String account = jobj.get("account").getAsString();
 		String id = jobj.get("id").toString();
 
 		boolean result = false;

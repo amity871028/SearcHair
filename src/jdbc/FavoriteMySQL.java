@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import com.mysql.jdbc.PreparedStatement;
 
-public class AddFavorite {
+public class FavoriteMySQL {
 
 	private ConnectDB database = new ConnectDB();
 	private Statement stat = database.getStatement();
@@ -163,7 +163,7 @@ public class AddFavorite {
 	}
 
 	public static void main(String args[]) {
-		AddFavorite test = new AddFavorite();
+		FavoriteMySQL test = new FavoriteMySQL();
 		String account = "ohmygod@gmail.com";
 		boolean salon = test.addSalon(account, 8);
 		System.out.println("salon boolean -> " + salon);

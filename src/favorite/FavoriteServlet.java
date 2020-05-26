@@ -22,7 +22,6 @@ public class FavoriteServlet extends HttpServlet {
 	 */
 	public FavoriteServlet() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**

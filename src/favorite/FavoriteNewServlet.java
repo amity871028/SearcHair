@@ -11,16 +11,16 @@ import javax.servlet.http.HttpServletResponse;
 import api.FavoriteApi;
 
 /**
- * Servlet implementation class FavoriteServlet
+ * Servlet implementation class FavoriteNewServlet
  */
-@WebServlet("/FavoriteServlet")
-public class FavoriteServlet extends HttpServlet {
+@WebServlet("/FavoriteNewServlet")
+public class FavoriteNewServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public FavoriteServlet() {
+	public FavoriteNewServlet() {
 		super();
 	}
 
@@ -48,9 +48,9 @@ public class FavoriteServlet extends HttpServlet {
 		BufferedReader reader = request.getReader();
 		String json = reader.readLine();
 		reader.close();
-
+		
 		FavoriteApi favoriteApi = new FavoriteApi();
-		boolean result = favoriteApi.checkSalon(json);
+		boolean result = favoriteApi.addFavorite(json);
 
 		if (result == true)
 			response.setStatus(HttpServletResponse.SC_OK);

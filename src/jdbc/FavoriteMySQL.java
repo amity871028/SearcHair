@@ -109,7 +109,6 @@ public class FavoriteMySQL {
 			return true;
 		else
 			return false;
-
 	}
 
 	public boolean addStylistWorks(String account, int num) {
@@ -162,14 +161,145 @@ public class FavoriteMySQL {
 			return false;
 	}
 
+	public boolean deleteSalon(String account, int num) {
+		int salonID;
+		int flag = 0; // 正確的輸出1 錯誤輸出0
+		try {
+			stat = con.createStatement();
+			rs = stat.executeQuery("select * from salon where id =" + num);
+			if (rs.next()) {
+				salonID = rs.getInt("id");
+
+				Statement ST = null;
+				ResultSet RS = null;
+				ST = con.createStatement();
+				RS = ST.executeQuery("select * from favorite where account=" + "\"" + account + "\"");
+				if (RS.next()) { // 有使用過我的最愛
+					String salon = RS.getString("salon");
+					salon = salon.replace("\"" + salonID + "\"", "");
+					salon = salon.replace(",,", ",");
+					salon = salon.replace("[,", "[");
+					salon = salon.replace(",]", "]");
+
+					String update = "update favorite set salon=? where account=?";
+					PreparedStatement pst = (PreparedStatement) con.prepareStatement(update);
+					pst.setString(1, salon); // 傳送第1個參數(取代第一個問號)
+					pst.setString(2, account); // 傳送第2個參數(取代第一個問號)
+					pst.executeUpdate();
+				}
+				flag = 1;
+			} else {
+				System.out.println("Salon 不存在");
+			}
+		} catch (SQLException e) {
+			System.out.println("select table SQLException:" + e.toString());
+		} finally {
+			database.close();
+		}
+		if (flag == 1)
+			return true;
+		else
+			return false;
+	}
+
+	public boolean deleteStylist(String account, int num) {
+		int stylistID;
+		int flag = 0; // 正確的輸出1 錯誤輸出0
+		try {
+			stat = con.createStatement();
+			rs = stat.executeQuery("select * from stylist where id =" + num);
+			if (rs.next()) {
+				stylistID = rs.getInt("id");
+
+				Statement ST = null;
+				ResultSet RS = null;
+				ST = con.createStatement();
+				RS = ST.executeQuery("select * from favorite where account=" + "\"" + account + "\"");
+				if (RS.next()) { // 有使用過我的最愛
+					String stylist = RS.getString("stylist");
+					stylist = stylist.replace("\"" + stylistID + "\"", "");
+					stylist = stylist.replace(",,", ",");
+					stylist = stylist.replace("[,", "[");
+					stylist = stylist.replace(",]", "]");
+
+					String update = "update favorite set stylist=? where account=?";
+					PreparedStatement pst = (PreparedStatement) con.prepareStatement(update);
+					pst.setString(1, stylist); // 傳送第1個參數(取代第一個問號)
+					pst.setString(2, account); // 傳送第2個參數(取代第一個問號)
+					pst.executeUpdate();
+				}
+				flag = 1;
+			} else {
+				System.out.println("Stylist 不存在");
+			}
+		} catch (SQLException e) {
+			System.out.println("select table SQLException:" + e.toString());
+		} finally {
+			database.close();
+		}
+		if (flag == 1)
+			return true;
+		else
+			return false;
+	}
+
+	public boolean deleteStylistWorks(String account, int num) {
+		int stylist_works_ID;
+		int flag = 0; // 正確的輸出1 錯誤輸出0
+		try {
+			stat = con.createStatement();
+			rs = stat.executeQuery("select * from stylist_works where id =" + num);
+			if (rs.next()) {
+				stylist_works_ID = rs.getInt("id");
+
+				Statement ST = null;
+				ResultSet RS = null;
+				ST = con.createStatement();
+				RS = ST.executeQuery("select * from favorite where account=" + "\"" + account + "\"");
+				if (RS.next()) { // 有使用過我的最愛
+					String stylist_works = RS.getString("stylist_works");
+					stylist_works = stylist_works.replace("\"" + stylist_works_ID + "\"", "");
+					stylist_works = stylist_works.replace(",,", ",");
+					stylist_works = stylist_works.replace("[,", "[");
+					stylist_works = stylist_works.replace(",]", "]");
+
+					String update = "update favorite set stylist_works=? where account=?";
+					PreparedStatement pst = (PreparedStatement) con.prepareStatement(update);
+					pst.setString(1, stylist_works); // 傳送第1個參數(取代第一個問號)
+					pst.setString(2, account); // 傳送第2個參數(取代第一個問號)
+					pst.executeUpdate();
+				}
+				flag = 1;
+			} else {
+				System.out.println("Stylist_Works 不存在");
+			}
+		} catch (SQLException e) {
+			System.out.println("select table SQLException:" + e.toString());
+		} finally {
+			database.close();
+		}
+		if (flag == 1)
+			return true;
+		else
+			return false;
+	}
+
 	public static void main(String args[]) {
 		FavoriteMySQL test = new FavoriteMySQL();
-		String account = "ohmygod@gmail.com";
-		boolean salon = test.addSalon(account, 8);
+		String account = "XD";
+
+//		boolean salon = test.addSalon(account, 8);
+//		System.out.println("salon boolean -> " + salon);
+//		boolean stylist = test.addStylist(account, 123);
+//		System.out.println("stylist boolean -> " + stylist);
+//		boolean stylistWorks = test.addStylistWorks(account, 2);
+//		System.out.println("stylistWorks boolean -> " + stylistWorks);
+
+		boolean salon = test.deleteSalon(account, 13);
 		System.out.println("salon boolean -> " + salon);
-		boolean stylist = test.addStylist(account, 88);
+		boolean stylist = test.deleteStylist(account, 123);
 		System.out.println("stylist boolean -> " + stylist);
-		boolean stylistWorks = test.addStylistWorks(account, 7);
+		boolean stylistWorks = test.deleteStylistWorks(account, 3);
 		System.out.println("stylistWorks boolean -> " + stylistWorks);
 	}
 

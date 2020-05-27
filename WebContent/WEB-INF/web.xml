@@ -7,7 +7,7 @@
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
-	
+
 	<servlet>
 		<servlet-name>LoginServlet</servlet-name>
 		<servlet-class>user.LoginServlet</servlet-class>
@@ -65,8 +65,12 @@
 		<servlet-class>chatbot.ChatbotServlet</servlet-class>
 	</servlet>
 	<servlet>
-		<servlet-name>FavoriteServlet</servlet-name>
-		<servlet-class>favorite.FavoriteServlet</servlet-class>
+		<servlet-name>FavoriteNewServlet</servlet-name>
+		<servlet-class>favorite.FavoriteNewServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>FavoriteDeleteServlet</servlet-name>
+		<servlet-class>favorite.FavoriteDeleteServlet</servlet-class>
 	</servlet>
 
 	<servlet-mapping>
@@ -122,8 +126,12 @@
 		<url-pattern>/api-hairMatch</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
-		<servlet-name>FavoriteServlet</servlet-name>
+		<servlet-name>FavoriteNewServlet</servlet-name>
 		<url-pattern>/api-favorite-new</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>FavoriteDeleteServlet</servlet-name>
+		<url-pattern>/api-favorite-delete</url-pattern>
 	</servlet-mapping>
 
 	<error-page>

@@ -15,7 +15,6 @@ var moveFlag = 0;
             this._mouseDown(event);
 
             //--------------------touchStart do something--------------------
-            console.log("i touchStart!");
 
         }, _touchMove: function (event) {
             moveFlag = 1;
@@ -23,8 +22,6 @@ var moveFlag = 0;
             this._mouseMove(event);
 
             //--------------------touchMove do something--------------------
-            console.log("i touchMove!");
-
         }, _touchEnd: function (event) {
             if (moveFlag == 0) {
                 var evt = document.createEvent('Event');
@@ -36,7 +33,6 @@ var moveFlag = 0;
             moveFlag = 0;
 
             //--------------------touchEnd do something--------------------
-            console.log("i touchEnd!");
 
         }, _modifyEvent: function (event) {
             event.which = 1;
@@ -79,6 +75,20 @@ function zoom(func){
   editedPhoto.width = afterWidth;
 }
 
+function move(func){
+	var editedPhoto = document.getElementById('edited-photo');
+	if(editedPhoto.style.top == "") editedPhoto.style.top = 0;
+	if(editedPhoto.style.left == "") editedPhoto.style.left = 0;
+	let afterTop = editedPhoto.style.top;
+	let afterLeft = editedPhoto.style.left;
+	if(func == 'up') afterTop = parseInt(editedPhoto.style.top) - 10;
+	else if(func == 'down') afterTop = parseInt(editedPhoto.style.top) + 10;
+	else if(func == 'left') afterLeft = parseInt(editedPhoto.style.left) - 10;
+	else if(func == 'right') afterLeft = parseInt(editedPhoto.style.left) + 10;
+	editedPhoto.style.top = afterTop;
+	editedPhoto.style.left = afterLeft;
+}
+
 // let picture can show instantly
 function readURL(input) {
     if (input.files && input.files[0]) {
@@ -114,6 +124,12 @@ function init(){
     drag();
     document.getElementById('plus-btn').addEventListener('click', function(){zoom('plus')});
     document.getElementById('minus-btn').addEventListener('click', function(){zoom('minus')});
+    
+
+    document.getElementById('up-btn').addEventListener('click', function(){move('up')});
+    document.getElementById('down-btn').addEventListener('click', function(){move('down')});
+    document.getElementById('left-btn').addEventListener('click', function(){move('left')});
+    document.getElementById('right-btn').addEventListener('click', function(){move('right')});
 
     document.getElementById('ok-btn').addEventListener('click', storage);
 }

@@ -1,4 +1,4 @@
-var header = '<a href="javascript:void(0);" onclick="displayChatbot(this);"><div class="chatbot-btn"><i class="far fa-comment-dots show-icon"></i></div></a> \
+var header = '<a href="javascript:void(0);" class="chatbot-link" onclick="displayChatbot(this);"><div class="chatbot-btn"><i class="far fa-comment-dots show-icon"></i></div></a> \
         <div class="talk-con" id="talk-con-id" style="display: none;"> \
 	        <div class="talk-show" id="words"> \
 	            <div class="atalk"> \

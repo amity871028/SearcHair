@@ -10,11 +10,13 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.stream.IntStream;
 
-import api.ActivityRecord;
-import api.CostRecord;
-import api.PictureRecord;
+import calendar.ActivityRecord;
+import calendar.PictureRecord;
+import calendar.CostRecord;
+import calendar.SortActivity;
 
 public class CalendarMySQL {
 
@@ -320,6 +322,9 @@ public class CalendarMySQL {
 					activityRecord.setNoticeTime(minutes);
 				}
 				allActivity.add(activityRecord);
+				// sort activity
+				SortActivity sortClass = new SortActivity();
+				Collections.sort(allActivity, sortClass);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -519,5 +524,11 @@ public class CalendarMySQL {
 		long diff = d1.getTime() - d2.getTime();
 		long min = diff / (1000 * 60);
 		return (int) min;
+	}
+	
+	public void sortActivityByTime() {
+		
+		
+
 	}
 }

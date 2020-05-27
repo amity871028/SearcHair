@@ -5,6 +5,10 @@ import com.google.gson.JsonObject;
 
 import jdbc.CalendarMySQL;
 
+import calendar.ActivityRecord;
+import calendar.PictureRecord;
+import calendar.CostRecord;
+
 public class CalendarApi {
 
 	private CalendarMySQL calendar = new CalendarMySQL();

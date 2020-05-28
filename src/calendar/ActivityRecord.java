@@ -1,4 +1,4 @@
-package api;
+package calendar;
 
 import java.util.ArrayList;
 
@@ -13,6 +13,7 @@ public class ActivityRecord {
 	String startTime;
 	String endTime;
 	String color;
+	String noticeTimestamp;
 	int noticeTime;
 
 	public void setId(int id) {
@@ -42,6 +43,10 @@ public class ActivityRecord {
 	public void setNoticeTime(int noticeTime) {
 		this.noticeTime = noticeTime;
 	}
+	
+	public void setNoticeTimestamp(String noticeTimestamp) {
+		this.noticeTimestamp = noticeTimestamp;
+	}
 
 	// get
 	public int getId() {
@@ -70,6 +75,10 @@ public class ActivityRecord {
 
 	public int getNoticeTime() {
 		return noticeTime;
+	}
+	
+	public String getNoticeTimestamp() {
+		return noticeTimestamp;
 	}
 
 	public static String convertToJson(ArrayList<ActivityRecord> allActivityData) {

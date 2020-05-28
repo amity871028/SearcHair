@@ -5,6 +5,10 @@ import com.google.gson.JsonObject;
 
 import jdbc.CalendarMySQL;
 
+import calendar.ActivityRecord;
+import calendar.PictureRecord;
+import calendar.CostRecord;
+
 public class CalendarApi {
 
 	private CalendarMySQL calendar = new CalendarMySQL();
@@ -37,6 +41,12 @@ public class CalendarApi {
 			return activityDeleteJsonAnalyzing(jsonObject);
 		else if (function.equals("picture"))
 			return pictureDeleteJsonAnalyzing(jsonObject);
+		else if (function.equals("notice")) {
+			String account = jobj.get("account").getAsString();
+			int id = jobj.get("id").getAsInt();
+			return calendar.deleteActivityNotice(account, id);
+		}
+
 		else
 			return false;
 
@@ -62,8 +72,13 @@ public class CalendarApi {
 	public String getJsonAnalyzing(String function, String account, int year, int month) {
 		if (function.equals("cost"))
 			return calendar.getCost(account, year, month);
-		else if (function.equals("activity"))
-			return calendar.getActivity(account, year, month);
+		else if (function.equals("activity")) {
+			if (year == 0 && month == 0) {
+				return calendar.getActivityNotice(account);
+			} else {
+				return calendar.getActivity(account, year, month);
+			}
+		}
 		else if (function.equals("picture"))
 			return calendar.getPicture(account, year, month);
 		else

@@ -37,7 +37,7 @@ tr {
 .date {
     text-align: center;
     line-height: 63px;
-    width: 65px;
+    width: 110px;
 }
 
 .time {
@@ -52,4 +52,8 @@ tr {
 
 .notice-time {
     width: 80px;
+}
+
+.close-button {
+    width: 98px;
 }

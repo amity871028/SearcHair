@@ -69,7 +69,8 @@ async function updateRemindFrequency(){
 			account: account,
 	    	remindFrequency: parseInt(remindFrequency),
 		});
-		alert('更新成功！');
+		if(result.status === 200) alert('更新成功！');
+		else alert('請再試一次！');
 	}
 }
 

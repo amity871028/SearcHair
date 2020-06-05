@@ -38,3 +38,19 @@ span {
 .all-link a {
     padding: 24px;
 }
+
+.new-link {
+	position: relative;	
+}
+
+#new-span {
+    position: absolute;
+    right: 32px;
+    top: 25px;
+}
+
+@media only screen and (min-width: 0px) and (max-width: 575px){ 
+	.all-link {
+	    margin: initial;
+	}
+}

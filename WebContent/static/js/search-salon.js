@@ -80,7 +80,7 @@ function drawCard(Json, page){
     Json.forEach( salon => {
     	newCard += `<div class="col-lg-4 col-md-6 mb-3" id="${salon.id}"> \
             <div class="card"> \
-                <!--<a href="#"><img class="favorite" src="../static/img/favorite_undo.png" id="favorte-${salon.id}" alt="favorite"></a>-->  \
+                <a href="#"><img class="favorite" src="img/favorite_undo.png" id="favorte-${salon.id}" onclick="changeFavorite(this);" alt="favorite"></a>  \
                 <a href="salon-detail.html?id=${salon.id}"> \
                 <img class="card-img-top lozad" data-src="${salon.picture}" alt="${salon.name} photo"> \
                 <div class="card-body"> \
@@ -94,6 +94,21 @@ function drawCard(Json, page){
     else salonCards.innerHTML += newCard;
     const observer = lozad(); // lazy load
 	observer.observe();
+    //favoriteSetting();
+}
+
+function changeFavorite(event){
+	console.log(event.src.split('img/')[1]);
+	console.log("favorite.png");
+	let favoriteImg = "img/favorite.png";
+	let undoFavoriteImg = "img/favorite_undo.png";
+	if(event.src.match("favorite_undo.png")){
+		event.src = favoriteImg;
+	}
+	else {
+		event.src = undoFavoriteImg;
+	}
+	
 }
 function sidebarSetting(){
     document.getElementById('dismiss').addEventListener('click', function(){
@@ -106,12 +121,14 @@ function sidebarSetting(){
 
 function favoriteSetting(){
     const favoriteList = document.getElementsByClassName('favorite');
+	console.log(favoriteList);
+	console.log(favoriteList.length);
     for(let i = 0; i < favoriteList.length; i++){
         favoriteList[i].addEventListener('mouseover', function(){
-            this.src = "../static/img/favorite.png";
+            this.src = "img/favorite.png";
         });
         favoriteList[i].addEventListener('mouseout', function(){
-            this.src = "../static/img/favorite_undo.png";
+            this.src = "img/favorite_undo.png";
         });
     }
 }
@@ -128,7 +145,6 @@ function init(){
     	else if(window.action == action.service) searchByService(this);
     });
     
-    // favoriteSetting();
     document.getElementsByName('service').forEach(service => {
     	service.addEventListener('click', searchByService);
     });

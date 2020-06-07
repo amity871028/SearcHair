@@ -78,9 +78,10 @@ function drawCard(Json, page){
 	const salonCards = document.getElementById('salon-cards');
     let newCard = "";
     Json.forEach( salon => {
+    	if(salon.name == 'free') return;
     	newCard += `<div class="col-lg-4 col-md-6 mb-3" id="${salon.id}"> \
             <div class="card"> \
-                <a href="#"><img class="favorite" src="img/favorite_undo.png" id="favorte-${salon.id}" onclick="changeFavorite(this);" alt="favorite"></a>  \
+                <!--<a href="#"><img class="favorite" src="img/favorite_undo.png" id="favorte-${salon.id}" onclick="changeFavorite(this);" alt="favorite"></a>-->  \
                 <a href="salon-detail.html?id=${salon.id}"> \
                 <img class="card-img-top lozad" data-src="${salon.picture}" alt="${salon.name} photo"> \
                 <div class="card-body"> \

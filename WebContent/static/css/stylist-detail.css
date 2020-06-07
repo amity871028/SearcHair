@@ -90,28 +90,7 @@ content>a:hover {
 .card-setting {
 	height: 450px;
 }
-/*
-.card-img {
-	max-height: 80%;
-	max-width: 80%;
-	width: auto;
-	height: auto;
-	position: absolute;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	margin: auto;
-}
 
-.work-content {
-	margin: 50px 10px;
-	height: 360px;
-	overflow-x: hidden;
-	overflow-y: auto;
-}
-
-*/
 .card-img {
 	width: 70% !important;
 	position: absolute;
@@ -213,7 +192,7 @@ a.cssbox_next {
   position: fixed;
   text-decoration: none;
   visibility: hidden;
-  color: white;
+  color: white !important;
   font-size: 36px;
 }
 

@@ -53,7 +53,8 @@ public class HairMatchServlet extends HttpServlet {
 
 		HairMatchApi hairMatch = new HairMatchApi();
 		if (function.equals("hairColor")) {
-			String fileName = hairMatch.getColorHairPicutre(userFolderRealPath, hairstyleFolderRealPath, folder, picture, color, userName);
+			String fileName = hairMatch.getColorHairPicutre(userFolderRealPath, hairstyleFolderRealPath, folder,
+					picture, color, userName);
 			String url = UrlHandler.getBaseUrl(request) + "/img/hair-match/user/" + userName + "/" + fileName;
 			Hair hair = new Hair(url);
 			Gson gson = new Gson();
@@ -78,6 +79,12 @@ public class HairMatchServlet extends HttpServlet {
 		response.setHeader("Access-Control-Allow-Origin", "*");
 		response.setHeader("Access-Control-Allow-Methods", "POST");
 
+		String function = request.getParameter("func");
+		String userName = request.getParameter("userName");
+		String hairstyle = request.getParameter("hairstyle");
+		String color = request.getParameter("color");
+		String url = request.getParameter("url");
+
 		ServletContext sc = request.getServletContext();
 		String userFolderRealPath = sc.getRealPath("img/hair-match/user");
 		BufferedReader reader = request.getReader();
@@ -85,10 +92,23 @@ public class HairMatchServlet extends HttpServlet {
 		reader.close();
 
 		HairMatchApi hairMatchApi = new HairMatchApi();
-		String result = hairMatchApi.getJsonToImgur(json, userFolderRealPath);
-		JsonObject jsonObject = new JsonObject();
-		jsonObject.addProperty("url", result);
+		if (function.equals("store")) {
+			String result = hairMatchApi.getJsonToImgur(json, userFolderRealPath);
+			JsonObject jsonObject = new JsonObject();
+			jsonObject.addProperty("url", result);
+			response.getWriter().print(jsonObject);
+		}
+		if (function.equals("share")) {
+			boolean result = hairMatchApi.savePicture(userName, hairstyle, color, url);
+			if (result == true)
+				response.setStatus(HttpServletResponse.SC_OK);
+			else
+				response.setStatus(HttpServletResponse.SC_CONFLICT);
+		}
+		if (function.equals("userPhoto")) {
+			String result = hairMatchApi.getRandomPhoto(hairstyle);
+			response.getWriter().append(result);
+		}
 
-		response.getWriter().print(jsonObject);
 	}
 }

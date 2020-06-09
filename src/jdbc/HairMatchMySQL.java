@@ -15,19 +15,19 @@ public class HairMatchMySQL {
 	private Connection con = database.getConnection();
 	private ResultSet rs = null;
 
-	public boolean savePhoto(String userName, String hairstyle, String color, String url) {
+	public boolean savePhoto(String user_name, String hairstyle, String color, String url) {
 		int flag = 0; // 正確的輸出1 錯誤輸出0
 		try {
 			stat = con.createStatement();
-			rs = stat.executeQuery("select * from share_photo where userName =\"" + userName + "\" and hairstyle=\""
+			rs = stat.executeQuery("select * from share_photo where user_name =\"" + user_name + "\" and hairstyle=\""
 					+ hairstyle + "\" and color=\"" + color + "\" and url=\"" + url + "\"");
 			if (rs.next()) { // 已經有這筆資料了
 				System.out.println("資料庫已有這張照片");
 			} else { // 新增資料
-				String insert = "insert into share_photo(userName,hairstyle,color,url) value(?,?,?,?)";
+				String insert = "insert into share_photo(user_name,hairstyle,color,url) value(?,?,?,?)";
 				PreparedStatement pst = (PreparedStatement) con.prepareStatement(insert);
 
-				pst.setString(1, userName);
+				pst.setString(1, user_name);
 				pst.setString(2, hairstyle);
 				pst.setString(3, color);
 				pst.setString(4, url);
@@ -46,19 +46,19 @@ public class HairMatchMySQL {
 	}
 
 	public String getPhoto(String hairstyle) {
-		String userName = null, color = null, url = null;
+		String user_name = null, color = null, url = null;
 		String ans = null;
 		try {
 			stat = con.createStatement();
 			rs = stat.executeQuery("select * from share_photo where hairstyle =\"" + hairstyle + "\" order by rand() limit 1");
 			if (rs.next()) {
-				userName = rs.getString("userName");
+				user_name = rs.getString("user_name");
 				color = rs.getString("color");
 				url = rs.getString("url");
+				Photo photo = new Photo(user_name, color, url);
+				Gson gson = new Gson();
+				ans = gson.toJson(photo);
 			}
-			Photo photo = new Photo(userName, color, url);
-			Gson gson = new Gson();
-			ans = gson.toJson(photo);
 		} catch (SQLException e) {
 			System.out.println("select table SQLException:" + e.toString());
 		} finally {
@@ -70,12 +70,12 @@ public class HairMatchMySQL {
 
 	public static void main(String args[]) {
 		HairMatchMySQL test = new HairMatchMySQL();
-		String userName = "oooo";
+		String user_name = "oTATo";
 		String hairstyle = "girl3.png";
 		String color = "#555555";
 		String url = "https://imgur/current.png";
 
-		boolean save = test.savePhoto(userName, hairstyle, color, url);
+		boolean save = test.savePhoto(user_name, hairstyle, color, url);
 		System.out.println("save boolean -> " + save);
 		String photo = test.getPhoto(hairstyle);
 		System.out.println("photo -> " + photo);

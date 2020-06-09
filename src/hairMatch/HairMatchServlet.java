@@ -79,17 +79,14 @@ public class HairMatchServlet extends HttpServlet {
 		response.setHeader("Access-Control-Allow-Origin", "*");
 		response.setHeader("Access-Control-Allow-Methods", "POST");
 
-		String function = request.getParameter("func");
-		String userName = request.getParameter("userName");
-		String hairstyle = request.getParameter("hairstyle");
-		String color = request.getParameter("color");
-		String url = request.getParameter("url");
-
 		ServletContext sc = request.getServletContext();
 		String userFolderRealPath = sc.getRealPath("img/hair-match/user");
 		BufferedReader reader = request.getReader();
 		String json = reader.readLine();
 		reader.close();
+
+		JsonObject jobj = new Gson().fromJson(json, JsonObject.class);
+		String function = jobj.get("func").getAsString();
 
 		HairMatchApi hairMatchApi = new HairMatchApi();
 		if (function.equals("store")) {
@@ -99,6 +96,10 @@ public class HairMatchServlet extends HttpServlet {
 			response.getWriter().print(jsonObject);
 		}
 		if (function.equals("share")) {
+			String userName = jobj.get("userName").getAsString();
+			String hairstyle = jobj.get("hairstyle").getAsString();
+			String color = jobj.get("color").getAsString();
+			String url = jobj.get("url").getAsString();
 			boolean result = hairMatchApi.savePicture(userName, hairstyle, color, url);
 			if (result == true)
 				response.setStatus(HttpServletResponse.SC_OK);
@@ -106,6 +107,7 @@ public class HairMatchServlet extends HttpServlet {
 				response.setStatus(HttpServletResponse.SC_CONFLICT);
 		}
 		if (function.equals("userPhoto")) {
+			String hairstyle = jobj.get("hairstyle").getAsString();
 			String result = hairMatchApi.getRandomPhoto(hairstyle);
 			response.getWriter().append(result);
 		}

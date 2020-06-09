@@ -253,8 +253,6 @@ public class SearchMySQL {
 		int num = 1; // count stylistWorks
 		String ans = null;
 		ArrayList<AllStylistWorks> allStylistWorksList = new ArrayList<AllStylistWorks>();
-		if (keyword != null && keyword.contains("髮"))
-			keyword = keyword.replaceAll("髮", ""); // ignore "髮"
 		try {
 			stat = con.createStatement();
 			if (keyword == null)

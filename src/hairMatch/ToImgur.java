@@ -2,8 +2,10 @@ package hairMatch;
 
 import java.io.*;
 import java.nio.channels.FileChannel;
+import java.util.Base64;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
+
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -22,8 +24,10 @@ public class ToImgur {
 		File outputfile = new File(path + "/" + newFileName);
 		if (data != null) {
 			String base64Image = data.split(",")[1];
-			byte[] imageBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64Image);
-			BufferedImage img = ImageIO.read(new ByteArrayInputStream(imageBytes));
+			byte[] imageBytes = Base64.getMimeDecoder().decode(base64Image);
+			ByteArrayInputStream image = new ByteArrayInputStream(imageBytes);
+			BufferedImage img = ImageIO.read(image);
+			image.close();
 			ImageIO.write(img, "png", outputfile);
 		}
 		if (newFile != null)

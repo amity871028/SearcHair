@@ -105,6 +105,7 @@ async function downloadIamge(){
     document.getElementById('loadingImg').style.display = 'block';
     
 	const result = await FetchData.post(`${hairMatchAPI.hairstoreAPI}`,{
+		func: "store",
 		img: uri,
 	});
 	const resultJson = await result.json();

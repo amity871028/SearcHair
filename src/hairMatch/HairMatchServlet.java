@@ -53,7 +53,8 @@ public class HairMatchServlet extends HttpServlet {
 
 		HairMatchApi hairMatch = new HairMatchApi();
 		if (function.equals("hairColor")) {
-			String fileName = hairMatch.getColorHairPicutre(userFolderRealPath, hairstyleFolderRealPath, folder, picture, color, userName);
+			String fileName = hairMatch.getColorHairPicutre(userFolderRealPath, hairstyleFolderRealPath, folder,
+					picture, color, userName);
 			String url = UrlHandler.getBaseUrl(request) + "/img/hair-match/user/" + userName + "/" + fileName;
 			Hair hair = new Hair(url);
 			Gson gson = new Gson();
@@ -84,11 +85,32 @@ public class HairMatchServlet extends HttpServlet {
 		String json = reader.readLine();
 		reader.close();
 
-		HairMatchApi hairMatchApi = new HairMatchApi();
-		String result = hairMatchApi.getJsonToImgur(json, userFolderRealPath);
-		JsonObject jsonObject = new JsonObject();
-		jsonObject.addProperty("url", result);
+		JsonObject jobj = new Gson().fromJson(json, JsonObject.class);
+		String function = jobj.get("func").getAsString();
 
-		response.getWriter().print(jsonObject);
+		HairMatchApi hairMatchApi = new HairMatchApi();
+		if (function.equals("store")) {
+			String result = hairMatchApi.getJsonToImgur(json, userFolderRealPath);
+			JsonObject jsonObject = new JsonObject();
+			jsonObject.addProperty("url", result);
+			response.getWriter().print(jsonObject);
+		}
+		if (function.equals("share")) {
+			String userName = jobj.get("userName").getAsString();
+			String hairstyle = jobj.get("hairstyle").getAsString();
+			String color = jobj.get("color").getAsString();
+			String url = jobj.get("url").getAsString();
+			boolean result = hairMatchApi.savePicture(userName, hairstyle, color, url);
+			if (result == true)
+				response.setStatus(HttpServletResponse.SC_OK);
+			else
+				response.setStatus(HttpServletResponse.SC_CONFLICT);
+		}
+		if (function.equals("userPhoto")) {
+			String hairstyle = jobj.get("hairstyle").getAsString();
+			String result = hairMatchApi.getRandomPhoto(hairstyle);
+			response.getWriter().append(result);
+		}
+
 	}
 }

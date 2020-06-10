@@ -7,10 +7,12 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import hairMatch.*;
+import jdbc.HairMatchMySQL;
 
 public class HairMatchApi {
 	GetHairstyle hair = new GetHairstyle();
 	ColorHair colorHair = new ColorHair();
+	HairMatchMySQL hairMatch = new HairMatchMySQL();
 
 	public String getAllHairstyles(String url, String hairstyleFolderRealPath, String type) throws IOException {
 		return hair.getAllPictures(url, hairstyleFolderRealPath, type);
@@ -28,5 +30,13 @@ public class HairMatchApi {
 		String imgData = jobj.get("img").toString();
 		ToImgur toImgur = new ToImgur();
 		return toImgur.getImgur(imgData, null, userFolderRealPath);
+	}
+
+	public boolean savePicture(String userName, String hairstyle, String color, String url) {
+		return hairMatch.savePhoto(userName, hairstyle, color, url);
+	}
+
+	public String getRandomPhoto(String hairstyle) {
+		return hairMatch.getPhoto(hairstyle);
 	}
 }

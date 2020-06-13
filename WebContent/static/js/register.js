@@ -42,7 +42,7 @@ var header = '<div class="modal fade" id="register-modal" tabindex="-1" role="di
             </button> \
         </div> \
         <div class="modal-body"> \
-            <p>恭喜您註冊成功</p> \
+            <p>恭喜您註冊成功！</p> \
         </div> \
     </div> \
 </div> \

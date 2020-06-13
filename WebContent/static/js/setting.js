@@ -88,7 +88,16 @@ function sidebarSetting(){
 }
 
 function init(){
+	// to block illegal users
+	if(account == null){
+		alert("無法瀏覽此頁面！請登入後再查看！");
+	    delayURL('./index.html', 200);
+	}
     sidebarSetting();
+
+    document.getElementById('profile-name').value = localStorage.getItem('name');
+    document.getElementById('profile-account').value = localStorage.getItem('account');
+    
     document.getElementById('update-btn').addEventListener('click', updatePassword);
     
     document.getElementById('notice-switch').addEventListener('change', function(){

@@ -81,7 +81,11 @@ hr {
 
 #profile-content {
     position: absolute;
-    left: 72px;
+    left: 53px;
+}
+
+#profile-name, #profile-account {
+	width: 220px;
 }
 
 #hair-analysis, #notify {
@@ -143,19 +147,19 @@ hr {
     }
 }
 
-@media only screen and (min-width: 576px) and (max-width: 680px) {
+@media only screen and (min-width: 576px) and (max-width: 700px) {
     #hair-analysis, #notify {
         left: 220px;
     }
 }
-@media only screen and (min-width: 0px) and (max-width: 680px) {
+@media only screen and (min-width: 0px) and (max-width: 700px) {
     .card {
         width: 240px;
     }
 
     #profile-content {
         position: absolute;
-        left: 25px;
+        left: 53px;
     }
 }
 /*

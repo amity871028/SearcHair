@@ -112,6 +112,24 @@
     margin: 35px;
 }
 
+.hairstyle-div {
+    display: initial;
+    position: relative;
+}
+
+.detail-img {
+	position: absolute;
+    right: 0px;
+    width: 27px !important;;
+    bottom: -70px !important;
+    z-index: 20px;
+}
+
+.detail-img-link:hover {
+	background-color: black;
+	box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
+}
+
 /* ---------------------------------------------------
     CONTENT STYLE
 ----------------------------------------------------- */
@@ -185,6 +203,12 @@ h4 {
 
 #color-value{
 	display: none;
+}
+
+#random-user-photo {
+    right: 0px;
+    width: 50% !important;
+    z-index: 20px !important;
 }
 
 @media only screen and (min-width: 0px) and (max-width: 575px){ 

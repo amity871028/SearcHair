@@ -10,6 +10,18 @@ import jdbc.FavoriteMySQL;
 public class FavoriteApi {
 	FavoriteMySQL favorite = new FavoriteMySQL();
 
+	public String getSalon(String account) {
+		return favorite.getSalonId(account);
+	}
+
+	public String getStylist(String account) {
+		return favorite.getStylistId(account);
+	}
+
+	public String getStylistWorks(String account) {
+		return favorite.getStylistWorksId(account);
+	}
+
 	public boolean addFavorite(String jsonObject) throws IOException {
 		JsonObject jobj = new Gson().fromJson(jsonObject, JsonObject.class);
 		String function = jobj.get("func").getAsString();

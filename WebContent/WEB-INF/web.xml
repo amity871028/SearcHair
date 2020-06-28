@@ -72,6 +72,10 @@
 		<servlet-name>FavoriteDeleteServlet</servlet-name>
 		<servlet-class>favorite.FavoriteDeleteServlet</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>FavoriteGetServlet</servlet-name>
+		<servlet-class>favorite.FavoriteGetServlet</servlet-class>
+	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>LoginServlet</servlet-name>
@@ -132,6 +136,10 @@
 	<servlet-mapping>
 		<servlet-name>FavoriteDeleteServlet</servlet-name>
 		<url-pattern>/api-favorite-delete</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>FavoriteGetServlet</servlet-name>
+		<url-pattern>/api-favorite</url-pattern>
 	</servlet-mapping>
 
 	<error-page>

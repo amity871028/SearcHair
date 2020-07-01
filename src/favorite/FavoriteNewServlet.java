@@ -48,7 +48,7 @@ public class FavoriteNewServlet extends HttpServlet {
 		BufferedReader reader = request.getReader();
 		String json = reader.readLine();
 		reader.close();
-		
+
 		FavoriteApi favoriteApi = new FavoriteApi();
 		boolean result = favoriteApi.addFavorite(json);
 

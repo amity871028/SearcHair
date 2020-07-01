@@ -88,7 +88,7 @@ public class FavoriteMySQL {
 		ArrayList<Album> albumList = new ArrayList<Album>();
 		try {
 			stat = con.createStatement();
-			rs = stat.executeQuery("select * from album_names where account =" + "\"" + account + "\"");
+			rs = stat.executeQuery("select * from album_name where account =" + "\"" + account + "\"");
 			while (rs.next()) {
 				Album album = new Album();
 				album.setID(rs.getInt("album_id"));
@@ -289,7 +289,7 @@ public class FavoriteMySQL {
 		int album_id;
 		try {
 			stat = con.createStatement();
-			rs = stat.executeQuery("select * from album_names");
+			rs = stat.executeQuery("select * from album_name");
 			while (rs.next()) {
 				if (rs.getInt("album_id") > count)
 					count = rs.getInt("album_id");
@@ -298,7 +298,7 @@ public class FavoriteMySQL {
 			Statement ST = null;
 			ResultSet RS = null;
 			ST = con.createStatement();
-			RS = ST.executeQuery("select * from album_names where account=" + "\"" + account + "\"");
+			RS = ST.executeQuery("select * from album_name where account=" + "\"" + account + "\"");
 			while (RS.next()) { // 找某個使用者擁有的相簿 確認有無重複名稱
 				if (RS.getString("name").equals(albumName)) {
 					flag = 0; // 有此相簿名稱了
@@ -308,7 +308,7 @@ public class FavoriteMySQL {
 
 			if (flag == 1) {
 				album_id = count + 1;
-				String insert = "insert into album_names(account,album_id,name) value(?,?,?)";
+				String insert = "insert into album_name(account,album_id,name) value(?,?,?)";
 				PreparedStatement pst = (PreparedStatement) con.prepareStatement(insert);
 				pst.setString(1, account);
 				pst.setInt(2, album_id);
@@ -483,10 +483,18 @@ public class FavoriteMySQL {
 
 	public boolean deleteAlbum(String account, int num) {
 		try {
-			String delete = "delete from album_names where album_id=?";
+			String delete = "delete from album_name where album_id=?";
 			PreparedStatement pst = (PreparedStatement) con.prepareStatement(delete);
 			pst.setInt(1, num); // 傳送第1個參數(取代第一個問號)
 			pst.executeUpdate();
+			stat = con.createStatement();
+			rs = stat.executeQuery("select * from user_photos where album_id =" + num);
+			while (rs.next()) {
+				String delete2 = "delete from user_photos where album_id=?";
+				PreparedStatement pst2 = (PreparedStatement) con.prepareStatement(delete2);
+				pst2.setInt(1, num); // 傳送第1個參數(取代第一個問號)
+				pst2.executeUpdate();
+			}
 		} catch (SQLException e) {
 			System.out.println("select table SQLException:" + e.toString());
 		} finally {
@@ -511,7 +519,7 @@ public class FavoriteMySQL {
 
 	public static void main(String args[]) {
 		FavoriteMySQL test = new FavoriteMySQL();
-		String account = "711";
+		String account = "1";
 		String albumName = "oh";
 		int albumId = 1;
 		String description = "uh";

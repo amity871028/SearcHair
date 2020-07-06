@@ -43,6 +43,13 @@ content>a:hover {
 	margin: auto;
 }
 
+.favorite {
+	position: absolute;
+	right: 2px;
+	top: 2px;
+	width: 8% !important;
+}
+
 /* ---------------------------------------------------
     CONTENT STYLE
 ----------------------------------------------------- */

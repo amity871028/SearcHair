@@ -6,14 +6,20 @@
         
         <title>我的最愛</title>
         <script src="./static/js/navbar.js"></script>
+        <script src="./static/js/lib/fetch-data.js"></script>
+        <script src="./static/js/auth.js"></script>
+        <script src="./static/js/chatbot-display.js"></script>
+        <script src="./static/js/chatbot.js"></script>
+        <link rel="stylesheet" href="./static/css/chatbot.css">
         <link rel="stylesheet" href="./static/css/all-setting.css">
         <link rel="stylesheet" href="./static/css/favorite.css">
         <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
         <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
         <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
         <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
-        <link href="../fontawesome-free-5.12.1-web/css/all.css" rel="stylesheet">
+        <link href="./fontawesome-free-5.12.1-web/css/all.css" rel="stylesheet">
         <script src="./static/js/favorite.js"></script>
+		<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
     </head>
 
     <body>
@@ -36,9 +42,8 @@
                     <a class="list-group-item list-group-item-action" data-toggle="list" href="#works" role="tab">設計師作品</a>
                     <a class="list-group-item list-group-item-action" data-toggle="list" href="#product" role="tab">商品</a>
                     <a class="list-group-item list-group-item-action dropdown-toggle" data-toggle="dropdown" id="picture-wall" href="#" role="tab">照片牆</a>
-                    <ul class="dropdown-menu" role="menu" aria-labelledby="picture-wall"> 
-                        <li><a href="#uncatagorized" tabindex="-1" data-toggle="tab">未分類</a></li>
-                        <li><a href="#catagory1" tabindex="-1" data-toggle="tab">隨便亂拍</a></li>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="picture-wall" id="picture-wall-category"> 
+                        <li><a href="#uncategorized" tabindex="-1" data-toggle="tab" id="uncategorized-li">未分類</a></li>
                     </ul>
                 </div>
             </nav>
@@ -51,101 +56,24 @@
                     </button>
                 </div>
                 <br>
-                <div class="tab-content">
+                <div class="tab-content" id="tab-content">
                     <div class="tab-pane fade active show" id="salon" role="tabpanel">
-                        <div class="row align-items-center">
-                            <div class="col-lg-4 col-md-6 mb-3">
-                                <div class="card">
-                                    <a href="#"><img class="favorite" src="./static/img/favorite_undo.png" alt="favorite"></a> 
-                                    <a href="salon-intro.html">
-                                    <img class="card-img-top" src="./static/img/test_photo.png" alt="Card image cap">
-                                        <div class="card-body">
-                                            <p class="card-text">xxx美髮店</p>
-                                            <p class="card-text">台北市xx區xxxxxx</p>
-                                            <p class="card-text">0223452345</p>
-                                        </div> 
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-6 mb-3">
-                                <div class="card">
-                                    <img class="card-img-top" src="./static/img/test_photo.png" alt="Card image cap">
-                                    <div class="card-body">
-                                        <p class="card-text">xxx美髮店</p>
-                                        <p class="card-text">台北市xx區xxxxxx</p>
-                                        <p class="card-text">0223452345</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-6 mb-3">
-                                <div class="card">
-                                    <img class="card-img-top" src="./static/img/test_photo.png" alt="Card image cap">
-                                    <div class="card-body">
-                                        <p class="card-text">xxx美髮店</p>
-                                        <p class="card-text">台北市xx區xxxxxx</p>
-                                        <p class="card-text">0223452345</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <div class="row align-items-center" id="salon-cards"></div>
                     </div>
 
                     <div class="tab-pane fade" id="stylist" role="tabpanel">
-                        <div class="row align-items-center">
-                            <div class="col-lg-4 col-md-6 mb-3">
-                                <div class="card">
-                                    <a href="#"><img class="favorite" src="./static/img/favorite_undo.png" alt="favorite"></a> 
-                                    <a href="stylist-intro.html">
-                                        <img class="card-img-top" src="./static/img/test_photo.png" alt="Card image cap">
-                                        <div class="card-body">
-                                            <p class="card-text">xxx(美髮設計師)</p>
-                                            <p class="card-text">xxx美髮店</p>
-                                            <p class="card-text">台北市xx區xxxxxx</p>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-6 mb-3">
-                                <div class="card">
-                                    <img class="card-img-top" src="./static/img/test_photo.png" alt="Card image cap">
-                                    <div class="card-body">
-                                        <p class="card-text">xxx(美髮設計師)</p>
-                                        <p class="card-text">xxx美髮店</p>
-                                        <p class="card-text">台北市xx區xxxxxx</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <div class="row align-items-center" id="stylist-cards"></div>
                     </div>
                     
                     <div class="tab-pane fade" id="works" role="tabpanel">
-                        <div class="row align-items-center">
-                            <div class="col-lg-4 col-md-6 mb-3">
-                                <div class="card">
-                                    <a href="#"><img class="favorite" src="./static/img/favorite_undo.png" alt="favorite"></a> 
-                                    <a href="#work-modal" data-toggle="modal">
-                                        <img class="card-img-top" src="./static/img/test_photo.png" alt="Card image cap">
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-6 mb-3">
-                                <div class="card">
-                                    <img class="card-img-top" src="./static/img/test_photo.png" alt="Card image cap">
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-6 mb-3">
-                                <div class="card">
-                                    <img class="card-img-top" src="./static/img/test_photo.png" alt="Card image cap">
-                                </div>
-                            </div>
-                        </div>
+                        <div class="row align-items-center" id="stylist-work-cards"></div>
                     </div>
 
                     <div class="tab-pane fade" id="product" role="tabpanel">
                         <div class="row align-items-center">
                             <div class="col-lg-4 col-md-6 mb-3">
                                 <div class="card">
-                                    <a href="#"><img class="favorite" src="./static/img/favorite_undo.png" alt="favorite"></a> 
+                                    <a href="#"><img class="favorite" src="img/favorite_undo.png" alt="favorite"></a> 
                                     <a href="product-intro.html">
                                     <img class="card-img-top" src="./static/img/test_photo3.png" alt="Card image cap">
                                         <div class="card-body">
@@ -158,7 +86,7 @@
                             </div>
                             <div class="col-lg-4 col-md-6 mb-3">
                                 <div class="card">
-                                    <a href="#"><img class="favorite" src="./static/img/favorite_undo.png" alt="favorite"></a> 
+                                    <a href="#"><img class="favorite" src="img/favorite_undo.png" alt="favorite"></a> 
                                     <a href="product-intro.html">
                                     <img class="card-img-top" src="./static/img/test_photo3.png" alt="Card image cap">
                                         <div class="card-body">
@@ -171,79 +99,96 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="tab-pane fade" id="uncatagorized" role="tabpanel">
-                        <br>
-                        <button class="btn btn-primary float-right" data-toggle="modal" data-target="#edit-type" id="edit-type"><i class="far fa-edit"></i> 編輯種類</button>       
-                        
-                                <label class="btn btn-primary">
-                                    <input type="file" name="picture" id="new-photo" style="display:none;" accept="image/*">
-                                    <i class="fas fa-upload"></i> 新增照片
-                                </label>
-                            &nbsp;
-                            <button class="btn btn-primary" id="delete-photo"><i class="far fa-trash-alt"></i> 刪除照片</button>
-                        
-                        
-                        <hr>
-                        <div class="all-picture">
-                            <div class="picture-wall-photo">
-                                <div class="field-content"><img class="wide-rectangle" src="./static/img/test_photo.png"></div>
-                                <p>剪頭髮，美</p>
-                            </div>
-                            <div class="picture-wall-photo">
-                                <div class="field-content"><img class="wide-rectangle" src="./static/img/test_photo.png"></div>
-                                <p>剪頭髮，美</p>
-                            </div>
-                            <div class="picture-wall-photo">
-                                <div class="field-content"><img class="wide-rectangle" src="./static/img/test_photo.png"></div>
-                                <p>剪頭髮，美</p>
-                            </div>
-                            <div class="picture-wall-photo">
-                                <div class="field-content"><img class="wide-rectangle" src="./static/img/test_photo.png"></div>
-                                <p>剪頭髮，美</p>
-                            </div>
-                            <div class="picture-wall-photo">
-                                <div class="field-content"><img class="wide-rectangle" src="./static/img/test_photo.png"></div>
-                                <p>剪頭髮，美</p>
-                            </div>
-                            <div class="picture-wall-photo">
-                                <div class="field-content"><img class="wide-rectangle" src="./static/img/test_photo.png"></div>
-                                <p>剪頭髮，美</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="tab-pane fade" id="catagory1" role="tabpanel">
-                        <br>
-                        <div id="edit-photo">
-                                <label class="btn btn-primary">
-                                    <input type="file" name="picture" id="new-photo" style="display:none;" accept="image/*">
-                                    <i class="fas fa-upload"></i> 新增照片
-                                </label>
-                            &nbsp;
-                            <button class="btn btn-primary" id="delete-photo"><i class="far fa-trash-alt"></i> 刪除照片</button>
-                        </div>
-                        <hr>
-                        <div class="all-picture">
-                            <div class="picture-wall-photo">
-                                <div class="field-content"><img class="high-rectangle" src="./static/img/test_photo2.png"></div>
-                                <p>剪~~</p>
-                            </div>
-                            <div class="picture-wall-photo">
-                                <div class="field-content"><img class="square" src="./static/img/test_photo3.png"></div>
-                                <p>剪頭髮，美</p>
-                            </div>
-                            <div class="picture-wall-photo">
-                                <div class="field-content"><img class="wide-rectangle" src="./static/img/test_photo.png"></div>
-                                <p>剪頭髮，美</p>
-                            </div>
-                        </div>
-                    </div>
-                  </div>
+                 </div>   
             </div>
             
         </div>
     
+    
+    	<div class="modal fade" id="edit-category-modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                      	 編輯種類
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="add-category-form">
+	                        <div class="form-inline">
+	                            <div class="form-group">
+	                                <label for="category-name">新增種類</label>
+	                                <input type="text" id="category-name" class="form-control mx-sm-3" required>
+	                                <button type="button" class="btn btn-primary" id="add-category-btn">新增</button>
+	                            </div>
+	                        </div>
+	                    </form>
+	                    <small id="add-category-txt" class="form-text wrong-msg"></small>
+	                    <form id = "delete-category-form">
+	                        <div class="form-inline">
+	                            <div class="form-group">
+	                                <label for="category-list">刪除種類</label>
+	                                <select id="category-list" class="form-control mx-sm-3"></select>
+	                                <button type="button" class="btn btn-primary" id="delete-category-btn">刪除</button>
+	                            </div>
+	                        </div>
+	                    </form>
+					</div>
+                </div>
+            </div>
+        </div>
 
+		<div class="modal fade" id="add-photo-modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="picture-title">新增照片</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="add-photo-form">
+                            <div class="form-group new-photo">
+                                <label class="btn btn-primary">
+                                    <input type="file" name="picture" id="new-photo" style="display:none;" accept="image/*">
+                                    <i class="fas fa-upload"></i> 上傳照片
+                                </label>
+                            </div>
+                            <img src="img/blank.png" id="show-new-photo">
+                            <div class="form-group description-form">
+                                <label for="photo-description" class="col-form-label">備註：</label>
+                                <input type="text" id="photo-description" cols="30" rows="2" class="form-control">
+                            </div>
+                            
+                            <button type="button" class="btn btn-primary" id="add-photo-btn">新增</button>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="modal fade" id="delete-photo-modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">刪除照片</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                    	確定要刪除這張照片嗎？
+                    </div>
+      				<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-primary" id="delete-photo-btn">確定</button>
+                        <span id="delete-id" style="display: none">-1</span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </body>
 </html>

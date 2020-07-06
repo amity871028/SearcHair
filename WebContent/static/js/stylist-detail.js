@@ -2,19 +2,36 @@
 const stylistDetailAPI = 'api-search-detail?func=stylist';
 const stylistWorkDetailAPI = 'api-search-detail?func=stylist_works&id=';
 
+const favoriteAPI = {
+		all: 'api-favorite?func=stylist',
+		new: 'api-favorite-new',
+		delete: 'api-favorite-delete'
+};
+const account = localStorage.getItem('account');
 
 
 async function getstylistDetail(){
 	var url = location.href;
 	var idPosition = url.match("id=").index + 3;
 	var id = url.substring(idPosition);
-	const result = await FetchData.get(`${stylistDetailAPI}&id=${id}`);
+	let result = await FetchData.get(`${stylistDetailAPI}&id=${id}`);
 	const stylist = await result.json();
 
+
+    let favoriteJson = {id: []};
+    if(account != null){
+		result = await FetchData.get(`${favoriteAPI.all}&account=${account}`);
+		favoriteJson = await result.json();
+    }
+	let favoriteImg = "img/favorite_undo.png";
+	if(favoriteJson.id.find(element => element == id)) {
+		favoriteImg = "img/favorite.png";
+	}
+	
     // update card
     const stylistCards = document.getElementById('stylist-card');
 	let newCard="";
-	newCard += `<!--<a href="#"><img class="favorite" src="../static/img/favorite_undo.png" id="favorte-${id}" alt="favorite"></a>-->  \
+	newCard += `<a href="javascript:void(0)"><img class="favorite" src="${favoriteImg}" id="favorte-${id}" onclick="updateFavorite(this)" alt="favorite"></a>  \
             
             <img class="card-img-top" src="${stylist.picture}" alt="${stylist.name} photo"> \
             <div class="card-body"> \
@@ -140,6 +157,31 @@ async function getstylistDetail(){
 
     
 }
+
+async function updateFavorite(e){
+	if(account == null){
+		alert("登入才可以加入我的最愛喔！");
+		return;
+	}
+	let id = parseInt(e.id.split('-')[1]);
+	if(e.src.split('img')[1] == '/favorite_undo.png'){
+		const result = await FetchData.post(favoriteAPI.new, {
+			func: "stylist",
+			account: account,
+			id: id
+		});
+		e.src = "img/favorite.png";
+	}
+	else {
+		const result = await FetchData.post(favoriteAPI.delete, {
+			func: "stylist",
+			account: account,
+			id: id
+		});
+		e.src = "img/favorite_undo.png";
+	}
+}
+
 
 function sidebarSetting(){
     document.getElementById('dismiss').addEventListener('click', function(){

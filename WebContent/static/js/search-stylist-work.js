@@ -1,5 +1,11 @@
 const stylistWorksAPI = 'api-search?func=stylist_works';
 const stylistWorkDetailAPI = 'api-search-detail?func=stylist_works&id=';
+const favoriteAPI = {
+		all: 'api-favorite?func=stylist_works',
+		new: 'api-favorite-new',
+		delete: 'api-favorite-delete'
+	};
+const account = localStorage.getItem('account');
 const action = {
 		all: 0,
 		keyword: 1
@@ -43,20 +49,34 @@ async function getStylistWork(){
     const workCards = document.getElementById('work-cards');
 
     let newCard = "";        
+
+    let favoriteJson = {id: []};
+    if(account != null){
+		result = await FetchData.get(`${favoriteAPI.all}&account=${account}`);
+		favoriteJson = await result.json();
+    }
+	
     for(let i = 0; i < window.workJson.length; i++){
+    	
         let work = window.workJson[i];
         let prevWork = window.workJson[window.workJson.length-1];
         let nextWork = window.workJson[0];
         if(i != 0) prevWork = window.workJson[i-1];
         if(i != window.workJson.length-1) nextWork = window.workJson[i+1];
     	let description = work.description.replace(/\n/g, '<br />');
-    
+
+    	let favoriteImg = "img/favorite_undo.png";
+    	if(favoriteJson.id.find(element => element == work.id)) {
+    		favoriteImg = "img/favorite.png";
+    	}
+    	
     	const workHashtags = JSON.parse(work.hashtag);
     	let tmpHashtags = "";
     	for(let i = 0; i < workHashtags.length; i++){
     		tmpHashtags += `<span class="badge badge-primary">${workHashtags[i]}</span>`;
     	}
         newCard += `<div class="cssbox" id="work-${work.id}">
+        <a href="javascript:void(0)"><img class="favorite" src="${favoriteImg}" id="favorte-${work.id}" onclick="updateFavorite(this);" alt="favorite"></a> \
         <a id="image${work.id}" href="#image${work.id}">
           <img class="cssbox_thumb" src="${work.picture}">
           <span class="cssbox_full">
@@ -85,6 +105,30 @@ async function getStylistWork(){
 	observer.observe();
 }
 
+async function updateFavorite(e){
+	if(account == null){
+		alert("登入才可以加入我的最愛喔！");
+		return;
+	}
+	let id = parseInt(e.id.split('-')[1]);
+	if(e.src.split('img')[1] == '/favorite_undo.png'){
+		const result = await FetchData.post(favoriteAPI.new, {
+			func: "stylist_works",
+			account: account,
+			id: id
+		});
+		e.src = "img/favorite.png";
+	}
+	else {
+		const result = await FetchData.post(favoriteAPI.delete, {
+			func: "stylist_works",
+			account: account,
+			id: id
+		});
+		e.src = "img/favorite_undo.png";
+	}
+}
+
 function sidebarSetting(){
     document.getElementById('dismiss').addEventListener('click', function(){
         document.getElementById('sidebar').classList.remove('active');
@@ -94,17 +138,6 @@ function sidebarSetting(){
     });
 }
 
-function favoriteSetting(){
-    const favoriteList = document.getElementsByClassName('favorite');
-    for(let i = 0; i < favoriteList.length; i++){
-        favoriteList[i].addEventListener('mouseover', function(){
-            this.src = "../static/img/favorite.png";
-        });
-        favoriteList[i].addEventListener('mouseout', function(){
-            this.src = "../static/img/favorite_undo.png";
-        });
-    }
-}
 
 function init(){
 	sidebarSetting();
@@ -114,9 +147,6 @@ function init(){
     document.getElementById('show-more-btn').addEventListener('click', getStylistWork);
     document.getElementById('search-btn').addEventListener('click', getStylistWork);
     document.getElementById('search').addEventListener('search', getStylistWork);
-    // favoriteSetting();
-    
-    
 }
 
 window.addEventListener('load', init);

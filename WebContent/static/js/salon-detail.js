@@ -1,16 +1,34 @@
 const salonDetailAPI = 'api-search-detail?func=salon';
+const favoriteAPI = {
+		all: 'api-favorite?func=salon',
+		new: 'api-favorite-new',
+		delete: 'api-favorite-delete'
+};
+const account = localStorage.getItem('account');
 
 async function getSalonDetail(){
-	var url = location.href;
-	var idPosition = url.match("id=").index + 3;
-	var id = url.substring(idPosition);
-	const result = await FetchData.get(`${salonDetailAPI}&id=${id}`);
+	let url = location.href;
+	let idPosition = url.match("id=").index + 3;
+	let id = url.substring(idPosition);
+	id = id.replace('#', '');
+	let result = await FetchData.get(`${salonDetailAPI}&id=${id}`);
 	const salon = await result.json();
 
+
+    let favoriteJson = {id: []};
+    if(account != null){
+		result = await FetchData.get(`${favoriteAPI.all}&account=${account}`);
+		favoriteJson = await result.json();
+    }
+	let favoriteImg = "img/favorite_undo.png";
+	if(favoriteJson.id.find(element => element == id)) {
+		favoriteImg = "img/favorite.png";
+	}
+	
     // update card
     const salonCards = document.getElementById('salon-card');
 	let newCard="";
-	newCard += `<!--<a href="#"><img class="favorite" src="../static/img/favorite_undo.png" id="favorte-${id}" alt="favorite"></a>-->  \
+	newCard += `<a href="javascript:void(0)"><img class="favorite" src="${favoriteImg}" id="favorite-${id}" alt="favorite" onclick="updateFavorite(this)"></a>  \
             
             <img class="card-img-top" src="${salon.picture}" alt="${salon.name} photo"> \
             <div class="card-body"> \
@@ -39,7 +57,6 @@ async function getSalonDetail(){
 					<a href="stylist-detail.html?id=${stylist.id}">
 						<img src="${stylist.picture}" class="card-img stylist-photo" alt="...">
 					</a></td>`;
-        console.log(stylist);
         for(let i = 0; i < stylist.works.length; i++){
             let work = stylist.works[i];
             let prevWork = stylist.works[stylist.works.length - 1];
@@ -85,7 +102,7 @@ async function getSalonDetail(){
         tmp += `</tr><tr><th>${stylist.name}</th></tr>`;
     });
     stylistAndWorksCards.innerHTML = tmp;
-
+    
     
 }
 
@@ -98,16 +115,28 @@ function sidebarSetting(){
     });
 }
 
-function favoriteSetting(){
-    var favorite_list = document.getElementsByClassName('favorite');
-    for(let i = 0; i < favorite_list.length; i++){
-        favorite_list[i].addEventListener('mouseover', function(){
-            this.src = "../static/img/favorite.png";
-        });
-        favorite_list[i].addEventListener('mouseout', function(){
-            this.src = "../static/img/favorite_undo.png";
-        });
-    }
+async function updateFavorite(e){
+	if(account == null){
+		alert("登入才可以加入我的最愛喔！");
+		return;
+	}
+	let id = parseInt(e.id.split('-')[1]);
+	if(e.src.split('img')[1] == '/favorite_undo.png'){
+		const result = await FetchData.post(favoriteAPI.new, {
+			func: "salon",
+			account: account,
+			id: id
+		});
+		e.src = "img/favorite.png";
+	}
+	else {
+		const result = await FetchData.post(favoriteAPI.delete, {
+			func: "salon",
+			account: account,
+			id: id
+		});
+		e.src = "img/favorite_undo.png";
+	}
 }
 
 function init(){

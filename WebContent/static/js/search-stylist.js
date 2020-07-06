@@ -1,5 +1,11 @@
 const serviceCheckbox= {type0: "洗髮", type1: "剪髮", type2: "染髮", type3: "燙髮", type4: "護髮", type5: "其他"};
 const stylistAPI = 'api-search?func=stylist';
+const favoriteAPI = {
+		all: 'api-favorite?func=stylist',
+		new: 'api-favorite-new',
+		delete: 'api-favorite-delete'
+	};
+const account = localStorage.getItem('account');
 const action = {
 		all: 0,
 		keyword: 1,
@@ -93,13 +99,22 @@ function modifyPriceInput(){
 		getStylist();
 	}
 }
-function drawCard(json, page){
+async function drawCard(json, page){
 	const stylistCards = document.getElementById('stylist-cards');
     let newCard = "";
+    let favoriteJson = {id: []};
+    if(account != null){
+		const result = await FetchData.get(`${favoriteAPI.all}&account=${account}`);
+		favoriteJson = await result.json();
+    }
     json.forEach(stylist => {
+    	let favoriteImg = "img/favorite_undo.png";
+    	if(favoriteJson.id.find(element => element == stylist.id)) {
+    		favoriteImg = "img/favorite.png";
+    	}
         newCard += `<div class="col-lg-4 col-md-6 mb-3" id="${stylist.id}"> \
             <div class="card"> \
-                <!--<a href="#"><img class="favorite" src="../static/img/favorite_undo.png" id="favorte-${stylist.id}" alt="favorite"></a>-->  \
+                <a href="javascript:void(0)"><img class="favorite" src="${favoriteImg}" id="favorte-${stylist.id}" onclick="updateFavorite(this);" alt="favorite"></a>  \
                 <a href="stylist-detail.html?id=${stylist.id}"> \
                 <img class="card-img-top lozad" data-src="${stylist.picture}" alt="${stylist.name} photo"> \
                 <div class="card-body"> \
@@ -115,6 +130,31 @@ function drawCard(json, page){
 	observer.observe();
 }
 
+async function updateFavorite(e){
+	if(account == null){
+		alert("登入才可以加入我的最愛喔！");
+		return;
+	}
+	let id = parseInt(e.id.split('-')[1]);
+	if(e.src.split('img')[1] == '/favorite_undo.png'){
+		console.log("add!");
+		const result = await FetchData.post(favoriteAPI.new, {
+			func: "stylist",
+			account: account,
+			id: id
+		});
+		e.src = "img/favorite.png";
+	}
+	else {
+		const result = await FetchData.post(favoriteAPI.delete, {
+			func: "stylist",
+			account: account,
+			id: id
+		});
+		e.src = "img/favorite_undo.png";
+	}
+}
+
 function sidebarSetting(){
     document.getElementById('dismiss').addEventListener('click', function(){
         document.getElementById('sidebar').classList.remove('active');
@@ -122,18 +162,6 @@ function sidebarSetting(){
     document.getElementById('sidebarCollapse').addEventListener('click', function(){
         document.getElementById('sidebar').classList.add('active');
     });
-}
-
-function favoriteSetting(){
-    const favoriteList = document.getElementsByClassName('favorite');
-    for(let i = 0; i < favoriteList.length; i++){
-        favoriteList[i].addEventListener('mouseover', function(){
-            this.src = "../static/img/favorite.png";
-        });
-        favoriteList[i].addEventListener('mouseout', function(){
-            this.src = "../static/img/favorite_undo.png";
-        });
-    }
 }
 
 function init(){
@@ -148,7 +176,6 @@ function init(){
     	else if(window.action == action.service) searchByServiceAndPrice(this);
     });
     
-    // favoriteSetting();
     document.getElementsByName('service').forEach(service => {
     	service.addEventListener('click', modifyPriceInput);
     });

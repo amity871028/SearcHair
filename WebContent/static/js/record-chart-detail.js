@@ -45,13 +45,10 @@ async function getcost(){
 	const result = await FetchData.get(`${costAPI}&account=${account}&year=${year}&month=${month}`);
 	let costResult = await result.json();
 	const totalCost = document.getElementById('total-cost');
-	//const hairdressCost = document.getElementById('hairdress-cost');
-	//const productCost = document.getElementById('product-cost');
 	let tmp = "";
 	let total = 0;
 	let kindTotal = [0, 0, 0, 0, 0, 0];
 	costResult.forEach(cost => {
-		console.log(cost);
 		if(cost.category == categorySet[category]){
 			total += cost.cost;
 			const allKind = kindSet[`category${category}`];
@@ -63,9 +60,7 @@ async function getcost(){
 			}
 		}
 	});
-	
-	console.log(kindTotal);
-	
+	totalCost.innerHTML = total;
 	drawCanvas(kindTotal);
 }
 function delayURL(url, time) {

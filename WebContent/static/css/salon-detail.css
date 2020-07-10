@@ -118,6 +118,10 @@ content>a:hover {
 	overflow-y: auto;
 }
 
+.shadow {
+	box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
+}
+
 /* The work below, CSSBox, is released under the Creative Commons
    Attribution-ShareAlike 4.0 license and is available on
    https://github.com/TheLastProject/CSSBox. You are not required to add
@@ -275,7 +279,7 @@ tr {
 		display: block;
 	}
 	#salon-card {
-		position: initial;
+		position: relative;
 		width: initial;
 	}
 	#content {
@@ -286,7 +290,7 @@ tr {
 		width: 35px;
 		height: 35px;
 		position: absolute;
-		top: 60px;
+		top: 20px;
 		right: 10px;
 		cursor: pointer;
 		-webkit-transition: all 0.3s;
@@ -300,4 +304,8 @@ tr {
 	.card-size {
 		width: 90%;
 	}
+	/*.container-fluid {
+		position: fixed;
+		z-index: 10;
+	}*/
 }

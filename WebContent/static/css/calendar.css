@@ -261,7 +261,10 @@ p {
     width: fit-content;
 }
 
-
+.li-active {
+    border: 1px solid #ffb6b9;
+    background-color: ffe2e2;
+}
 @media only screen and (min-width: 0px) and (max-width: 575px){ 
     #sidebar {
         width: 250px;

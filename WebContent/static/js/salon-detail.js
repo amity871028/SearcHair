@@ -9,8 +9,7 @@ const account = localStorage.getItem('account');
 async function getSalonDetail(){
 	let url = location.href;
 	let idPosition = url.match("id=").index + 3;
-	let id = url.substring(idPosition);
-	id = id.replace('#', '');
+	let id = parseInt(url.substring(idPosition));
 	let result = await FetchData.get(`${salonDetailAPI}&id=${id}`);
 	const salon = await result.json();
 
@@ -54,9 +53,10 @@ async function getSalonDetail(){
     
     stylists.forEach(stylist =>{
     	tmp += `<tr><td class="stylist-photo-td">
+    				<div class="shadow">
 					<a href="stylist-detail.html?id=${stylist.id}">
 						<img src="${stylist.picture}" class="card-img stylist-photo" alt="...">
-					</a></td>`;
+					</a><div></td>`;
         for(let i = 0; i < stylist.works.length; i++){
             let work = stylist.works[i];
             let prevWork = stylist.works[stylist.works.length - 1];
@@ -73,28 +73,30 @@ async function getSalonDetail(){
         		tmpHashtags += `<span class="badge badge-primary">${workHashtags[i]}</span>`;
         	}
         	
-        	tmp += `<td rowspan="2"><div class="cssbox" id="work-${work.id}">
-	            <a id="image${work.id}" href="#image${work.id}">
-	              <img class="cssbox_thumb" src="${work.picture}">
-	              <span class="cssbox_full">
-    				<div class="row">
-    					<div class="col-md-6 padding-40">
-    						<img src="${work.picture}" class="card-img" alt="work's photo">
-    					</div>
-    					<div class="col-md-6 padding-40">
-    						<div class="work-content">
-    							<p id="stylist-detail">${stylistDetail}</p>
-				            	<p id="stylist-work-description">${description}</p>
-				            	<p id="hashtag">${tmpHashtags}</p>
-    						</div>
-    					</div>
-    				</div>
-    			</span>
-            </a>
-            <a class="cssbox_close" href="#void"></a>
-            <a class="cssbox_prev" id="prev-${work.id}" href="#image${prevWork.id}">&lt;</a>
-            <a class="cssbox_next" id="next-${work.id}" href="#image${nextWork.id}">&gt;</a>
-          </div></td>`;
+        	tmp += `<td rowspan="2">
+        	<div class="row align-items-center">
+	        	<div class="cssbox" id="work-${work.id}">
+		            <a id="image${work.id}" href="#image${work.id}">
+		              <img class="cssbox_thumb" src="${work.picture}">
+		              <span class="cssbox_full">
+	    				<div class="row">
+	    					<div class="col-md-6 padding-40">
+	    						<img src="${work.picture}" class="card-img" alt="work's photo">
+	    					</div>
+	    					<div class="col-md-6 padding-40">
+	    						<div class="work-content">
+	    							<p id="stylist-detail">${stylistDetail}</p>
+					            	<p id="stylist-work-description">${description}</p>
+					            	<p id="hashtag">${tmpHashtags}</p>
+	    						</div>
+	    					</div>
+	    				</div>
+	    			</span>
+	            </a>
+	            <a class="cssbox_close" href="#void"></a>
+	            <a class="cssbox_prev" id="prev-${work.id}" href="#image${prevWork.id}">&lt;</a>
+	            <a class="cssbox_next" id="next-${work.id}" href="#image${nextWork.id}">&gt;</a>
+          </div></div></td>`;
         }
         for(let i = stylist.works.length; i < 3; i++){
         	tmp += `<td rowspan="2"><div class="blank"><img src="img/blank.png"></div></td>`;
@@ -102,8 +104,6 @@ async function getSalonDetail(){
         tmp += `</tr><tr><th>${stylist.name}</th></tr>`;
     });
     stylistAndWorksCards.innerHTML = tmp;
-    
-    
 }
 
 function sidebarSetting(){

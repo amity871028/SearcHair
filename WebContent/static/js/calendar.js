@@ -94,7 +94,9 @@ async function getAction(){
 		//update date's icon
 		const currentDate = picture.time;
 		const currentLi = document.getElementById(currentDate).getElementsByTagName('li')[0];
-		currentLi.innerHTML += `<i class="fas fa-user" title="頭髮狀況"></i>`;
+		if(!currentLi.innerHTML.match("頭髮狀況")){
+			currentLi.innerHTML += `<i class="fas fa-user" title="頭髮狀況"></i>`;
+		}
 		//update sidebar
 		if(currentDate == nowTimeFormal){
 			const photoDiv = document.getElementById('hair-photo-div');
@@ -107,7 +109,11 @@ async function getAction(){
 	});
 }
 
-async function updateSideBar(date){
+async function updateSideBar(e, date){
+	const prevDay = document.getElementsByClassName('li-active');
+	if(prevDay.length != 0) prevDay[0].classList.remove('li-active');
+	e.childNodes[0].classList.add('li-active');
+	
 	let currentYear = document.getElementById('calendar-year').innerHTML;
 	let monthString = document.getElementById('calendar-title').innerHTML;
 	let currentMonth = month_name.indexOf(monthString) + 1;
@@ -261,15 +267,16 @@ async function postActivity(){
 			}
 			// start post
 			if(idSpan.innerHTML == -1){
-			const result = await FetchData.post(calendarAPI.newAction, {
-				func: "activity",
-				account: account,
-				activityName : document.getElementById('activity-name').value,
-				startTime : startTime,
-				endTime : endTime,
-				color : color,
-				noticeTime : parseInt(noticeTime),
-			});
+				const result = await FetchData.post(calendarAPI.newAction, {
+					func: "activity",
+					account: account,
+					activityName : document.getElementById('activity-name').value,
+					startTime : startTime,
+					endTime : endTime,
+					color : color,
+					noticeTime : parseInt(noticeTime),
+				});
+				alert("新增成功！");
 			}
 			else {
 				const result = await FetchData.post(calendarAPI.updateAction, {
@@ -283,8 +290,12 @@ async function postActivity(){
 					noticeTime : parseInt(noticeTime),
 				});
 				idSpan.innerHTML = -1;
+				alert("修改成功！");
 			}
-			window.location.reload();
+			$("#add-activity-modal").modal('hide');
+			$("#add-modal").modal('hide');
+			getAction();
+			updateSideBar(document.getElementById(activityDate), activityDate);
 		}
 	}
 }
@@ -293,6 +304,7 @@ async function postCost(){
 	const idSpan = document.getElementById('cost-id');
 	if (document.forms['cost-form'].reportValidity()) {
 		const activityColorRadio = document.getElementsByName('cost-color');
+		let date = document.getElementById('cost-date').value;
 		let color = "";
 		for(let i in activityColorRadio){
 			if(activityColorRadio[i].checked == true) color = activityColorRadio[i].value;
@@ -302,20 +314,21 @@ async function postCost(){
 			const result = await FetchData.post(calendarAPI.newAction, {
 				func: "cost",
 				account: account,
-				time: document.getElementById('cost-date').value,
+				time: date,
 				category: document.getElementById('category').value, 
 				kind: document.getElementById('kind').value, 
 				cost: parseInt(document.getElementById('cost-cost').value),
 				description: document.getElementById('cost-description').value,
 				color: color,
 			});
+			alert("新增成功！");
 		}
 		else {
 			const result = await FetchData.post(calendarAPI.updateAction, {
 				func: "cost",
 				id: idSpan.innerHTML,
 				account: account,
-				time: document.getElementById('cost-date').value,
+				time: date,
 				category: document.getElementById('category').value, 
 				kind: document.getElementById('kind').value, 
 				cost: parseInt(document.getElementById('cost-cost').value),
@@ -323,8 +336,12 @@ async function postCost(){
 				color: color,
 			});
 			idSpan.innerHTML = -1;
+			alert("修改成功！");
 		}
-		window.location.reload();
+		$("#add-cost-modal").modal('hide');
+		$("#add-modal").modal('hide');
+		getAction();
+		updateSideBar(document.getElementById(date), date);
 	}
 }
 
@@ -332,6 +349,7 @@ async function postPicture(){
 	const idSpan = document.getElementById('picture-id');
 	if (document.forms['record-hair-form'].reportValidity()) {
 		const newPhoto = document.getElementById('new-hair-photo').value;	
+		let date = document.getElementById('photo-date').value;
 		// start post
 		if(idSpan.innerHTML == -1){
 			if(window.pictureBase64 == "" || !window.pictureBase64){
@@ -343,13 +361,15 @@ async function postPicture(){
 					account: account,
 					picture: window.pictureBase64,
 					description: document.getElementById('photo-description').value,
-					time: document.getElementById('photo-date').value,
+					time: date,
 				});
 				window.pictureBase64 = "";
 				
 				if(result.status == 409){
 					alert("你已經新增過今天的照片囉！若想修改照片請到側邊攔照片點選修改喔～");
+					return;
 				}
+				alert("新增成功！");
 			}
 		}
 		else {
@@ -362,12 +382,16 @@ async function postPicture(){
 				account: account,
 				picture: window.pictureBase64,
 				description: document.getElementById('photo-description').value,
-				time: document.getElementById('photo-date').value,
+				time: date,
 			});
 			window.pictureBase64 = "";
 			idSpan.innerHTML = -1;
+			alert("修改成功！");
 		}
-		window.location.reload();
+		$("#record-hair-modal").modal('hide');
+		$("#add-modal").modal('hide');
+		getAction();
+		updateSideBar(document.getElementById(date), date);
 	}
 }
 
@@ -433,10 +457,12 @@ function initialDate(){
 }
 
 function clearModal(action){
+	let date = document.getElementById('date-title').innerHTML;
+	
 	if(action == 'activity'){
 		document.getElementById('activity-title').innerHTML = "新增活動";
 		document.getElementById('activity-name').value = "";
-		document.getElementById('activity-date').value = nowTimeFormal;
+		document.getElementById('activity-date').value = date;
 		document.getElementById('start-time').value = "00:00";
 		document.getElementById('end-time').value = "00:00";
 		$(`input[name=activity-color][value=red]`).attr('checked',true);
@@ -448,7 +474,7 @@ function clearModal(action){
 	}
 	else if(action == 'cost'){
 		document.getElementById('cost-title').innerHTML = "新增記帳";
-		document.getElementById('cost-date').value = nowTimeFormal;
+		document.getElementById('cost-date').value = date;
 		$("#category").find(`option:contains(美髮)`).attr('selected',true);
 		updateOption();
 		document.getElementById('cost-cost').value = 0;
@@ -460,7 +486,7 @@ function clearModal(action){
 	}
 	else {
 		document.getElementById('picture-title').innerHTML = "新增紀錄頭髮";
-		document.getElementById('photo-date').value = nowTimeFormal;
+		document.getElementById('photo-date').value = date;
 		document.getElementById('show-new-photo').src = "img/blank.png";
 		document.getElementById('photo-description').value = "";
 		document.getElementById('add-picture-btn').setAttribute('style', 'display: initial;');

@@ -17,6 +17,8 @@ public class SearchMySQL {
 	private Connection con = database.getConnection();
 	private ResultSet rs = null;
 
+	private String selectProduct = "SELECT * FROM product";
+
 	public String searchSalon(int page, String keyword, String[] service) {
 		int salonID, stylistID;
 		int num = 1; // count salon
@@ -54,7 +56,7 @@ public class SearchMySQL {
 
 			while (rs.next()) {
 				AllSalon allSalon = new AllSalon();
-				ArrayList<String> all_Service_List = new ArrayList<String>();
+				ArrayList<String> allServiceList = new ArrayList<String>();
 				salonID = rs.getInt("id");
 				allSalon.setID(rs.getInt("id"));
 				allSalon.setName(rs.getString("name"));
@@ -78,13 +80,13 @@ public class SearchMySQL {
 						rst = stt.executeQuery(
 								"select name from service where stylist=" + stylistID + " and " + serviceCondition);
 					while (rst.next()) // search services provided by stylist
-						all_Service_List.add(rst.getString("name"));
+						allServiceList.add(rst.getString("name"));
 				}
 
 				int count = 0; // count salon service match the user's select service
 				if (service != null) {
 					for (int i = 0; i < service.length; i++) {
-						for (String str : all_Service_List) {
+						for (String str : allServiceList) {
 							if (str.contains(service[i])) {
 								count++;
 								break;
@@ -94,9 +96,10 @@ public class SearchMySQL {
 				}
 				if (other.equals("其他"))
 					count++;
-				if (all_Service_List.size() != 0 || (all_Service_List.size() == 0 && service == null)) {
+				if (allServiceList.size() != 0 || (allServiceList.size() == 0 && service == null)) {
 					if (service != null && count >= service.length) {
-						LinkedHashSet<String> set = new LinkedHashSet<String>(all_Service_List); // delete duplicate services
+						LinkedHashSet<String> set = new LinkedHashSet<String>(allServiceList); // delete duplicate
+																								// services
 						ArrayList<String> service_List = new ArrayList<String>(set);
 						allSalon.setService(service_List);
 						if (num <= page * 99 && num > (page - 1) * 99) {
@@ -104,7 +107,8 @@ public class SearchMySQL {
 						}
 						num++;
 					} else if (service == null) {
-						LinkedHashSet<String> set = new LinkedHashSet<String>(all_Service_List); // delete duplicate services
+						LinkedHashSet<String> set = new LinkedHashSet<String>(allServiceList); // delete duplicate
+																								// services
 						ArrayList<String> service_List = new ArrayList<String>(set);
 						allSalon.setService(service_List);
 						if (num <= page * 99 && num > (page - 1) * 99) {
@@ -325,7 +329,8 @@ public class SearchMySQL {
 					Statement stt = null;
 					ResultSet rst = null;
 					stt = con.createStatement();
-					rst = stt.executeQuery("select * from stylist_works where stylist=" + id); // search for all stylist works of the stylist
+					rst = stt.executeQuery("select * from stylist_works where stylist=" + id); // search for all stylist
+																								// works of the stylist
 					while (rst.next()) {
 						Work work = new Work();
 						work.setID(rst.getInt("id"));
@@ -394,7 +399,8 @@ public class SearchMySQL {
 				Statement stt = null;
 				ResultSet rst = null;
 				stt = con.createStatement();
-				rst = stt.executeQuery("select * from stylist_works where stylist=" + num); // search for all stylist works of the stylist
+				rst = stt.executeQuery("select * from stylist_works where stylist=" + num); // search for all stylist
+																							// works of the stylist
 				while (rst.next()) {
 					Work work = new Work();
 					work.setID(rst.getInt("id"));
@@ -451,4 +457,75 @@ public class SearchMySQL {
 		return ans;
 	}
 
+	public String searchProduct(int page, String keyword, String type, int feature) {
+		int count = 0;
+		String[] featureStrings = { "受損/修護洗髮乳", "柔順/保濕", "沁涼/去屑洗髮乳", "男性/健髮洗髮乳", "草本控油洗髮乳", "潤絲/護髮", "免沖洗護髮油", "染髮" };
+
+		ArrayList<Product> allProducts = new ArrayList<Product>();
+		try {
+			stat = con.createStatement();
+
+			if (keyword == null) {
+				if (type == null)
+					rs = stat.executeQuery(selectProduct);
+				else {
+					if (feature == -1)
+						rs = stat.executeQuery(selectProduct + " WHERE type LIKE '%" + type + "%'");
+					else
+						rs = stat.executeQuery(selectProduct + " WHERE type LIKE '%" + type + "%' AND feature LIKE '%"
+								+ featureStrings[feature] + "%'");
+				}
+
+			} else
+				rs = stat.executeQuery(selectProduct + " WHERE name LIKE '%" + keyword + "%'");
+
+			while (rs.next()) {
+				if (count < page * 100 && count >= (page - 1) * 100) {
+					Product tmp = new Product();
+					tmp.setId(rs.getInt("id"));
+					tmp.setName(rs.getString("name"));
+					tmp.setType(rs.getString("type"));
+					tmp.setFeature(rs.getString("feature"));
+					tmp.setPrice(rs.getInt("price"));
+					tmp.setDescription(rs.getString("description"));
+					allProducts.add(tmp);
+				} else if (count == page * 100)
+					break;
+				count++;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			database.close();
+		}
+		return Product.convertToJson(allProducts);
+
+	}
+
+	public String searchOneProduct(int id) {
+		String ans = null;
+		try {
+			stat = con.createStatement();
+			rs = stat.executeQuery(selectProduct + " WHERE id =" + id);
+
+			Product product = new Product();
+			if (rs.next()) {
+				product.setId(rs.getInt("id"));
+				product.setName(rs.getString("name"));
+				product.setType(rs.getString("type"));
+				product.setFeature(rs.getString("feature"));
+				product.setPrice(rs.getInt("price"));
+				product.setDescription(rs.getString("description"));
+			}
+
+			Gson gson = new Gson();
+			ans = gson.toJson(product);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			database.close();
+		}
+		return ans;
+	}
 }

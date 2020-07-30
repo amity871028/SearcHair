@@ -30,4 +30,11 @@ public class SearchApi {
 		return searchMysql.searchOneStylistWork(id);
 	}
 
+	public String getAllProduct(int page, String keyword, String type, int feature) {
+		return searchMysql.searchProduct(page, keyword, type, feature);
+	}
+
+	public String getOneProduct(int id) {
+		return searchMysql.searchOneProduct(id);
+	}
 }

@@ -18,6 +18,8 @@ public class SearchOneServlet extends HttpServlet {
 	private static final String ONE_STYLIST = "stylist";
 	private static final String ONE_STYLIST_WORK = "stylist_works";
 
+	private static final String ONE_PRODUCT = "product";
+
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -48,6 +50,8 @@ public class SearchOneServlet extends HttpServlet {
 			result = search.getOneStylist(Integer.parseInt(id));
 		else if (function.equals(ONE_STYLIST_WORK))
 			result = search.getOneStylistWorks(Integer.parseInt(id));
+		else if (function.equals(ONE_PRODUCT))
+			result = search.getOneProduct(Integer.parseInt(id));
 
 		response.getWriter().append(result);
 	}

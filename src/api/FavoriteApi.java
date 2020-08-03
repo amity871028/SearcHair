@@ -22,6 +22,10 @@ public class FavoriteApi {
 		return favorite.getStylistWorksId(account);
 	}
 
+	public String getProduct(String account) {
+		return favorite.getProduct(account);
+	}
+
 	public String getAlbum(String account) {
 		return favorite.getAlbum(account);
 	}
@@ -45,6 +49,9 @@ public class FavoriteApi {
 		} else if ((function.equals("stylist_works"))) {
 			String id = jobj.get("id").toString();
 			result = favorite.addStylistWorks(account, Integer.valueOf(id));
+		} else if ((function.equals("product"))) {
+			String id = jobj.get("id").toString();
+			result = favorite.addProduct(account, Integer.valueOf(id));
 		} else if ((function.equals("album"))) {
 			String albumName = jobj.get("albumName").getAsString();
 			result = favorite.addAlbum(account, albumName);
@@ -70,6 +77,8 @@ public class FavoriteApi {
 			result = favorite.deleteStylist(account, Integer.valueOf(id));
 		} else if ((function.equals("stylist_works"))) {
 			result = favorite.deleteStylistWorks(account, Integer.valueOf(id));
+		} else if ((function.equals("product"))) {
+			result = favorite.deleteProduct(account, Integer.valueOf(id));
 		} else if ((function.equals("album"))) {
 			result = favorite.deleteAlbum(account, Integer.valueOf(id));
 		} else if ((function.equals("photo"))) {

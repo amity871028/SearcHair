@@ -25,7 +25,7 @@ public class FavoriteApi {
 	public String getProduct(String account) {
 		return favorite.getProduct(account);
 	}
-	
+
 	public String getAlbum(String account) {
 		return favorite.getAlbum(account);
 	}
@@ -76,7 +76,7 @@ public class FavoriteApi {
 		} else if ((function.equals("stylist"))) {
 			result = favorite.deleteStylist(account, Integer.valueOf(id));
 		} else if ((function.equals("stylist_works"))) {
-			result = favorite.deleteStylistWorks(account, Integer.valueOf(id));;
+			result = favorite.deleteStylistWorks(account, Integer.valueOf(id));
 		} else if ((function.equals("product"))) {
 			result = favorite.deleteProduct(account, Integer.valueOf(id));
 		} else if ((function.equals("album"))) {

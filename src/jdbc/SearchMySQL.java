@@ -480,14 +480,16 @@ public class SearchMySQL {
 				rs = stat.executeQuery(selectProduct + " WHERE name LIKE '%" + keyword + "%'");
 
 			while (rs.next()) {
-				if (count < page * 100 && count >= (page - 1) * 100) {
+				if (count < page * 99 && count >= (page - 1) * 99) {
 					Product tmp = new Product();
 					tmp.setId(rs.getInt("id"));
 					tmp.setName(rs.getString("name"));
 					tmp.setType(rs.getString("type"));
 					tmp.setFeature(rs.getString("feature"));
+					tmp.setCapacity(rs.getInt("capacity"));
 					tmp.setPrice(rs.getInt("price"));
 					tmp.setDescription(rs.getString("description"));
+					tmp.setPicture(rs.getString("picture"));
 					allProducts.add(tmp);
 				} else if (count == page * 100)
 					break;
@@ -514,8 +516,10 @@ public class SearchMySQL {
 				product.setName(rs.getString("name"));
 				product.setType(rs.getString("type"));
 				product.setFeature(rs.getString("feature"));
+				product.setCapacity(rs.getInt("capacity"));
 				product.setPrice(rs.getInt("price"));
 				product.setDescription(rs.getString("description"));
+				product.setPicture(rs.getString("picture"));
 			}
 
 			Gson gson = new Gson();

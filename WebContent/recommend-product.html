@@ -6,14 +6,20 @@
         
         <title>推薦商品</title>
         <script src="./static/js/navbar.js"></script>
+        <script src="./static/js/lib/fetch-data.js"></script>
+        <script src="./static/js/auth.js"></script>
+        <script src="./static/js/chatbot-display.js"></script>
+        <script src="./static/js/chatbot.js"></script>
+        <link rel="stylesheet" href="./static/css/chatbot.css">
         <link rel="stylesheet" href="./static/css/all-setting.css">
         <link rel="stylesheet" href="./static/css/recommend-product.css">
         <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
         <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
         <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
         <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
-        <link href="../fontawesome-free-5.12.1-web/css/all.css" rel="stylesheet">
+        <link href="./fontawesome-free-5.12.1-web/css/all.css" rel="stylesheet">
         <script src="./static/js/recommend-product.js"></script>
+		<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
     </head>
 
     <body>
@@ -29,26 +35,30 @@
                     <h3>推薦商品</h3>
                     <hr>
                 </div>
-                <div class="active-cyan-4 mb-4">
-                    <input class="form-control" type="text" placeholder="輸入關鍵字" aria-label="Search">
-                    <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
+                <div class="mb-4">
+                    <input class="form-control" type="search" placeholder="輸入關鍵字" aria-label="Search" id="search">
+                    <button class="btn btn-success my-2 my-sm-0" type="submit" id="search-btn">Search</button>
                 </div>
                 <p>商品種類：</p>
                 <form>
-                    <label class="radio-inline"><input type="radio" name="optradio" checked>洗髮乳</label>
-                    <label class="radio-inline"><input type="radio" name="optradio">潤髮乳</label>
-                    <label class="radio-inline"><input type="radio" name="optradio">護髮乳</label>
-                    <label class="radio-inline"><input type="radio" name="optradio">護髮油</label>
-                    <label class="radio-inline"><input type="radio" name="optradio">全部</label>
+                    <label class="radio-inline"><input type="radio" name="type" value="all" checked>全部</label>
+                    <label class="radio-inline"><input type="radio" name="type" value="type0">洗髮乳</label>
+                    <label class="radio-inline"><input type="radio" name="type" value="type1">潤髮/護髮乳</label>
+                    <label class="radio-inline"><input type="radio" name="type" value="type2">護髮油</label>
+                    <label class="radio-inline"><input type="radio" name="type" value="type3">染髮劑</label>
                     
                 </form>
-                <p>商品功能：</p>
-                <form>
-                    <label class="checkbox-inline"><input type="checkbox" value="">去屑</label>
-                    <label class="checkbox-inline"><input type="checkbox" value="">保濕</label>
-                    <label class="checkbox-inline"><input type="checkbox" value="">光滑柔順</label>
-                    <label class="checkbox-inline"><input type="checkbox" value="">其他</label>
-                </form>
+                <div id="feature-div" style="display: none;">
+	                <p>商品功能：</p>
+	                <form>
+	                    <label class="radio-inline"><input type="radio" name="feature" checked>全部</label>
+	                    <label class="radio-inline"><input type="radio" name="feature">受損/修護</label>
+	                    <label class="radio-inline"><input type="radio" name="feature">柔順/保濕</label>
+	                    <label class="radio-inline"><input type="radio" name="feature">沁涼/去屑</label>
+	                    <label class="radio-inline"><input type="radio" name="feature">男性/健髮</label>
+	                    <label class="radio-inline"><input type="radio" name="feature">草本控油</label>
+	                </form>
+                </div>
             </nav>
     
             <!-- Page Content  -->
@@ -59,78 +69,14 @@
                     </button>
                 </div>
                 <br>
-                <div class="row align-items-center">
-                    <div class="col-lg-3 col-md-6 mb-3">
-                        <div class="card">
-                            <a href="#"><img class="favorite" src="./static/img/favorite_undo.png" alt="favorite"></a> 
-                            <a href="product-intro.html">
-                            <img class="card-img-top" src="./static/img/test_photo3.png" alt="Card image cap">
-                                <div class="card-body">
-                                    <p class="card-text">Ryo 呂滋養韌髮洗髮精(油性髮質適用)</p>
-                                    <p class="card-text">400ml</p>
-                                    <p class="card-text">NT$339</p>
-                                </div> 
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 mb-3">
-                        <div class="card">
-                            <a href="#"><img class="favorite" src="./static/img/favorite_undo.png" alt="favorite"></a> 
-                            <a href="product-intro.html">
-                            <img class="card-img-top" src="./static/img/test_photo3.png" alt="Card image cap">
-                                <div class="card-body">
-                                    <p class="card-text">Ryo 呂滋養韌髮洗髮精(油性髮質適用)</p>
-                                    <p class="card-text">400ml</p>
-                                    <p class="card-text">NT$339</p>
-                                </div> 
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 mb-3">
-                        <div class="card">
-                            <a href="#"><img class="favorite" src="./static/img/favorite_undo.png" alt="favorite"></a> 
-                            <a href="product-intro.html">
-                            <img class="card-img-top" src="./static/img/test_photo3.png" alt="Card image cap">
-                                <div class="card-body">
-                                    <p class="card-text">Ryo 呂滋養韌髮洗髮精(油性髮質適用)</p>
-                                    <p class="card-text">400ml</p>
-                                    <p class="card-text">NT$339</p>
-                                </div> 
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 mb-3">
-                        <div class="card">
-                            <a href="#"><img class="favorite" src="./static/img/favorite_undo.png" alt="favorite"></a> 
-                            <a href="product-intro.html">
-                            <img class="card-img-top" src="./static/img/test_photo3.png" alt="Card image cap">
-                                <div class="card-body">
-                                    <p class="card-text">Ryo 呂滋養韌髮洗髮精(油性髮質適用)</p>
-                                    <p class="card-text">400ml</p>
-                                    <p class="card-text">NT$339</p>
-                                </div> 
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 mb-3">
-                        <div class="card">
-                            <a href="#"><img class="favorite" src="./static/img/favorite_undo.png" alt="favorite"></a> 
-                            <a href="product-intro.html">
-                            <img class="card-img-top" src="./static/img/test_photo3.png" alt="Card image cap">
-                                <div class="card-body">
-                                    <p class="card-text">Ryo 呂滋養韌髮洗髮精(油性髮質適用)</p>
-                                    <p class="card-text">400ml</p>
-                                    <p class="card-text">NT$339</p>
-                                </div> 
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                
+                <div class="row align-items-center" id = "product-cards"></div>
+                <button type="button" class="btn btn-outline-success btn-block" id="show-more-btn" value="0">顯示更多</button>
+			
             </div>
             
         </div>
     
+        <div id="chatbot"><i class="fas fa-times-circle"></i></div>
 
     </body>
 </html>

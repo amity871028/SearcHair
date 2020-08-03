@@ -6,14 +6,19 @@
         
         <title>推薦商品</title>
         <script src="./static/js/navbar.js"></script>
+        <script src="./static/js/lib/fetch-data.js"></script>
+        <script src="./static/js/auth.js"></script>
+        <script src="./static/js/chatbot-display.js"></script>
+        <script src="./static/js/chatbot.js"></script>
+        <link rel="stylesheet" href="./static/css/chatbot.css">
         <link rel="stylesheet" href="./static/css/all-setting.css">
-        <link rel="stylesheet" href="./static/css/product-intro.css">
+        <link rel="stylesheet" href="./static/css/product-detail.css">
         <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
         <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
         <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
         <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
-        <link href="../fontawesome-free-5.12.1-web/css/all.css" rel="stylesheet">
-        <script src="./static/js/product-intro.js"></script>
+        <link href="./fontawesome-free-5.12.1-web/css/all.css" rel="stylesheet">
+        <script src="./static/js/product-detail.js"></script>
     </head>
 
     <body>
@@ -24,22 +29,12 @@
                 <div id="dismiss">
                     <i class="fas fa-arrow-left"></i>
                 </div>
-                <a href="search-salon.html"><img src="./static/img/back.png"> 返回上一頁</a>
-                <br><br>
                 <div class="sidebar-header">
                     <h3>產品資訊</h3>
                     <hr>
                 </div>
-                <div class="card-size">
-                    <div class="card">
-                        <img class="card-img-top" src="./static/img/test_photo3.png" alt="Card image cap">
-                        <div class="card-body">
-                            <p class="card-text">Ryo 呂滋養韌髮洗髮精(油性髮質適用)</p>
-                            <p class="card-text">400ml</p>
-                            <p class="card-text">NT$339</p>
-                        </div>
-                    </div>
-                </div>
+                
+                <div class="card" id="product-card"></div>
             </nav>
     
             <!-- Page Content  -->
@@ -53,13 +48,13 @@
                 <br>
                 <h3>產品介紹：</h3>
                 <hr>
-                品名：Ryo 呂滋養韌髮洗髮精(油性髮質適用)<br>
-                容量：400ml<br>
-                價格：NT$339<br>
+               	品名：<span id="product-name"></span><br>
+               	容量：<span id="product-capacity"></span>ml<br>
+               	價格：NT$<span id="product-price"></span><br>
                 <br>
                 <h3>詳細介紹：</h3>
                 <hr>
-                .....
+                <p id="product-description"></p>
             </div>
             
         </div>

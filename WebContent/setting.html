@@ -68,12 +68,28 @@
                 
                     <div class="tab-pane" id="hair-analysis" role="tabpanel">
                         <h4>頭髮分析問卷</h4>
-                        <p>
-                            1.你是....<br>
-                            <form>
-                                <label class="radio-inline"><input type="radio" name="optradio" checked>a</label>
-                                <label class="radio-inline"><input type="radio" name="optradio">b</label>
-                            </form>
+                        <form id="hair-analysis-form">
+                         	1. 頭髮油膩？<br>
+                        	<label class="radio-inline"><input type="radio" name="greasy" value="true" required>是</label>
+	                         <label class="radio-inline"><input type="radio" name="greasy" value="false">否</label><br>
+	                         2. 頭髮髮梢乾燥？<br>
+                        	<label class="radio-inline"><input type="radio" name="frizzy" value="true" required>是</label>
+	                         <label class="radio-inline"><input type="radio" name="frizzy" value="false">否</label><br>
+	                         3. 頭髮有無光澤？<br>
+                        	<label class="radio-inline"><input type="radio" name="sleek" value="true" required>是</label>
+	                         <label class="radio-inline"><input type="radio" name="sleek" value="false">否</label><br>
+	                         4. 頭髮容易打結嗎？<br>
+                        	<label class="radio-inline"><input type="radio" name="tangled" value="true" required>是</label>
+	                         <label class="radio-inline"><input type="radio" name="tangled" value="false">否</label><br>
+	                         5. 有燙過頭髮嗎？<br>
+                        	<label class="radio-inline"><input type="radio" name="perm" value="true" required>是</label>
+                         	<label class="radio-inline"><input type="radio" name="perm" value="false">否</label><br>
+                         
+                         	<button type="button" class="btn btn-primary" id="hair-analysis-btn">確定</button>
+                        </form>
+                        <p id="result" style="display: none;">
+                        	你的問卷結果為：<span id="hair-result"></span>！<br><br><br>
+    						需要更正問卷答案？<button type="button" class="btn btn-primary" id="update-form-btn">修改</button>
                         </p>
                     </div>
 

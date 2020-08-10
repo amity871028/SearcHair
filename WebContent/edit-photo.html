@@ -142,8 +142,8 @@
                     <div class="modal-body to-center">
                         <img src="#" id="stored-img">
                         <h4>儲存成功！</h4>
-                    	分享到～<a href="#" id="fb-link" target="_blank"><img src="img/facebook.png" id="fb-icon"></a>
-                    
+                    	分享到～<a href="#" id="fb-link" target="_blank"><img src="img/facebook.png" id="fb-icon"></a>或<button type="button" class="btn btn-danger" id="share-chatroom-btn">聊天室</button>
+                    	<br><button type="button" class="btn btn-success" id="add-favorite-btn">新增至我的最愛</button>
                     	<p>你願意分享照片給其他使用者參考嗎？</p>
                     	<label><input type="radio" name="share" value="yes">同意</label><label><input type="radio" name="share" value="no">不同意</label>
                     	<button type="button" class="btn btn-light" id="share-btn">確定</button>
@@ -151,7 +151,7 @@
                     </div>
                     <div class="modal-footer">
                         <a href="hair-match.html" class="btn btn-primary" id="back-btn">返回hair-match首頁</a>
-                      </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -173,6 +173,23 @@
                     	<button type="button" class="btn btn-primary" id="random-btn">隨機更換照片！</button>
                         <a href="#" class="btn btn-danger" id="apply-btn">套用</a>
                       </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="modal fade" id="add-favorite-modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                      	新增成功！
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body to-center">已新增至我的最愛！</div>
+				    <div class="modal-footer">
+				      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				    </div>
                 </div>
             </div>
         </div>

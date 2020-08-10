@@ -56,6 +56,7 @@ async function getHairstyle(type){
 	const result = await FetchData.get(`${hairMatchAPI.hairstyleAPI}&type=${type}`);
     const allHairstyle = await result.json();
     window.urlPrefix = allHairstyle.urlPrefix;
+    console.log(window.urlPrefix);
     const hairstyleImg = document.getElementById('hairstyle-img');
     hairstyleImg.innerHTML = "";
     let tmp = "";
@@ -288,6 +289,12 @@ function init(){
     sidebarSetting();
     getHairstyle('girl-long'); //initial hairstyle type
     document.getElementById('user-edited-photo').src = localStorage.getItem('user-img');
+	if(localStorage.getItem('hairstyle')){
+		window.randomPhoto = localStorage.getItem('hairstyle');
+		window.urlPrefix = "http://localhost:8080/SearcHair/img/hair-match/hairstyle-source/girl-long";
+		window.randomColor = -1;
+		applyPhoto();
+	}
 
     document.getElementById('plus-btn').addEventListener('click', function(){zoom('plus')});
     document.getElementById('minus-btn').addEventListener('click', function(){zoom('minus')});

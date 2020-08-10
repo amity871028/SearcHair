@@ -30,9 +30,9 @@ var header = '<!--Navbar--> \
         <!--<li class="nav-item"> \
             <a class="nav-link" href="map.html">美髮地圖</a> \
         </li>--> \
-        <!--<li class="nav-item"> \
+        <li class="nav-item"> \
             <a class="nav-link" href="chatroom.html">聊天室</a> \
-        </li>--> \
+        </li> \
     </ul> \
      \
     <ul class="navbar-nav ml-auto">';

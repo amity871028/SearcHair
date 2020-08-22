@@ -83,6 +83,26 @@ public class FavoriteMySQL {
 		return "{\"id\":" + stylist_works + "}";
 	}
 
+	public String getProduct(String account) {
+		String product = null;
+		try {
+			stat = con.createStatement();
+			rs = stat.executeQuery("select product from favorite where account =" + "\"" + account + "\"");
+			if (rs.next()) {
+				product = rs.getString("product");
+				if (product.equals(" ")) {
+					product = "[]";
+				}
+			} else {
+				product = "[]";
+			}
+		} catch (SQLException e) {
+			System.out.println("select table SQLException:" + e.toString());
+		} finally {
+			database.close();
+		}
+		return "{\"id\":" + product + "}";
+	}
 	public String getAlbum(String account) {
 		String ans = null;
 		ArrayList<Album> albumList = new ArrayList<Album>();
@@ -283,6 +303,59 @@ public class FavoriteMySQL {
 			return false;
 	}
 
+	public boolean addProduct(String account, int num) {
+		int product_ID;
+		int flag = 0; // 正確的輸出1 錯誤輸出0
+		try {
+			stat = con.createStatement();
+			rs = stat.executeQuery("select * from product where id =" + num);
+			if (rs.next()) {
+				product_ID = rs.getInt("id");
+
+				Statement ST = null;
+				ResultSet RS = null;
+				ST = con.createStatement();
+				RS = ST.executeQuery("select * from favorite where account=" + "\"" + account + "\"");
+				if (RS.next()) { // 有使用過我的最愛
+					String product = RS.getString("product");
+					if (product.equals(" ")) // 沒有加過設計師作品在我的最愛
+						product = "[" + String.valueOf(product_ID) + "]";
+					else if (product.equals("[]"))
+						product = product.substring(0, product.length() - 1)
+								+ String.valueOf(product_ID) + "]";
+					else
+						product = product.substring(0, product.length() - 1) + ","
+								+ String.valueOf(product_ID) + "]";
+					String update = "update favorite set product=? where account=?";
+					PreparedStatement pst = (PreparedStatement) con.prepareStatement(update);
+					pst.setString(1, product); // 傳送第1個參數(取代第一個問號)
+					pst.setString(2, account); // 傳送第2個參數(取代第一個問號)
+					pst.executeUpdate();
+				} else { // 第一次加到我的最愛
+					String insert = "insert into favorite(account,salon,stylist,stylist_works,product) value(?,?,?,?,?)";
+					PreparedStatement pst = (PreparedStatement) con.prepareStatement(insert);
+					pst.setString(1, account);
+					pst.setString(2, " ");
+					pst.setString(3, "[" + String.valueOf(product_ID) + "]");
+					pst.setString(4, " ");
+					pst.setString(5, " ");
+					pst.executeUpdate();
+				}
+				flag = 1;
+			} else {
+				System.out.println("product 不存在");
+			}
+		} catch (SQLException e) {
+			System.out.println("select table SQLException:" + e.toString());
+		} finally {
+			database.close();
+		}
+		if (flag == 1)
+			return true;
+		else
+			return false;
+	}
+	
 	public boolean addAlbum(String account, String albumName) {
 		int count = 0; // 計算資料庫內有幾筆資料
 		int flag = 1; // 正確的輸出1 錯誤輸出0
@@ -481,6 +554,46 @@ public class FavoriteMySQL {
 			return false;
 	}
 
+	public boolean deleteProduct(String account, int num) {
+		int product_ID;
+		int flag = 0; // 正確的輸出1 錯誤輸出0
+		try {
+			stat = con.createStatement();
+			rs = stat.executeQuery("select * from product where id =" + num);
+			if (rs.next()) {
+				product_ID = rs.getInt("id");
+
+				Statement ST = null;
+				ResultSet RS = null;
+				ST = con.createStatement();
+				RS = ST.executeQuery("select * from favorite where account=" + "\"" + account + "\"");
+				if (RS.next()) { // 有使用過我的最愛
+					String product = RS.getString("product");
+					product = product.replace("" + product_ID + "", "");
+					product = product.replace(",,", ",");
+					product = product.replace("[,", "[");
+					product = product.replace(",]", "]");
+
+					String update = "update favorite set product=? where account=?";
+					PreparedStatement pst = (PreparedStatement) con.prepareStatement(update);
+					pst.setString(1, product); // 傳送第1個參數(取代第一個問號)
+					pst.setString(2, account); // 傳送第2個參數(取代第一個問號)
+					pst.executeUpdate();
+				}
+				flag = 1;
+			} else {
+				System.out.println("product 不存在");
+			}
+		} catch (SQLException e) {
+			System.out.println("select table SQLException:" + e.toString());
+		} finally {
+			database.close();
+		}
+		if (flag == 1)
+			return true;
+		else
+			return false;
+	}
 	public boolean deleteAlbum(String account, int num) {
 		try {
 			String delete = "delete from album_name where album_id=?";

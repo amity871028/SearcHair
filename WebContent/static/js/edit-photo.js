@@ -56,6 +56,7 @@ async function getHairstyle(type){
 	const result = await FetchData.get(`${hairMatchAPI.hairstyleAPI}&type=${type}`);
     const allHairstyle = await result.json();
     window.urlPrefix = allHairstyle.urlPrefix;
+    console.log(window.urlPrefix);
     const hairstyleImg = document.getElementById('hairstyle-img');
     hairstyleImg.innerHTML = "";
     let tmp = "";
@@ -178,15 +179,17 @@ async function downloadIamge(){
 		func: "store",
 		img: url,
 	});
-	const resultJson = await result.json();
+	/*const resultJson = await result.json();
 	window.imgur = resultJson.url;
 	document.getElementById('fb-link').href = `https://www.facebook.com/sharer/sharer.php?u=${resultJson.url}`;;
 	document.getElementById('face-frame').src = "img/frame.png";
 	localStorage.removeItem('user-img');
-	
+	*/
 
-    document.getElementById('loadingDiv').style.display = 'none';
-    document.getElementById('loadingImg').style.display = 'none';
+	setTimeout(() => { 
+		document.getElementById('loadingDiv').style.display = 'none';
+	    document.getElementById('loadingImg').style.display = 'none';
+	}, 1000);
 }
 
 function saveFile(data){
@@ -270,12 +273,28 @@ async function sharePhoto(){
 	}
 }
 
+function shareToChatroom(){
+	localStorage.setItem('picture', window.imgur);
+	window.location.href = "chatroom.html";
+}
+
+function addToFavorite(){
+	console.log("!");
+	$('#add-favorite-modal').modal('show');
+}
+
 function init(){
 	window.picture = -1;
 	window.color = -1;
     sidebarSetting();
     getHairstyle('girl-long'); //initial hairstyle type
     document.getElementById('user-edited-photo').src = localStorage.getItem('user-img');
+	if(localStorage.getItem('hairstyle')){
+		window.randomPhoto = localStorage.getItem('hairstyle');
+		window.urlPrefix = "http://localhost:8080/SearcHair/img/hair-match/hairstyle-source/girl-long";
+		window.randomColor = -1;
+		applyPhoto();
+	}
 
     document.getElementById('plus-btn').addEventListener('click', function(){zoom('plus')});
     document.getElementById('minus-btn').addEventListener('click', function(){zoom('minus')});
@@ -291,6 +310,10 @@ function init(){
     
     document.getElementById('share-btn').addEventListener('click', sharePhoto);
     document.getElementById('apply-btn').addEventListener('click', applyPhoto);
+
+    document.getElementById('share-chatroom-btn').addEventListener('click', shareToChatroom);
+    document.getElementById('add-favorite-btn').addEventListener('click', addToFavorite);
+    
     
     $('#colorpicker').farbtastic('#color_name');
     document.getElementById('colorpicker').addEventListener('click', function(){changeHairColor("pc");});

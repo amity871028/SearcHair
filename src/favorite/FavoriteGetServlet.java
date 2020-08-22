@@ -46,6 +46,8 @@ public class FavoriteGetServlet extends HttpServlet {
 			result = favoriteApi.getStylist(account);
 		else if (function.equals("stylist_works"))
 			result = favoriteApi.getStylistWorks(account);
+		else if (function.equals("product"))
+			result = favoriteApi.getProduct(account);
 		else if (function.equals("album"))
 			result = favoriteApi.getAlbum(account);
 		else if (function.equals("photo")) {

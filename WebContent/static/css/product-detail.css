@@ -36,9 +36,20 @@ content > a:hover{
     display: none;
 }
 
-.card-size{
-    width: 77%;
-    margin: 5px auto;
+
+#product-card {
+	position: absolute;
+	width: 75%;
+	right: 0;
+	left: 0;
+	margin: auto;
+}
+
+.favorite {
+	position: absolute;
+	right: 2px;
+	top: 2px;
+	width: 8% !important;
 }
 /* ---------------------------------------------------
     CONTENT STYLE

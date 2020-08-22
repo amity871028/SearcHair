@@ -112,6 +112,32 @@ async function getStylistWork(){
 	stylistWorkCards.innerHTML = newCard;
 }
 
+async function getProduct(){
+	let result = await FetchData.get(`${favoriteAPI.all}func=product&account=${account}`);
+	const productIdJson = await result.json();
+
+	const productCards = document.getElementById('product-cards');
+    let newCard = "";
+	for(let productId of productIdJson.id){
+		result = await FetchData.get(`${favoriteAPI.getSearch}func=product&id=${productId}`);
+		const productDetail = await result.json();
+		newCard += `<div class="col-lg-4 col-md-6 mb-3" id="${productId}"> \
+            <div class="card"> \
+                <a href="javascript:void(0)"><img class="favorite" src="img/favorite.png" id="favorte-${productId}" onclick="updateFavorite('product', this);" alt="favorite"></a> \
+                <a href="product-detail.html?id=${productId}"> \
+                <img class="card-img-top lozad" data-src="${productDetail.picture}" alt="${productDetail.name} photo"> \
+                <div class="card-body"> \
+        	<p class="card-text">${productDetail.name}</p> \
+                    <p class="card-text">${productDetail.capacity} ml</p> \
+                    <p class="card-text">NT$ ${productDetail.price}</p> \
+                    </div></a></div>
+        </div>`;
+	}
+	productCards.innerHTML = newCard;
+    const observer = lozad(); // lazy load
+	observer.observe();
+}
+
 async function getCategory(){
 	const allCategoryTabpanel = $('div[id^="category"]');
 	allCategoryTabpanel.remove();
@@ -334,6 +360,7 @@ function init(){
     getSalon();
     getStylist();
     getStylistWork();
+    getProduct();
     getCategory();
     
     $('#myList a').on('click', function () {

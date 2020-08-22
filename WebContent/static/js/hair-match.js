@@ -114,7 +114,10 @@ function storage(){
 }
 
 function init(){
-	localStorage.removeItem('user-img');
+	if(localStorage.getItem('user-img')){
+		window.location.href = "edit-photo.html";
+	}
+	//localStorage.removeItem('user-img');
     document.getElementById('face-align').setAttribute('style', 'display: none;');
     document.getElementById('upload-photo').addEventListener('change',  function () {
         document.getElementById('content').setAttribute('style', 'display: none;');

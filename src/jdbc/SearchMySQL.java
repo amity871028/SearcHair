@@ -494,6 +494,7 @@ public class SearchMySQL {
 					tmp.setPrice(rs.getInt("price"));
 					tmp.setDescription(rs.getString("description"));
 					tmp.setPicture(rs.getString("picture"));
+					tmp.setAddress(rs.getString("address"));
 					allProducts.add(tmp);
 				} else if (count == page * 100)
 					break;
@@ -524,6 +525,7 @@ public class SearchMySQL {
 				product.setPrice(rs.getInt("price"));
 				product.setDescription(rs.getString("description"));
 				product.setPicture(rs.getString("picture"));
+				product.setAddress(rs.getString("address"));
 			}
 
 			Gson gson = new Gson();

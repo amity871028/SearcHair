@@ -14,6 +14,7 @@ public class Product {
 	private int price;
 	private String description;
 	private String picture;
+	private String address;
 
 	public int getId() {
 		return id;
@@ -77,6 +78,14 @@ public class Product {
 
 	public void setPicture(String picture) {
 		this.picture = picture;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 	public static String convertToJson(ArrayList<Product> allProducts) {

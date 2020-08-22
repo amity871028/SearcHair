@@ -1,6 +1,13 @@
 package api;
 
+import java.io.IOException;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
+import hairMatch.ToImgur;
 import jdbc.SearchMySQL;
+import search.Product;
 
 public class SearchApi {
 
@@ -36,5 +43,27 @@ public class SearchApi {
 
 	public String getOneProduct(int id) {
 		return searchMysql.searchOneProduct(id);
+	}
+
+	public boolean productJsonAnalyzing(String jsonObject) throws IOException {
+		JsonObject jobj = new Gson().fromJson(jsonObject, JsonObject.class);
+		Product product = new Gson().fromJson(jobj, Product.class);
+		String action = jobj.get("action").getAsString();
+		if (!action.equals("delete") && product.getPicture().startsWith("data:image/")) {
+			String pictureBase64 = product.getPicture();
+			ToImgur toImgur = new ToImgur();
+			String picture = toImgur.getImgur(pictureBase64, null, "img");
+			product.setPicture(picture);
+		}
+		boolean result = false;
+		if (action.equals("new"))
+			result = searchMysql.newProduct(product);
+		else if (action.equals("update"))
+			result = searchMysql.updateProduct(product);
+		else if (action.equals("delete"))
+			result = searchMysql.deleteProduct(product.getId());
+
+		return result;
+
 	}
 }

@@ -1,6 +1,8 @@
 package jdbc;
 
 import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -18,6 +20,8 @@ public class SearchMySQL {
 	private ResultSet rs = null;
 
 	private String selectProduct = "SELECT * FROM product";
+	private String insertProductSQL = "INSERT INTO product VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	private int rsInt = 0;
 
 	public String searchSalon(int page, String keyword, String[] service) {
 		int salonID, stylistID;
@@ -480,14 +484,17 @@ public class SearchMySQL {
 				rs = stat.executeQuery(selectProduct + " WHERE name LIKE '%" + keyword + "%'");
 
 			while (rs.next()) {
-				if (count < page * 100 && count >= (page - 1) * 100) {
+				if (count < page * 99 && count >= (page - 1) * 99) {
 					Product tmp = new Product();
 					tmp.setId(rs.getInt("id"));
 					tmp.setName(rs.getString("name"));
 					tmp.setType(rs.getString("type"));
 					tmp.setFeature(rs.getString("feature"));
+					tmp.setCapacity(rs.getInt("capacity"));
 					tmp.setPrice(rs.getInt("price"));
 					tmp.setDescription(rs.getString("description"));
+					tmp.setPicture(rs.getString("picture"));
+					tmp.setAddress(rs.getString("address"));
 					allProducts.add(tmp);
 				} else if (count == page * 100)
 					break;
@@ -514,8 +521,11 @@ public class SearchMySQL {
 				product.setName(rs.getString("name"));
 				product.setType(rs.getString("type"));
 				product.setFeature(rs.getString("feature"));
+				product.setCapacity(rs.getInt("capacity"));
 				product.setPrice(rs.getInt("price"));
 				product.setDescription(rs.getString("description"));
+				product.setPicture(rs.getString("picture"));
+				product.setAddress(rs.getString("address"));
 			}
 
 			Gson gson = new Gson();
@@ -527,5 +537,70 @@ public class SearchMySQL {
 			database.close();
 		}
 		return ans;
+	}
+
+	public boolean newProduct(Product product) {
+		// TODO Auto-generated method stub
+		int id = 0;
+		try {
+			// find max id to know what id will this data has
+			rs = stat.executeQuery("SELECT MAX(id) FROM product");
+			if (rs.next()) {
+				id = rs.getInt(1) + 1;
+			}
+
+			// insert data
+			PreparedStatement pstmt = con.prepareStatement(insertProductSQL);
+			pstmt.setInt(1, id);
+			pstmt.setString(2, product.getName());
+			pstmt.setString(3, product.getType());
+			pstmt.setString(4, product.getFeature());
+			pstmt.setInt(5, product.getCapacity());
+			pstmt.setInt(6, product.getPrice());
+			pstmt.setString(7, product.getDescription());
+			pstmt.setString(8, product.getPicture());
+			pstmt.setString(9, product.getAddress());
+
+			rsInt = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			database.close();
+		}
+		return (rsInt == 1) ? true : false;
+	}
+
+	public boolean updateProduct(Product product) {
+		try {
+			// using delete and insert instead of update each attribute
+			rsInt = stat.executeUpdate("DELETE FROM product WHERE id = " + product.getId());
+			PreparedStatement pstmt = con.prepareStatement(insertProductSQL);
+			pstmt.setInt(1, product.getId());
+			pstmt.setString(2, product.getName());
+			pstmt.setString(3, product.getType());
+			pstmt.setString(4, product.getFeature());
+			pstmt.setInt(5, product.getCapacity());
+			pstmt.setInt(6, product.getPrice());
+			pstmt.setString(7, product.getDescription());
+			pstmt.setString(8, product.getPicture());
+			pstmt.setString(9, product.getAddress());
+			rsInt = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			database.close();
+		}
+		return (rsInt == 1) ? true : false;
+	}
+
+	public boolean deleteProduct(int id) {
+		try {
+			rsInt = stat.executeUpdate("DELETE FROM product WHERE id = " + id);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			database.close();
+		}
+		return (rsInt == 1) ? true : false;
 	}
 }

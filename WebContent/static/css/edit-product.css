@@ -1,0 +1,113 @@
+content > a,a:link,a:visited{
+    color: black !important;
+    text-decoration: none !important;
+}
+content > a:hover{
+    color: black !important;
+    text-decoration: none;
+}
+
+.Splitter{
+    min-height: 50px;
+}
+
+/* ---------------------------------------------------
+    SIDEBAR STYLE
+----------------------------------------------------- */
+
+.wrapper {
+    display: flex;
+    width: 100%;
+}
+
+#sidebar {
+    position: fixed;
+    left: 0;
+    width: 310px;
+    height: -webkit-fill-available;
+    background: #beebe9;
+    color: black;
+    padding: 10px;
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
+}
+
+#sidebarCollapse {
+    display: none;
+}
+
+.form-control {
+    width: auto !important;
+    display: initial !important;
+}
+
+.btn {
+    vertical-align: top !important;
+}
+
+/* ---------------------------------------------------
+    CONTENT STYLE
+----------------------------------------------------- */
+
+#content {
+    width: 100%;
+    margin-left: 310px;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+#dismiss {
+    visibility:hidden;
+}
+
+#product-name, #product-address, #product-picture-address {
+	width: 80% !important;
+}
+
+#show-new-picture {
+	max-width: 170px;
+}
+
+@media only screen and (min-width: 0px) and (max-width: 575px){ 
+    #sidebar {
+        width: 250px;
+        position: fixed;
+        top: 56px;
+        left: -260px;
+        height: 100vh;
+        z-index: 999;
+        transition: all 0.3s;
+        overflow-y: scroll;
+        box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
+    }
+    
+    #sidebar.active {
+        left: 0;
+    }
+    
+    #sidebarCollapse {
+        display: block;
+    }
+
+    #content {
+        margin-left: 0;
+    }
+
+    #dismiss {
+        visibility: visible;
+        width: 35px;
+        height: 35px;
+        position: absolute;
+        top: 43px;
+        right: 10px;
+        cursor: pointer;
+        -webkit-transition: all 0.3s;
+        -o-transition: all 0.3s;
+        transition: all 0.3s;
+    }
+    
+    #dismiss:hover {
+        background: #fff;
+        color: #7386D5;
+    }
+
+}

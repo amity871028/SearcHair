@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <title>編輯商品</title>
+    <script src="./static/js/navbar.js"></script>
+    <script src="./static/js/lib/fetch-data.js"></script>
+    <script src="./static/js/auth.js"></script>
+    <script src="./static/js/chatbot-display.js"></script>
+    <script src="./static/js/chatbot.js"></script>
+    <link rel="stylesheet" href="./static/css/chatbot.css">
+    <link rel="stylesheet" href="./static/css/all-setting.css">
+    <link rel="stylesheet" href="./static/css/edit-product.css">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link href="./fontawesome-free-5.12.1-web/css/all.css" rel="stylesheet">
+    <script src="./static/js/edit-product.js"></script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
+</head>
+<body>
+	<div class="Splitter"> </div>
+    <div class="wrapper">
+            <!-- Sidebar  -->
+            <nav id="sidebar">
+                <br>
+                <div id="dismiss">
+                    <i class="fas fa-arrow-left"></i>
+                </div>
+                <div class="sidebar-header">
+                    <h3>編輯推薦商品</h3>
+                    <hr>
+                </div>
+                <div class="mb-4">
+                    <input class="form-control" type="search" placeholder="輸入關鍵字" aria-label="Search" id="search">
+                    <button class="btn btn-success my-2 my-sm-0" type="submit" id="search-btn">Search</button>
+                </div>
+                <p>商品種類：</p>
+                <form>
+                    <label class="radio-inline"><input type="radio" name="type" value="all" checked>全部</label>
+                    <label class="radio-inline"><input type="radio" name="type" value="type0">洗髮乳</label>
+                    <label class="radio-inline"><input type="radio" name="type" value="type1">潤髮/護髮乳</label>
+                    <label class="radio-inline"><input type="radio" name="type" value="type2">護髮油</label>
+                    <label class="radio-inline"><input type="radio" name="type" value="type3">染髮劑</label>
+                    
+                </form>
+                <div id="feature-div" style="display: none;">
+	                <p>商品功能：</p>
+	                <form>
+	                    <label class="radio-inline"><input type="radio" name="feature" checked>全部</label>
+	                    <label class="radio-inline"><input type="radio" name="feature">受損/修護</label>
+	                    <label class="radio-inline"><input type="radio" name="feature">柔順/保濕</label>
+	                    <label class="radio-inline"><input type="radio" name="feature">沁涼/去屑</label>
+	                    <label class="radio-inline"><input type="radio" name="feature">男性/健髮</label>
+	                    <label class="radio-inline"><input type="radio" name="feature">草本控油</label>
+	                </form>
+                </div>
+            </nav>
+    
+            <!-- Page Content  -->
+            <div id="content">
+                <div class="container-fluid">
+                    <button type="button" id="sidebarCollapse" class="btn btn-info">
+                        <i class="fas fa-align-left"></i>
+                    </button>
+                </div>
+                <br>
+    			<btn class="btn btn-primary" data-toggle="modal" data-target="#add-product-modal" onclick="clearModal();">新增商品</btn>
+    			<hr>
+                <div class="row align-items-center" id = "product-cards"></div>
+                <button type="button" class="btn btn-outline-success btn-block" id="show-more-btn" value="0">顯示更多</button>
+			
+            </div>
+            
+        </div>
+    
+    	<div class="modal fade" id="add-product-modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="product-title">新增商品</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="product-form">
+                            <div class="form-group">
+                                <label for="product-name" class="col-form-label">商品名稱：</label>
+                                <input type="text" class="form-control" id="product-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="product-type" class="col-form-label">種類：</label>
+                                <input type="text" class="form-control" id="product-type" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="product-feature" class="col-form-label">功能：</label>
+                                <input type="text" class="form-control" id="product-feature" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="product-capacity" class="col-form-label">容量：</label>
+                                <input type="number" class="form-control" min="0" id="product-capacity" required>ml
+                            </div>
+                            <div class="form-group">
+                                <label for="product-price" class="col-form-label">價格：</label>
+                                <input type="number" class="form-control" min="0" id="product-price" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="product-address" class="col-form-label">網站網址：</label>
+                                <input type="text" class="form-control" id="product-address" required>
+                            </div>
+                            <div class="form-group">
+                            	<label><input type="radio" name="picture" value="upload" checked>上傳照片</label><label><input type="radio" name="picture" value="address">照片網址</label> (擇一上傳)
+					            <br>
+					            <label class="btn btn-primary btn-setting" id="upload-display">
+					                <input type="file" id="product-picture" style="display:none;" accept="image/*">
+					                <i class="fas fa-image"></i> 上傳照片
+					            </label>
+                                <input type="text" class="form-control" id="product-picture-address" style="display:none !important;">
+					            
+                            </div>
+                            <img src="img/blank.png" id="show-new-picture">
+                            <br><br>
+                            <button type="button" class="btn btn-primary" id="add-product-btn">新增</button>
+                            <button type="button" class="btn btn-primary" id="update-product-btn" style="display: none;">修改</button>
+                            <button type="button" class="btn btn-primary" id="delete-product-btn" style="display: none;">刪除</button>
+                            <span id="product-id" style="display: none">-1</span>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div id="chatbot"><i class="fas fa-times-circle"></i></div>
+</body>
+</html>

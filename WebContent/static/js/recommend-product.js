@@ -113,7 +113,8 @@ async function drawCard(Json, page){
     	newCard += `<div class="col-lg-4 col-md-6 mb-3" id="${product.id}"> \
             <div class="card"> \
                 <a href="javascript:void(0)"><img class="favorite" src="${favoriteImg}" id="favorte-${product.id}" onclick="updateFavorite(this);" alt="favorite"></a> \
-                <a href="product-detail.html?id=${product.id}"> \
+                <!--<a href="product-detail.html?id=${product.id}">--> \
+                <a href="${product.address}" target="_blank"> \
                 <img class="card-img-top lozad" data-src="${product.picture}" alt="${product.name} photo"> \
                 <div class="card-body"> \
         	<p class="card-text">${product.name}</p> \

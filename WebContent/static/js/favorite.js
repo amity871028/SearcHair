@@ -124,7 +124,8 @@ async function getProduct(){
 		newCard += `<div class="col-lg-4 col-md-6 mb-3" id="${productId}"> \
             <div class="card"> \
                 <a href="javascript:void(0)"><img class="favorite" src="img/favorite.png" id="favorte-${productId}" onclick="updateFavorite('product', this);" alt="favorite"></a> \
-                <a href="product-detail.html?id=${productId}"> \
+                <!--<a href="product-detail.html?id=${product.id}">--> \
+                <a href="${productDetail.address}" target="_blank"> \
                 <img class="card-img-top lozad" data-src="${productDetail.picture}" alt="${productDetail.name} photo"> \
                 <div class="card-body"> \
         	<p class="card-text">${productDetail.name}</p> \

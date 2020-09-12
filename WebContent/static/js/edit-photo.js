@@ -162,6 +162,17 @@ function displayPhoto(uri){
 	document.getElementById('stored-img').src = uri;
 }
 
+function translateBase64ImgToFile(base64,filename,contentType){ // base64轉file
+    var arr = base64.split(',');
+    var bstr = atob(arr[1]);
+    var leng = bstr.length;
+    var u8arr = new Uint8Array(leng);
+    while(leng--){
+       u8arr[leng] =  bstr.charCodeAt(leng);
+    }
+    return new File([u8arr],filename,{type:contentType});
+}
+
 async function downloadIamge(){
 	var frame = document.getElementById("frame");
 	document.getElementById('face-frame').src = "";
@@ -171,25 +182,36 @@ async function downloadIamge(){
 	saveFile(url);
 	displayPhoto(url);
 	window.url = url;
+
 	// to prevent facebook's link haven't generated yet 
 	document.getElementById('loadingDiv').style.display = 'block';
     document.getElementById('loadingImg').style.display = 'block';
     
-	const result = await FetchData.post(`${hairMatchAPI.hairAPI}`,{
-		func: "store",
-		img: url,
-	});
-	/*const resultJson = await result.json();
-	window.imgur = resultJson.url;
-	document.getElementById('fb-link').href = `https://www.facebook.com/sharer/sharer.php?u=${resultJson.url}`;;
-	document.getElementById('face-frame').src = "img/frame.png";
-	localStorage.removeItem('user-img');
-	*/
-
-	setTimeout(() => { 
-		document.getElementById('loadingDiv').style.display = 'none';
-	    document.getElementById('loadingImg').style.display = 'none';
-	}, 1000);
+	var file = translateBase64ImgToFile(url,"testImg.png","image/png")
+	var CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/dszvkufl8/upload';
+	var CLOUDINARY_UPLOAD_PRESET = 'z62aocfi';
+	var formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+    axios({
+        url: CLOUDINARY_URL,
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        data: formData
+    }).then(function (res) {
+        window.imgur = res.data.secure_url; //imgur's url
+        document.getElementById('fb-link').href = `https://www.facebook.com/sharer/sharer.php?u=${window.imgur}`;;
+    	document.getElementById('face-frame').src = "img/frame.png";
+    	localStorage.removeItem('user-img');
+    	
+    	document.getElementById('loadingDiv').style.display = 'none';
+        document.getElementById('loadingImg').style.display = 'none';
+    }).catch(function (err) {
+        console.log(err);
+    })
+	
 }
 
 function saveFile(data){

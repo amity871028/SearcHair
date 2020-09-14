@@ -193,25 +193,22 @@ async function downloadIamge(){
 	var formData = new FormData();
     formData.append('file', file);
     formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
-    axios({
+    let res = await axios({
         url: CLOUDINARY_URL,
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
         },
         data: formData
-    }).then(function (res) {
-        window.imgur = res.data.secure_url; //imgur's url
-        document.getElementById('fb-link').href = `https://www.facebook.com/sharer/sharer.php?u=${window.imgur}`;;
-    	document.getElementById('face-frame').src = "img/frame.png";
-    	localStorage.removeItem('user-img');
-    	
-    	document.getElementById('loadingDiv').style.display = 'none';
-        document.getElementById('loadingImg').style.display = 'none';
-    }).catch(function (err) {
-        console.log(err);
-    })
+    });
+    window.imgur = res.data.secure_url; //imgur's url
+    console.log(window.imgur);
+    document.getElementById('fb-link').href = `https://www.facebook.com/sharer/sharer.php?u=${window.imgur}`;;
+	document.getElementById('face-frame').src = "img/frame.png";
+	localStorage.removeItem('user-img');
 	
+	document.getElementById('loadingDiv').style.display = 'none';
+    document.getElementById('loadingImg').style.display = 'none';
 }
 
 function saveFile(data){

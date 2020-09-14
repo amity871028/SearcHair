@@ -86,7 +86,7 @@ async function getStylistWork(){
     		tmpHashtags += `<span class="badge badge-primary">${workHashtags[i]}</span>`;
     	}
         newCard += `<div class="cssbox" id="work-${work.id}">
-        <a href="javascript:void(0)"><img class="favorite" src="img/favorite.png" id="favorte-${work.id}" onclick="updateFavorite(this);" alt="favorite"></a> \
+        <a href="javascript:void(0)"><img class="favorite" src="img/favorite.png" id="favorte-${work.id}" onclick="updateFavorite('stylist_works', this);" alt="favorite"></a> \
         <a id="image${work.id}" href="#image${work.id}">
           <img class="cssbox_thumb" src="${work.picture}">
           <span class="cssbox_full">

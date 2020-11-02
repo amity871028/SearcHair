@@ -20,7 +20,6 @@ async function getProduct(){
 	let page = showMoreBtn.value;
     const result = await FetchData.get(`${productAPI.search}&page=${page}`);
     const productJson = await result.json();
-    console.log(productJson);
     drawCard(productJson, page);
 }
 
@@ -118,8 +117,7 @@ async function drawCard(Json, page){
 }
 
 function updateModal(id, name, type, feature, capacity, price, address, picture){
-	console.log(id + " " + name + " " + type + " " + feature + " " + capacity + " " + price + " " + address + " " + picture);
-
+	
 	document.getElementById('product-name').value = name;
 	document.getElementById('product-type').value = type;
 	document.getElementById('product-feature').value = feature;
@@ -143,10 +141,21 @@ function readURL(input) {
 	  reader.onload = function loadPicture(e) {
 	    document.getElementById('show-new-picture').setAttribute('src', e.target.result);
 		  window.pictureBase64 = e.target.result;
-		  console.log(e.target.result);
 	  };
 	  reader.readAsDataURL(input.files[0]);
 	}
+}
+
+
+function translateBase64ImgToFile(base64,filename,contentType){ // base64 to file
+    var arr = base64.split(',');
+    var bstr = atob(arr[1]);
+    var leng = bstr.length;
+    var u8arr = new Uint8Array(leng);
+    while(leng--){
+       u8arr[leng] =  bstr.charCodeAt(leng);
+    }
+    return new File([u8arr],filename,{type:contentType});
 }
 
 async function addProduct(){
@@ -160,13 +169,30 @@ async function addProduct(){
 					if(window.pictureBase64 == "" || !window.pictureBase64){
 						if(idSpan.innerHTML != -1){
 							window.pictureBase64 = document.getElementById('show-new-picture').src;
+							picture = window.pictureBase64;
 						}
 						else {
 							alert("請新增照片！");
 							return;
 						}
 					}
-					picture = window.pictureBase64;
+					else {
+						var file = translateBase64ImgToFile(window.pictureBase64,"testImg.png","image/png")
+						var CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/dszvkufl8/upload';
+						var CLOUDINARY_UPLOAD_PRESET = 'z62aocfi';
+						var formData = new FormData();
+					    formData.append('file', file);
+					    formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+					    let res = await axios({
+					        url: CLOUDINARY_URL,
+					        method: 'POST',
+					        headers: {
+					            'Content-Type': 'application/x-www-form-urlencoded'
+					        },
+					        data: formData
+					    });
+				    	picture = res.data.secure_url; //imgur's url
+					}
 				}
 				else {
 					const pictureAddress = document.getElementById('product-picture-address').value;
@@ -178,7 +204,6 @@ async function addProduct(){
 				}
 			}
 		}
-		console.log(picture);
 		if(idSpan.innerHTML == -1){
 			const result = await FetchData.post(productAPI.post, {
 				action: "new",
@@ -191,7 +216,7 @@ async function addProduct(){
 				picture: picture,
 				address: document.getElementById('product-address').value,
 			});
-			alert('新增成功！');
+			if(result.status == 200) alert('新增成功！');
 		}
 		else {
 			const result = await FetchData.post(productAPI.post, {
@@ -207,7 +232,7 @@ async function addProduct(){
 				address: document.getElementById('product-address').value,
 			});
 			idSpan.innerHTML = -1;
-			alert('修改成功！');
+			if(result.status == 200) alert('修改成功！');
 		}
 		window.pictureBase64 = "";
 		$("#add-product-modal").modal('hide');

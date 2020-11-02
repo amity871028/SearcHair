@@ -49,12 +49,6 @@ public class SearchApi {
 		JsonObject jobj = new Gson().fromJson(jsonObject, JsonObject.class);
 		Product product = new Gson().fromJson(jobj, Product.class);
 		String action = jobj.get("action").getAsString();
-		if (!action.equals("delete") && product.getPicture().startsWith("data:image/")) {
-			String pictureBase64 = product.getPicture();
-			ToImgur toImgur = new ToImgur();
-			String picture = toImgur.getImgur(pictureBase64, null, "img");
-			product.setPicture(picture);
-		}
 		boolean result = false;
 		if (action.equals("new"))
 			result = searchMysql.newProduct(product);

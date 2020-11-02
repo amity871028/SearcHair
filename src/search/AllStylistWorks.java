@@ -32,7 +32,7 @@ public class AllStylistWorks {
 		this.hashtag = hashtag;
 	}
 
-	public String convertToJson(ArrayList<AllStylistWorks> Item) {
+	public static String convertToJson(ArrayList<AllStylistWorks> Item) {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		String jsonStr = gson.toJson(Item);
 		return jsonStr;

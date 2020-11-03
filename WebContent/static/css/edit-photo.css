@@ -62,7 +62,7 @@
     overflow-y: auto;
 }
 
-#hairstyle img, #face-match img {
+#hairstyle img{
     width: 120px;
     margin: 3px;
 }
@@ -101,18 +101,18 @@
     display: inline-block;
 }
 
-/*.favorite {
-    position: absolute;
-    right: 2px;
-    top: 2px;
-    width: 18px !important;
-}*/
+.favorite {
+	position: absolute;
+	right: 2px;
+	top: 2px;
+	width: 8% !important;
+}
 
 #colorpicker {
     margin: 35px;
 }
 
-.hairstyle-div {
+.hairstyle-div, .facematch-div {
     display: initial;
     position: relative;
 }
@@ -130,11 +130,14 @@
 	box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
 }
 
-.favorite {
-	position: absolute;
-	right: 2px;
-	top: 2px;
-	width: 8% !important;
+.facematch-div img {
+	width: 120px;
+	margin: 3px;
+	box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
+}
+
+#face-match-img {
+	width: 50%;
 }
 
 /* ---------------------------------------------------
@@ -217,6 +220,169 @@ h4 {
     width: 50% !important;
     z-index: 20px !important;
 }
+
+/* The work below, CSSBox, is released under the Creative Commons
+   Attribution-ShareAlike 4.0 license and is available on
+   https://github.com/TheLastProject/CSSBox. You are not required to add
+   additional credit to your website, just leave the above text in this file */
+   
+.padding-40 {
+	padding: 40px;	
+}   
+
+.card-img {
+	width: 90% !important;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+}
+
+.work-content {
+	height: 360px;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+#hashtag span {
+	margin: 2px;
+}
+
+img.cssbox_thumb{
+  width: 120px;
+  margin-top: 5px;
+}
+
+div.cssbox {
+  display: initial;
+  position: relative;
+}
+
+span.cssbox_full {
+  z-index: 999;
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0,0,0,0.8);
+  top: 0;
+  left: 0;
+  opacity: 0;
+  pointer-events: none;
+  cursor: default;
+  transition: opacity 0.5s linear;
+}
+
+span.cssbox_full .row {
+  border-radius: 5px;
+  width: 600px;
+  position: fixed;
+  background-color: white;
+  margin: 0;
+  padding: 0;
+  max-height: 90%;
+  max-width: 90%;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 20px black;
+}
+
+a.cssbox_close,
+a.cssbox_prev,
+a.cssbox_next {
+  z-index: 999;
+  position: fixed;
+  text-decoration: none;
+  visibility: hidden;
+  color: white !important;
+  font-size: 40px;
+}
+
+a.cssbox_close {
+  top: 9%;
+  right: 10%
+}
+
+a.cssbox_close::after {
+  content: '\00d7';
+}
+
+a.cssbox_prev,
+a.cssbox_next {
+  top: 50%;
+  transform: translate(0%, -50%);
+}
+
+a.cssbox_prev {
+  left: 5%;
+}
+
+a.cssbox_next {
+  right: 5%;
+}
+
+a:target ~ a.cssbox_close,
+a:target ~ a.cssbox_prev,
+a:target ~ a.cssbox_next {
+  visibility: visible;
+}
+
+a:target > img.cssbox_thumb + span.cssbox_full {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: initial;
+}
+/* This is the end of CSSBox */
+
+
+.show-hairstyle {
+	width: 140px;
+}
+@media only screen and (min-width: 0px) and (max-width: 575px) {
+	#sidebar {
+		width: 250px;
+		top: 56px;
+		left: -260px;
+		height: 100vh;
+		z-index: 999;
+		transition: all 0.3s;
+		overflow-y: scroll;
+		box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
+	}
+	#sidebar.active {
+		left: 0;
+	}
+	#sidebarCollapse {
+		display: block;
+	}
+	#content {
+		margin-left: 0;
+	}
+	#dismiss {
+		visibility: visible;
+		width: 35px;
+		height: 35px;
+		position: absolute;
+		top: 43px;
+		right: 10px;
+		cursor: pointer;
+		-webkit-transition: all 0.3s;
+		-o-transition: all 0.3s;
+		transition: all 0.3s;
+	}
+	#dismiss:hover {
+		background: #fff;
+		color: #7386D5;
+	}
+	.card-img {
+  		width: 70% !important;
+		position: initial;
+	}
+}
+
 
 @media only screen and (min-width: 0px) and (max-width: 575px){ 
     #sidebar {

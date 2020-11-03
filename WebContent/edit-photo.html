@@ -27,6 +27,7 @@
         <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         <script src="./static/js/edit-photo.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
     </head>
 
     <body>
@@ -49,11 +50,11 @@
                         <li class="nav-item">
                           <a class="nav-link" id="hair-color-tab" data-toggle="tab" href="#hair-color" role="tab">髮色</a>
                         </li>
-                        <!--
+                        
                         <li class="nav-item">
                           <a class="nav-link" id="face-match-tab" data-toggle="tab" href="#face-match" role="tab">face match</a>
                         </li>
-                        -->
+                        
                       </ul>
                       <div class="tab-content" id="myTabContent">
                         <div class="tab-pane fade show active" id="hairstyle" role="tabpanel">
@@ -74,35 +75,10 @@
                         </div>
                         
                         <!-- face match -->
-                        <!--
                         <div class="tab-pane fade" id="face-match" role="tabpanel">
-                            <br>
-                            <div class="img-div">
-                                <a href="#"><img class="favorite" src="img/favorite_undo.png" alt="favorite"></a> 
-                                <a href="#work-modal" data-toggle="modal">
-                                    <img class="rounded" src="img/test_photo3.png" alt="Card image cap">
-                                </a>
-                            </div>
-                            <div class="img-div">
-                                <a href="#"><img class="favorite" src="img/favorite_undo.png" alt="favorite"></a> 
-                                <a href="#work-modal" data-toggle="modal">
-                                    <img class="rounded" src="img/test_photo3.png" alt="Card image cap">
-                                </a>
-                            </div>
-                            <div class="img-div">
-                                <a href="#"><img class="favorite" src="img/favorite_undo.png" alt="favorite"></a> 
-                                <a href="#work-modal" data-toggle="modal">
-                                    <img class="rounded" src="img/test_photo3.png" alt="Card image cap">
-                                </a>
-                            </div>
-                            <div class="img-div">
-                                <a href="#"><img class="favorite" src="img/favorite_undo.png" alt="favorite"></a> 
-                                <a href="#work-modal" data-toggle="modal">
-                                    <img class="rounded" src="img/test_photo3.png" alt="Card image cap">
-                                </a>
-                            </div>
+                        	<a href="#face-match-modal" class="btn btn-primary" data-toggle="modal">選擇你的臉型</a>
+                        	<div id="work-cards"></div>
                         </div>
-                        -->
                     </div>
                 </div>
             
@@ -151,7 +127,7 @@
                     	<small id="share-msg" class="wrong-msg"></small> 
                     </div>
                     <div class="modal-footer">
-                        <a href="hair-match.html" class="btn btn-primary" id="back-btn">返回hair-match首頁</a>
+				      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
@@ -190,6 +166,70 @@
                     <div class="modal-body to-center">已新增至我的最愛！</div>
 				    <div class="modal-footer">
 				      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="modal fade" id="face-match-modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                      	選擇你的臉型
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+						<select id="face-shape">
+							<option>鵝蛋臉</option>
+							<option>長臉</option>
+							<option>國字臉</option>
+							<option>圓臉</option>
+							<option>瓜子臉</option>
+						</select>
+					</div>
+				    <div class="modal-footer">
+				    	<button type="button" class="btn btn-primary" id="face-match-btn">確定</button>
+				      	<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="modal fade" id="show-face-match-modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                      	想套用此髮型嗎？
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body to-center">
+						<img src="img/blank.png" id="face-match-img">
+						<span id="face-match-id" style="display: none"></span>
+					</div>
+				    <div class="modal-footer">
+				    	<button type="button" class="btn btn-primary" id="apply-face-match-btn">套用</button>
+				      	<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="modal fade" id="show-hairstyle-modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                      	選擇你想套用的髮型
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body to-center" id="show-hairstyle"></div>
+				    <div class="modal-footer">
+				      	<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 				    </div>
                 </div>
             </div>

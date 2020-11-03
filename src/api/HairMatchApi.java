@@ -8,12 +8,15 @@ import com.google.gson.JsonObject;
 
 import hairMatch.*;
 import jdbc.HairMatchMySQL;
+import jdbc.SearchMySQL;
 
 public class HairMatchApi {
 	GetHairstyle hair = new GetHairstyle();
 	ColorHair colorHair = new ColorHair();
 	HairMatchMySQL hairMatch = new HairMatchMySQL();
-
+	
+	SearchMySQL searchMysql = new SearchMySQL();
+	
 	public String getAllHairstyles(String url, String hairstyleFolderRealPath, String type) throws IOException {
 		return hair.getAllPictures(url, hairstyleFolderRealPath, type);
 	}
@@ -38,5 +41,16 @@ public class HairMatchApi {
 
 	public String getRandomPhoto(String hairstyle) {
 		return hairMatch.getPhoto(hairstyle);
+	}
+	
+	public String getStyleWorks(String faceShape, int page) {
+		return hairMatch.getStylistWorks(faceShape, page);
+	}
+
+	public String getSameHairstyle(int stylistWorksId) {
+		String stylistWorksJson = searchMysql.searchOneStylistWork(stylistWorksId);
+		JsonObject jobj = new Gson().fromJson(stylistWorksJson, JsonObject.class);
+		String hashtag = jobj.get("hashtag").toString();
+		return hairMatch.getSameHairstyle(hashtag);
 	}
 }

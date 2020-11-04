@@ -51,7 +51,9 @@ public class HairMatchServlet extends HttpServlet {
 		String page = request.getParameter("page");
 		
 		String stylistWorkId = request.getParameter("stylistWorkId");
-		
+
+		String keyword = request.getParameter("keyword");
+
 		ServletContext sc = request.getServletContext();
 		String userFolderRealPath = sc.getRealPath("img/hair-match/user");
 		String hairstyleFolderRealPath = sc.getRealPath("img/hair-match/hairstyle-source");
@@ -74,6 +76,9 @@ public class HairMatchServlet extends HttpServlet {
 		}
 		if (function.equals("sameHairstyle")) {
 			result = hairMatch.getSameHairstyle(Integer.parseInt(stylistWorkId));
+		}
+		if (function.equals("matchHairstyle")) {
+			result = hairMatch.getMatchedHairstyle(keyword);
 		}
 		response.getWriter().append(result);
 	}

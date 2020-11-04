@@ -195,4 +195,31 @@ public class HairMatchMySQL {
 		String ans = allSameHairstyle.toString();
 		return ans;
 	}
+
+	public String getMatchedHairstyle(String keyword) {
+		System.out.println("keyword: " + keyword);
+		ArrayList<String> allMatchHairstyle = new ArrayList<String>();
+		try {
+			stat = con.createStatement();
+			rs = stat.executeQuery(selectHairstyle + " where hashtag LIKE '%" + keyword + "%'");
+			
+			while (rs.next()) {
+				String name = rs.getString("name");
+				allMatchHairstyle.add(name);
+				System.out.println(name);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			database.close();
+		}
+		String ans;
+		if(allMatchHairstyle.size() == 0) ans = "";
+		else {
+			Random r = new Random();
+			int random =  r.nextInt(allMatchHairstyle.size());
+			ans = allMatchHairstyle.get(random);
+		}
+		return "{ \"hairstyle\":\"" + ans + "\"}";
+	}
 }

@@ -4,10 +4,17 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Random;
+
 import com.google.gson.Gson;
 import com.mysql.jdbc.PreparedStatement;
 
 import hairMatch.Photo;
+import search.AllStylistWorks;
 
 public class HairMatchMySQL {
 	private ConnectDB database = new ConnectDB();
@@ -15,6 +22,9 @@ public class HairMatchMySQL {
 	private Connection con = database.getConnection();
 	private ResultSet rs = null;
 
+	private String selectStylistWorks = "SELECT * FROM stylist_works";
+	private String selectHairstyle = "SELECT * FROM hairstyle";
+	
 	public boolean savePhoto(String userName, String hairstyle, String color, String url) {
 		int flag = 0; // 正確的輸出1 錯誤輸出0
 		try {
@@ -68,17 +78,121 @@ public class HairMatchMySQL {
 
 	}
 
-	public static void main(String args[]) {
-		HairMatchMySQL test = new HairMatchMySQL();
-		String userName = "test";
-		String hairstyle = "girl3.png";
-		String color = "#555555";
-		String url = "https://imgur/current.png";
+	public String getStylistWorks(String faceShape, int page) {
+		int count = 0;
+		String[] faceShapeStrings = { "oval","rectangular","oblong","square","round","diamond","triangle" };
 
-		boolean save = test.savePhoto(userName, hairstyle, color, url);
-		System.out.println("save boolean -> " + save);
-		String photo = test.getPhoto(hairstyle);
-		System.out.println("photo -> " + photo);
-
+		
+		ArrayList<AllStylistWorks> allStylistWorks = new ArrayList<AllStylistWorks>();
+		try {
+			stat = con.createStatement();
+			rs = stat.executeQuery(selectStylistWorks + " WHERE face_shape LIKE '%" + faceShape + "%'");
+			
+			while (rs.next()) {
+				if (count < page * 50 && count >= (page - 1) * 50) {
+					AllStylistWorks tmp = new AllStylistWorks();
+					tmp.setID(rs.getInt("id"));
+					tmp.setDescription(rs.getString("description"));
+					tmp.setHashtag(rs.getString("hashtag"));
+					tmp.setPicture(rs.getString("picture"));
+					
+					int stylistId = rs.getInt("stylist");
+					Statement ST = null;
+					ResultSet RS = null;
+					ST = con.createStatement();
+					RS = ST.executeQuery("select * from stylist where id=" + stylistId);
+					if (RS.next()) {
+						tmp.setStylist(RS.getString("name"));
+						tmp.setStylistJobTitle(RS.getString("job_title"));
+					}
+					allStylistWorks.add(tmp);
+				} else if (count == page * 100)
+					break;
+				count++;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			database.close();
+		}
+		
+		return AllStylistWorks.convertToJson(allStylistWorks);
+	}
+	
+	public String getSameHairstyle(String hashtag) {
+		ArrayList<String> allSameHairstyle = new ArrayList<String>();
+		String stylistWorkhashtag[] = hashtag.split("\\\\\"");
+		
+        HashMap<String, Integer> count = new HashMap();
+        int maxMatchCount = 0;
+        int sumMatch = 0;
+		for(int i = 0; i < stylistWorkhashtag.length; i++) {
+			if(stylistWorkhashtag[i].equals("") || stylistWorkhashtag[i].equals("\"[") || stylistWorkhashtag[i].equals(",") || stylistWorkhashtag[i].equals("]\"")) continue;
+			try {
+				stat = con.createStatement();
+				rs = stat.executeQuery(selectHairstyle + " where hashtag LIKE '%" + stylistWorkhashtag[i] + "%'");
+				
+				while (rs.next()) {
+					String name = rs.getString("name");
+					if(count.containsKey(name)) {
+						int nowCount = count.get(name) + 1;
+						count.put(name, nowCount);
+						
+						if(maxMatchCount < nowCount) {
+							maxMatchCount = nowCount;
+							sumMatch=1;
+						}
+						else {
+							sumMatch++;
+						}
+					}
+					else count.put(name, 1);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				database.close();
+			}
+		}
+	    if(maxMatchCount == 0 && sumMatch == 0) {
+	    	maxMatchCount = 1;
+	    	sumMatch = count.size();
+	    }
+	    ArrayList<Integer> whichToSelect = new ArrayList<Integer>();
+	    if(sumMatch > 6) {
+		    Random r = new Random();
+		    while(whichToSelect.size() != 6) {
+			    int random =  r.nextInt(sumMatch)+1;
+			    while(whichToSelect.contains(random)) {
+			    	random =  r.nextInt(sumMatch)+1;
+			    }
+			    whichToSelect.add(random);
+		    }
+		    Collections.sort(whichToSelect);
+	    }
+	    else {
+	    	for(int i = 0; i < sumMatch; i++) {
+	    		whichToSelect.add(i);
+	    	}
+	    }
+	    int now = 0;
+	    int i = 0;
+	    Iterator iterator = count.keySet().iterator();
+	    while (iterator.hasNext()){
+	        String key = (String)iterator.next();
+	        if(count.get(key) == maxMatchCount) {
+		        if(whichToSelect.size() == 0) {
+		        	allSameHairstyle.add("\"" + key + "\"");
+		        }
+		        else if(now == whichToSelect.get(i)-1) {
+		        	allSameHairstyle.add("\"" + key + "\"");
+		        	i++;
+		        	if(i == whichToSelect.size()) break;
+		        }
+		        now++;
+	        } 
+	    }
+		String ans = allSameHairstyle.toString();
+		return ans;
 	}
 }

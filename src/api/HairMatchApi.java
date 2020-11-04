@@ -53,4 +53,8 @@ public class HairMatchApi {
 		String hashtag = jobj.get("hashtag").toString();
 		return hairMatch.getSameHairstyle(hashtag);
 	}
+
+	public String getMatchedHairstyle(String keyword) {
+		return hairMatch.getMatchedHairstyle(keyword);
+	}
 }

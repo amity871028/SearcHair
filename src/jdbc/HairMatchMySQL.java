@@ -220,6 +220,6 @@ public class HairMatchMySQL {
 			int random =  r.nextInt(allMatchHairstyle.size());
 			ans = allMatchHairstyle.get(random);
 		}
-		return "{ \"hairstlye\":\"" + ans + "\"}";
+		return "{ \"hairstyle\":\"" + ans + "\"}";
 	}
 }

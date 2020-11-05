@@ -3,7 +3,8 @@ const hairMatchAPI = {
 	hairColorAPI: 'api-hairMatch?func=hairColor',
 	hairAPI: 'api-hairMatch',
 	faceMatchAPI: 'api-hairMatch?func=stylistworks',
-	sameHairstyleAPI: 'api-hairMatch?func=sameHairstyle'
+	sameHairstyleAPI: 'api-hairMatch?func=sameHairstyle',
+	matchHairstyleAPI: 'api-hairMatch?func=matchHairstyle'
 };
 const favoriteAPI = {
 	all: 'api-favorite?',  // func = & account = 
@@ -442,6 +443,25 @@ function changeInitialUserPhoto(){
 	localStorage.removeItem('user-img');
 }
 
+async function searchSameHairstyle(keyword){
+	const result = await FetchData.get(`${hairMatchAPI.matchHairstyleAPI}&keyword=${keyword}`);
+    const hairstyle = await result.json();
+    
+    if(hairstyle.hairstyle == "") {
+    	alert("啊喔！沒有你想要的髮型可以讓你試用，試試看別的髮型吧！");
+    }
+    else {
+	    if(hairstyle.hairstyle.includes("long")) folder = "girl-long";
+		else if(hairstyle.hairstyle.includes("short")) folder = "girl-short";
+		else folder = "boy-short";
+	    
+	    const tmpLink = document.createElement('a');
+	    tmpLink.id = hairstyle.hairstyle;
+	    actHairstyle(tmpLink, folder);
+    }
+    localStorage.removeItem('hairstyle');
+}
+
 function init(){
 	window.picture = -1;
 	window.color = -1;
@@ -449,10 +469,8 @@ function init(){
     getHairstyle('girl-long'); //initial hairstyle type
     document.getElementById('user-edited-photo').src = localStorage.getItem('user-img');
 	if(localStorage.getItem('hairstyle')){
-		window.randomPhoto = localStorage.getItem('hairstyle');
-		window.urlPrefix = "http://localhost:8080/SearcHair/img/hair-match/hairstyle-source/girl-long";
-		window.randomColor = -1;
-		applyPhoto();
+		let keyword = localStorage.getItem('hairstyle');
+		searchSameHairstyle(keyword);
 	}
 
     document.getElementById('plus-btn').addEventListener('click', function(){zoom('plus')});

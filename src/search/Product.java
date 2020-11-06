@@ -12,7 +12,6 @@ public class Product {
 	private String feature;
 	private int capacity;
 	private int price;
-	private String description;
 	private String picture;
 	private String address;
 
@@ -62,14 +61,6 @@ public class Product {
 
 	public void setPrice(int price) {
 		this.price = price;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
 	}
 
 	public String getPicture() {

@@ -492,7 +492,6 @@ public class SearchMySQL {
 					tmp.setFeature(rs.getString("feature"));
 					tmp.setCapacity(rs.getInt("capacity"));
 					tmp.setPrice(rs.getInt("price"));
-					tmp.setDescription(rs.getString("description"));
 					tmp.setPicture(rs.getString("picture"));
 					tmp.setAddress(rs.getString("address"));
 					allProducts.add(tmp);
@@ -523,7 +522,6 @@ public class SearchMySQL {
 				product.setFeature(rs.getString("feature"));
 				product.setCapacity(rs.getInt("capacity"));
 				product.setPrice(rs.getInt("price"));
-				product.setDescription(rs.getString("description"));
 				product.setPicture(rs.getString("picture"));
 				product.setAddress(rs.getString("address"));
 			}
@@ -557,7 +555,6 @@ public class SearchMySQL {
 			pstmt.setString(4, product.getFeature());
 			pstmt.setInt(5, product.getCapacity());
 			pstmt.setInt(6, product.getPrice());
-			pstmt.setString(7, product.getDescription());
 			pstmt.setString(8, product.getPicture());
 			pstmt.setString(9, product.getAddress());
 
@@ -581,7 +578,6 @@ public class SearchMySQL {
 			pstmt.setString(4, product.getFeature());
 			pstmt.setInt(5, product.getCapacity());
 			pstmt.setInt(6, product.getPrice());
-			pstmt.setString(7, product.getDescription());
 			pstmt.setString(8, product.getPicture());
 			pstmt.setString(9, product.getAddress());
 			rsInt = pstmt.executeUpdate();

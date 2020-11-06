@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import api.UserApi;;
@@ -50,10 +51,19 @@ public class LoginServlet extends HttpServlet {
 		// pass json to api
 		UserApi user = new UserApi();
 		String result = user.loginJsonAnalyzing(json);
-
+		
+		
+		
 		// make json
 		JsonObject arrayObj = new JsonObject();
 		arrayObj.addProperty("name", result);
+		
+		
+		if(result != null) {
+			JsonObject jobj = new Gson().fromJson(json, JsonObject.class);
+			String account = jobj.get("account").toString();
+			request.getSession().setAttribute("user", account);
+		}
 
 		response.getWriter().print(arrayObj);
 	}

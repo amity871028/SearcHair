@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -62,8 +63,11 @@ public class LoginServlet extends HttpServlet {
 		if(result != null) {
 			JsonObject jobj = new Gson().fromJson(json, JsonObject.class);
 			String account = jobj.get("account").toString();
-			request.getSession().setAttribute("user", account);
+			this.getServletContext().setAttribute("user", account);
+			// HttpSession session =request.getSession();
+		    // session.setAttribute("user", account);
 		}
+		
 
 		response.getWriter().print(arrayObj);
 	}

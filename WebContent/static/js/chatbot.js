@@ -1,4 +1,4 @@
-let Words;
+/*let Words;
 let TalkWords;
 let TalkSub;
 
@@ -173,4 +173,4 @@ window.onload = function(){
     TalkSub.onclick = function(){ 
 		chatRoom();			
     }   
-}
+}*/

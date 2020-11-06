@@ -66,8 +66,8 @@ public class ChatbotServlet extends HttpServlet {
 		String intent = jobj.get("intent").getAsString();
 		String input = jobj.get("input").getAsString();
 		
-		System.out.println("intent: " + intent);
-		System.out.println("input: " + input);
+		System.out.println("intents: " + intent);
+		System.out.println("inputs: " + input);
 		
 		String result = "[]";
 		if(intent.equals("hairMatch")) {

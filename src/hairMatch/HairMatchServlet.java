@@ -81,16 +81,7 @@ public class HairMatchServlet extends HttpServlet {
 		}
 		if (function.equals("matchHairstyle")) {
 			result = hairMatch.getMatchedHairstyle(keyword);
-		}
-		
-		/*
-		String hairsytle = (String) this.getServletContext().getAttribute("hairsytle");
-		JsonObject jobj = new Gson().fromJson(result, JsonObject.class);
-		jobj.addProperty("hairsytle", hairsytle);
-		
-		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-		result = gson.toJson(jobj);*/
-		
+		}		
 		response.getWriter().append(result);
 	}
 

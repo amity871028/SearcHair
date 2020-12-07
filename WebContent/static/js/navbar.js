@@ -38,9 +38,9 @@ var header = '<!--Navbar--> \
     <ul class="navbar-nav ml-auto">';
 if(localStorage.getItem("account")){
 	
-	header += '<li class="nav-item dropdown"> \
-	        <a class="nav-link dropdown-toggle active" href="#"  id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><!--<img src="#" id="user-photo">--> <span id="user-name">林小美</span></a> \
-	        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink"> \
+	header += `<li class="nav-item dropdown"> \
+		<a class="nav-link dropdown-toggle active" href="#"  id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><!--<img src="#" id="user-photo">--> <span id="user-name">${localStorage.getItem("name")}</span></a> \
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink"> \
 	            <a class="dropdown-item" href="calendar.html">月曆</a> \
 	            <a class="dropdown-item" href="favorite.html">我的最愛</a> \
 				<a class="dropdown-item" href="push.html">推播通知</a> \
@@ -53,7 +53,7 @@ if(localStorage.getItem("account")){
 	    </li> \
 	</ul> \
 </nav> \
-<!--/.Navbar-->' ;
+<!--/.Navbar-->` ;
 		
  }
     else{

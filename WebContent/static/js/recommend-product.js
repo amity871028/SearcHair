@@ -163,7 +163,14 @@ function sidebarSetting(){
     });
 }
 
+function delayURL(url, time) {
+	  setTimeout(() => { window.location.href = `${url}`; }, time);
+	}
+
 function init(){
+	if(account == "admin@gmail.com") {
+		delayURL('edit-product.html', 1);
+	}
 	sidebarSetting();
 	// recording action to let show more button can show correct action's page
 	window.action = action.all;

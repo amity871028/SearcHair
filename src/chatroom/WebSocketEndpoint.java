@@ -23,6 +23,7 @@ public class WebSocketEndpoint {
     	JsonObject jobj = new Gson().fromJson(message, JsonObject.class);
     	jobj.addProperty("count", sessions.size());
     	message = jobj.toString();
+    	System.out.println(message);
 
         for (Session s : sessions) {    //對每個連接的Client傳送訊息
             if (s.isOpen()) {

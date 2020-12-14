@@ -20,7 +20,7 @@ public class SearchMySQL {
 	private ResultSet rs = null;
 
 	private String selectProduct = "SELECT * FROM product";
-	private String insertProductSQL = "INSERT INTO product VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	private String insertProductSQL = "INSERT INTO product VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 	private int rsInt = 0;
 
 	public String searchSalon(int page, String keyword, String[] service) {
@@ -555,8 +555,8 @@ public class SearchMySQL {
 			pstmt.setString(4, product.getFeature());
 			pstmt.setInt(5, product.getCapacity());
 			pstmt.setInt(6, product.getPrice());
-			pstmt.setString(8, product.getPicture());
-			pstmt.setString(9, product.getAddress());
+			pstmt.setString(7, product.getPicture());
+			pstmt.setString(8, product.getAddress());
 
 			rsInt = pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -578,8 +578,8 @@ public class SearchMySQL {
 			pstmt.setString(4, product.getFeature());
 			pstmt.setInt(5, product.getCapacity());
 			pstmt.setInt(6, product.getPrice());
-			pstmt.setString(8, product.getPicture());
-			pstmt.setString(9, product.getAddress());
+			pstmt.setString(7, product.getPicture());
+			pstmt.setString(8, product.getAddress());
 			rsInt = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

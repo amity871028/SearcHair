@@ -9,6 +9,6 @@
 	<script src="./static/js/pre-hair-match.js"></script>
 </head>
 <body>
-	<span id = "hairstyle">${ hairstyle }</span>
+	<span id = "hairstyle"><%= request.getParameter("hairstyle") %></span>
 </body>
 </html>

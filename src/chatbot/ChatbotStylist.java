@@ -13,7 +13,6 @@ public class ChatbotStylist {
 	String salon;
 	String address;
 	String picture;
-	String func = "stylist";
 
 	public void setID(int id) {
 		this.id = id;

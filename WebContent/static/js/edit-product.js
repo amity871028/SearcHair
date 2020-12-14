@@ -212,7 +212,6 @@ async function addProduct(){
 				feature: document.getElementById('product-feature').value,
 				capacity: document.getElementById('product-capacity').value,
 				price: document.getElementById('product-price').value,
-				description: "", // 如果描述功能不需要 之後會再刪掉
 				picture: picture,
 				address: document.getElementById('product-address').value,
 			});
@@ -227,7 +226,6 @@ async function addProduct(){
 				feature: document.getElementById('product-feature').value,
 				capacity: document.getElementById('product-capacity').value,
 				price: document.getElementById('product-price').value,
-				description: "", // 如果描述功能不需要 之後會再刪掉
 				picture: picture,
 				address: document.getElementById('product-address').value,
 			});

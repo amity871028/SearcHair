@@ -9,7 +9,6 @@ public class ChatbotQA {
 	int id;
 	int priority = 0;
 	String question, answer, answerWeb;
-	String func = "question";
 
 	public void setID(int id) {
 		this.id = id;

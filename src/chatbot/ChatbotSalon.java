@@ -7,7 +7,6 @@ import com.google.gson.GsonBuilder;
 public class ChatbotSalon {
 	int id;
 	String name, address, phone, picture, businessTime;
-	String func = "salon";
 
 	public void setID(int id) {
 		this.id = id;
